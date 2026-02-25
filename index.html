@@ -244,6 +244,39 @@
                 transform: rotate(360deg);
             }
         }
+
+        /* MOBILE NAV FIX */
+        .menu-toggle {
+            display: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+        }
+        
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            nav {
+                align-items: center;
+            }
+        
+            nav ul {
+                position: absolute;
+                top: 70px;
+                right: 20px;
+                flex-direction: column;
+                gap: 14px;
+                padding: 20px;
+                width: 180px;
+                display: none;
+            }
+        
+            nav ul.show {
+                display: flex;
+            }
+        
+            .menu-toggle {
+                display: block;
+            }
+        }
     </style>
 </head>
 
@@ -252,7 +285,12 @@
     <!-- NAV -->
     <nav class="glass">
         <h1>Ashwith Frank</h1>
-        <ul>
+    
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    
+        <ul id="navMenu">
             <li><a href="#home">Home</a></li>
             <li><a href="#skills">Skills</a></li>
             <li><a href="#projects">Projects</a></li>
@@ -352,7 +390,7 @@
 
     <!-- FOOTER -->
     <footer class="glass">
-        <p>© 2026 AlphaOmega Studio • Ashwith Frank</p>
+        <p>© 2026 Ashwith Frank</p>
         <div class="socials">
             <a href="https://github.com/ashwithfrank/"><i class="fab fa-github"></i></a>
             <a href="https://www.linkedin.com/in/ashwith-frank/"><i class="fab fa-linkedin"></i></a>
@@ -442,8 +480,23 @@
                     }, 3000);
                 });
         });
+
+        const toggle = document.getElementById("menuToggle");
+        const menu = document.getElementById("navMenu");
+        
+        toggle.addEventListener("click", () => {
+            menu.classList.toggle("show");
+        });
+        
+        // Auto-close menu on link click (mobile)
+        menu.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                menu.classList.remove("show");
+            });
+        });
     </script>
 
 </body>
+
 
 </html>
