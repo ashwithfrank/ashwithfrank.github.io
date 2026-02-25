@@ -311,6 +311,77 @@
                 background: rgba(255,255,255,0.12);
             }
         }
+
+        #menuOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 90;
+        }
+        
+        /* Show overlay */
+        #menuOverlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        /* Ensure nav stays above overlay */
+        nav {
+            z-index: 100;
+        }
+        
+        /* STRONGER GLASS FOR MENU */
+        @media (max-width: 768px) {
+            nav ul {
+                background: rgba(20, 20, 30, 0.75); /* darker glass */
+                backdrop-filter: blur(22px);
+                -webkit-backdrop-filter: blur(22px);
+                border: 1px solid rgba(255,255,255,0.25);
+            }
+        }
+
+        /* HAMBURGER ICON */
+        .menu-toggle {
+            width: 28px;
+            height: 22px;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        
+        .menu-toggle span {
+            height: 3px;
+            width: 100%;
+            background: #fff;
+            border-radius: 4px;
+            transition: 0.4s ease;
+        }
+        
+        /* ACTIVE → X */
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+        
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+        
+        /* MOBILE ONLY */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+        }
     </style>
 </head>
 
@@ -321,7 +392,9 @@
         <h1>Ashwith Frank</h1>
     
         <div class="menu-toggle" id="menuToggle">
-            <i class="fas fa-bars"></i>
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
     
         <ul id="navMenu">
@@ -332,6 +405,8 @@
         </ul>
     </nav>
 
+    <div id="menuOverlay"></div>
+    
     <!-- HOME -->
     <section id="home">
         <div class="container glass reveal">
@@ -517,21 +592,32 @@
 
         const toggle = document.getElementById("menuToggle");
         const menu = document.getElementById("navMenu");
+        const overlay = document.getElementById("menuOverlay");
+        
+        function closeMenu() {
+            menu.classList.remove("show");
+            overlay.classList.remove("show");
+            toggle.classList.remove("active");
+        }
         
         toggle.addEventListener("click", () => {
             menu.classList.toggle("show");
+            overlay.classList.toggle("show");
+            toggle.classList.toggle("active");
         });
         
-        // Auto-close menu on link click (mobile)
+        // Close on link click
         menu.querySelectorAll("a").forEach(link => {
-            link.addEventListener("click", () => {
-                menu.classList.remove("show");
-            });
+            link.addEventListener("click", closeMenu);
         });
+        
+        // Close on outside click
+        overlay.addEventListener("click", closeMenu);
     </script>
 
 </body>
 
 
 </html>
+
 
