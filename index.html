@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ashwith Frank | Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Poppins, sans-serif
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, rgba(255, 0, 128, 0.35), transparent 40%),
+                radial-gradient(circle at bottom right, rgba(0, 102, 255, 0.35), transparent 45%),
+                linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            background-size: 200% 200%;
+            animation: bgMove 20s ease infinite;
+            color: #fff;
+        }
+
+        @keyframes bgMove {
+            0% {
+                background-position: 0% 50%
+            }
+
+            50% {
+                background-position: 100% 50%
+            }
+
+            100% {
+                background-position: 0% 50%
+            }
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 18px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, .25);
+        }
+
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1100px;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 100;
+        }
+
+        nav h1 {
+            font-size: 1.1rem
+        }
+
+        nav ul {
+            display: flex;
+            gap: 18px;
+            list-style: none
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            opacity: .8
+        }
+
+        nav a:hover {
+            opacity: 1
+        }
+
+        section {
+            min-height: 75vh;
+            padding: 130px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            padding: 40px
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: 1s
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: none
+        }
+
+        .typing {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #ffffff
+        }
+
+        .cursor {
+            animation: blink 1s infinite
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0
+            }
+        }
+
+        .timeline {
+            border-left: 2px solid rgba(255, 255, 255, .4);
+            margin-top: 25px;
+            padding-left: 25px
+        }
+
+        .item {
+            margin-bottom: 30px
+        }
+
+        .item h3 {
+            font-size: 1rem;
+            margin-bottom: 6px
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            margin-top: 10px;
+            outline: none
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 12px 22px;
+            border: none;
+            border-radius: 30px;
+            background: #fff;
+            color: #000;
+            cursor: pointer;
+            font-weight: 600
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px
+        }
+
+        .socials {
+            margin-top: 15px;
+            display: flex;
+            gap: 18px;
+            justify-content: center
+        }
+
+        .socials a {
+            color: #fff;
+            font-size: 1.3rem;
+            opacity: .75
+        }
+
+        .socials a:hover {
+            opacity: 1
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 14px 22px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 14px;
+            color: #fff;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.4s ease;
+            z-index: 999;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* BUTTON LOADING */
+        button.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        button.loading::after {
+            content: "";
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(0, 0, 0, 0.25);
+            border-top: 3px solid #000;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 10px;
+            animation: spin 1s linear infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav class="glass">
+        <h1>Ashwith Frank</h1>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- HOME -->
+    <section id="home">
+        <div class="container glass reveal">
+            <h2>About Me</h2>
+            <p class="typing">
+                <span id="text"></span><span class="cursor">|</span>
+            </p>
+            <div class="timeline">
+                <p>
+                    I’m Ashwith Frank, a developer who enjoys building practical and visually clean digital experiences.
+                    I focus on creating things that are simple to use, easy to understand, and purposeful. Whether it’s
+                    a website, an Android app, or a small game, I like working on ideas that actually feel useful and
+                    polished.
+                </p>
+                <br>
+                <p>
+                    I’m constantly learning and experimenting with new concepts while keeping my work lightweight and
+                    efficient. I believe good design doesn’t need to be complicated—it just needs clarity, consistency,
+                    and attention to detail. This portfolio is a small reflection of how I approach my work.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+        <div class="container glass reveal">
+            <h2>What I Do</h2>
+            <div class="timeline">
+                <div class="item">
+                    <h3>Web Development</h3>
+                    <p>I work with HTML, CSS, and JavaScript to build responsive layouts with smooth animations and
+                        clean structure. I enjoy designing interfaces that look modern while staying readable and
+                        user-friendly across devices. Glassy UI, subtle motion, and balanced spacing are things I care
+                        about.</p>
+                </div>
+                <div class="item">
+                    <h3>Android Development</h3>
+                    <p>I build native apps with a focus on simple logic, performance, and usability. I prefer writing
+                        clean, understandable code and designing interfaces that feel natural to use. My goal is always
+                        to make apps that are reliable, lightweight, and easy to interact with.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+        <div class="container glass reveal">
+            <h2>Projects</h2>
+            <div class="timeline">
+                <div class="item">
+                    <h3>Android Game</h3>
+                    <p>Published on Google Play Store
+                        <br>
+                        <a href="https://play.google.com/store/apps/details?id=com.alphaomegastudio.gog&pcampaignid=web_share"
+                            style="color:#ffd6ff">View on Play Store</a>
+                    </p>
+                </div>
+                <div class="item">
+                    <h3>Other Projects</h3>
+                    <p>I’ve worked on multiple projects across web and Android, including an Android game that is
+                        published on the Google Play Store. That project helped me understand the complete app
+                        lifecycle—from development and UI design to testing and release. It also improved my
+                        problem-solving and optimization skills.</p>
+                    <br>
+                    <p>Apart from that, I build small web apps, Android tools, and experimental projects to explore new
+                        ideas. These projects help me sharpen my skills, try different UI approaches, and learn better
+                        ways to structure and improve my work over time.</p>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <div class="container glass reveal">
+            <h2>Contact Me</h2>
+            <form id="contactForm">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" rows="4" placeholder="Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <div id="toast" class="toast">Message sent successfully!</div>
+
+    <!-- FOOTER -->
+    <footer class="glass">
+        <p>© 2026 AlphaOmega Studio • Ashwith Frank</p>
+        <div class="socials">
+            <a href="https://github.com/ashwithfrank/"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/ashwith-frank/"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.instagram.com/ashwithx_/"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        text = "Web Developer";
+        const speed = 120;
+        const pauseAfterTyping = 3000;
+
+        let index = 0;
+        let typing = true;
+
+        const target = document.getElementById("text");
+
+        function typeLoop() {
+            if (typing) {
+                if (index <= text.length) {
+                    target.innerText = text.slice(0, index++);
+                    setTimeout(typeLoop, speed);
+                } else {
+                    typing = false;
+                    setTimeout(typeLoop, pauseAfterTyping);
+                }
+            } else {
+                if (text === "Web Developer") {
+                    text = "App Developer";
+                } else {
+                    text = "Web Developer";
+                }
+                index = 0;
+                target.innerText = "";
+                typing = true;
+                setTimeout(typeLoop, speed);
+            }
+        }
+
+        typeLoop();
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("active") })
+        });
+        document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+        (function () {
+            emailjs.init("V_2fPu835svDD4F-b");
+        })();
+
+        const form = document.getElementById("contactForm");
+        const button = form.querySelector("button");
+        const toast = document.getElementById("toast");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            // Set loading state
+            button.classList.add("loading");
+            button.disabled = true;
+            button.innerHTML = "Sending";
+
+            emailjs.sendForm(
+                "service_lz312n2",
+                "template_dre9vrr",
+                this
+            )
+
+                .then(() => {
+                    toast.innerText = "Message sent successfully!";
+                    toast.classList.add("show");
+                    form.reset();
+                })
+                .catch(() => {
+                    toast.innerText = "Failed to send!";
+                    toast.classList.add("show");
+                })
+                .finally(() => {
+                    // ✅ ALWAYS reset button
+                    button.classList.remove("loading");
+                    button.disabled = false;
+                    button.innerHTML = "Send Message";
+
+                    setTimeout(() => {
+                        toast.classList.remove("show");
+                    }, 3000);
+                });
+        });
+    </script>
+
+</body>
+
+</html>
