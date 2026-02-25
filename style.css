@@ -1,0 +1,367 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Poppins, sans-serif
+}
+
+html {
+    scroll-behavior: smooth
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(255, 0, 128, 0.35), transparent 40%),
+        radial-gradient(circle at bottom right, rgba(0, 102, 255, 0.35), transparent 45%),
+        linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    background-size: 200% 200%;
+    animation: bgMove 20s ease infinite;
+    color: #fff;
+}
+
+@keyframes bgMove {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 18px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, .25);
+}
+
+nav {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1100px;
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 100;
+}
+
+nav h1 {
+    font-size: 1.1rem
+}
+
+nav ul {
+    display: flex;
+    gap: 18px;
+    list-style: none
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    opacity: .8
+}
+
+nav a:hover {
+    opacity: 1
+}
+
+section {
+    min-height: 75vh;
+    padding: 130px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    max-width: 900px;
+    width: 100%;
+    padding: 40px
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 1s
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: none
+}
+
+.typing {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: #ffffff
+}
+
+.cursor {
+    animation: blink 1s infinite
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0
+    }
+}
+
+.timeline {
+    border-left: 2px solid rgba(255, 255, 255, .4);
+    margin-top: 25px;
+    padding-left: 25px
+}
+
+.item {
+    margin-bottom: 30px
+}
+
+.item h3 {
+    font-size: 1rem;
+    margin-bottom: 6px
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    margin-top: 10px;
+    outline: none
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+button {
+    margin-top: 15px;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 30px;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    font-weight: 600
+}
+
+footer {
+    text-align: center;
+    padding: 40px 20px
+}
+
+.socials {
+    margin-top: 15px;
+    display: flex;
+    gap: 18px;
+    justify-content: center
+}
+
+.socials a {
+    color: #fff;
+    font-size: 1.3rem;
+    opacity: .75
+}
+
+.socials a:hover {
+    opacity: 1
+}
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 14px 22px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 14px;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.4s ease;
+    z-index: 999;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* BUTTON LOADING */
+button.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+button.loading::after {
+    content: "";
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(0, 0, 0, 0.25);
+    border-top: 3px solid #000;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 10px;
+    animation: spin 1s linear infinite;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* MOBILE NAV FIX */
+.menu-toggle {
+    display: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    nav {
+        align-items: center;
+    }
+
+    nav ul {
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        flex-direction: column;
+        gap: 14px;
+        padding: 20px;
+        width: 180px;
+        display: none;
+    }
+
+    nav ul.show {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+}
+
+@media (max-width: 768px) {
+    nav ul {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 16px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        pointer-events: none;
+    }
+
+    nav ul.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    nav ul li a {
+        padding: 8px 10px;
+        border-radius: 8px;
+        display: block;
+    }
+
+    nav ul li a:hover {
+        background: rgba(255, 255, 255, 0.12);
+    }
+}
+
+#menuOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 90;
+}
+
+/* Show overlay */
+#menuOverlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Ensure nav stays above overlay */
+nav {
+    z-index: 100;
+}
+
+/* STRONGER GLASS FOR MENU */
+@media (max-width: 768px) {
+    nav ul {
+        background: rgba(20, 20, 30, 0.75);
+        /* darker glass */
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+}
+
+/* HAMBURGER ICON */
+.menu-toggle {
+    width: 28px;
+    height: 22px;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    height: 3px;
+    width: 100%;
+    background: #fff;
+    border-radius: 4px;
+    transition: 0.4s ease;
+}
+
+/* ACTIVE → X */
+.menu-toggle.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* MOBILE ONLY */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex;
+    }
+}
