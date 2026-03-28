@@ -1,1 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AF · Drive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
+  <style>
+    :root {
+      --cream:      #f7f2e9;
+      --cream-dark: #ede6d6;
+      --cream-mid:  #e0d8c6;
+      --gold:       #b8933f;
+      --gold-light: #d4aa5a;
+      --gold-dim:   rgba(184,147,63,.15);
+      --ink:        #1c1612;
+      --ink-mid:    #4a3f30;
+      --ink-soft:   #7a6e5e;
+      --white:      #fdfaf4;
+      --radius:     10px;
+      --transition: .22s cubic-bezier(.4,0,.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(247,242,233,.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--cream-mid);
+      padding: 0 32px; height: 62px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .brand-monogram {
+      width: 36px; height: 36px; background: var(--ink);
+      border-radius: 8px; display: grid; place-items: center;
+      font-family: 'Playfair Display', serif; font-weight: 700;
+      font-size: 14px; color: var(--gold-light);
+    }
+    .brand-label { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: var(--ink); }
+    .brand-label em { color: var(--gold); font-style: italic; }
+
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .view-toggle {
+      display: flex; background: var(--cream-mid);
+      border-radius: 7px; padding: 3px; gap: 2px;
+    }
+    .view-btn {
+      background: none; border: none; width: 30px; height: 30px;
+      border-radius: 5px; cursor: pointer;
+      display: grid; place-items: center;
+      color: var(--ink-soft); transition: var(--transition);
+    }
+    .view-btn.active, .view-btn:hover {
+      background: var(--white); color: var(--gold);
+      box-shadow: 0 1px 4px rgba(0,0,0,.1);
+    }
+
+    /* ── MAIN ── */
+    main {
+      position: relative; z-index: 1;
+      max-width: 1100px; margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ── STATES ── */
+    .state-msg {
+      text-align: center; padding: 80px 20px;
+      animation: fadeUp .4s ease both;
+    }
+    .state-msg .icon { font-size: 52px; margin-bottom: 18px; }
+    .state-msg h2 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+    .state-msg p { color: var(--ink-soft); font-size: 14px; max-width: 380px; margin: 0 auto; }
+    .spinner {
+      width: 40px; height: 40px; border: 3px solid var(--cream-mid);
+      border-top-color: var(--gold); border-radius: 50%;
+      animation: spin .7s linear infinite; margin: 0 auto 20px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px; margin-bottom: 24px;
+      animation: fadeUp .4s ease both;
+    }
+    .toolbar-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .folder-pill {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--gold-dim); border: 1px solid rgba(184,147,63,.3);
+      border-radius: 20px; padding: 6px 14px;
+      font-size: 13px; color: var(--gold); font-weight: 500;
+    }
+    .filter-tabs {
+      display: flex; gap: 4px; background: var(--cream-dark);
+      border-radius: 8px; padding: 3px;
+    }
+    .filter-tab {
+      background: none; border: none; padding: 5px 13px;
+      border-radius: 6px; font-family: 'DM Sans', sans-serif;
+      font-size: 12.5px; font-weight: 500;
+      color: var(--ink-soft); cursor: pointer; transition: var(--transition);
+    }
+    .filter-tab.active, .filter-tab:hover {
+      background: var(--white); color: var(--gold);
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    }
+    .search-wrap { position: relative; }
+    .search-wrap svg {
+      position: absolute; left: 11px; top: 50%;
+      transform: translateY(-50%); color: var(--ink-soft); pointer-events: none;
+    }
+    .search-input {
+      background: var(--white); border: 1.5px solid var(--cream-mid);
+      border-radius: 8px; padding: 8px 12px 8px 36px;
+      font-family: 'DM Sans', sans-serif; font-size: 13.5px;
+      color: var(--ink); outline: none; width: 220px; transition: var(--transition);
+    }
+    .search-input::placeholder { color: var(--ink-soft); }
+    .search-input:focus { border-color: var(--gold-light); box-shadow: 0 0 0 3px var(--gold-dim); }
+
+    .file-count { font-size: 13px; color: var(--ink-soft); margin-bottom: 16px; }
+    .file-count strong { color: var(--ink); }
+
+    /* ── GRID ── */
+    .files-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 16px;
+    }
+    .file-card {
+      background: var(--white); border: 1.5px solid var(--cream-mid);
+      border-radius: var(--radius); overflow: hidden;
+      cursor: pointer; transition: var(--transition);
+      animation: fadeUp .35s ease both;
+    }
+    .file-card:hover {
+      border-color: var(--gold-light);
+      box-shadow: 0 4px 24px rgba(28,22,18,.10);
+      transform: translateY(-3px);
+    }
+    .file-thumb {
+      height: 120px; background: var(--cream-dark);
+      display: grid; place-items: center; position: relative; overflow: hidden;
+    }
+    .file-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .file-thumb-icon { font-size: 40px; opacity: .7; }
+    .file-type-badge {
+      position: absolute; top: 8px; right: 8px;
+      background: var(--ink); color: var(--gold-light);
+      font-size: 9px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; padding: 2px 7px; border-radius: 4px;
+    }
+    .file-info { padding: 11px 13px 6px; }
+    .file-name {
+      font-size: 13px; font-weight: 500; color: var(--ink);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px;
+    }
+    .file-meta { font-size: 11.5px; color: var(--ink-soft); }
+    .file-actions { display: flex; gap: 6px; padding: 8px 13px 12px; }
+    .file-action-btn {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px;
+      background: none; border: 1px solid var(--cream-mid);
+      border-radius: 6px; padding: 6px 8px;
+      font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500;
+      color: var(--ink-mid); cursor: pointer; transition: var(--transition);
+      text-decoration: none;
+    }
+    .file-action-btn:hover { border-color: var(--gold-light); color: var(--gold); background: var(--gold-dim); }
+
+    /* ── LIST ── */
+    .files-list { display: flex; flex-direction: column; gap: 6px; }
+    .file-row {
+      background: var(--white); border: 1.5px solid var(--cream-mid);
+      border-radius: var(--radius); display: flex; align-items: center;
+      padding: 12px 16px; gap: 14px; transition: var(--transition);
+      animation: fadeUp .3s ease both;
+    }
+    .file-row:hover {
+      border-color: var(--gold-light);
+      box-shadow: 0 2px 12px rgba(28,22,18,.08);
+      transform: translateX(3px);
+    }
+    .file-row-icon { font-size: 28px; flex-shrink: 0; cursor: pointer; }
+    .file-row-info { flex: 1; min-width: 0; cursor: pointer; }
+    .file-row-name {
+      font-size: 14px; font-weight: 500; color: var(--ink);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .file-row-meta { font-size: 12px; color: var(--ink-soft); margin-top: 1px; }
+    .file-row-ext {
+      background: var(--gold-dim); color: var(--gold);
+      font-size: 11px; font-weight: 700; letter-spacing: .06em;
+      text-transform: uppercase; padding: 3px 9px; border-radius: 5px; flex-shrink: 0;
+    }
+    .file-row-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: none; border: 1.5px solid var(--cream-mid);
+      color: var(--ink-mid); border-radius: 7px; padding: 7px 14px;
+      font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: var(--transition); text-decoration: none;
+    }
+    .btn-ghost:hover { border-color: var(--gold-light); color: var(--gold); background: var(--gold-dim); }
+
+    /* ── MODAL ── */
+    .modal-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(28,22,18,.75);
+      backdrop-filter: blur(6px);
+      z-index: 200; display: flex; align-items: center; justify-content: center;
+      padding: 20px; opacity: 0; pointer-events: none; transition: opacity .25s ease;
+    }
+    .modal-backdrop.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--white); border-radius: 14px;
+      width: 100%; max-width: 900px; max-height: 93vh;
+      display: flex; flex-direction: column;
+      box-shadow: 0 24px 64px rgba(28,22,18,.25);
+      transform: scale(.95) translateY(10px);
+      transition: transform .25s cubic-bezier(.4,0,.2,1); overflow: hidden;
+    }
+    .modal-backdrop.open .modal { transform: scale(1) translateY(0); }
+    .modal-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 20px; border-bottom: 1.5px solid var(--cream-mid); flex-shrink: 0;
+    }
+    .modal-title {
+      flex: 1; min-width: 0; font-size: 15px; font-weight: 600; color: var(--ink);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .modal-close {
+      background: var(--cream-dark); border: none; width: 32px; height: 32px;
+      border-radius: 7px; cursor: pointer; display: grid; place-items: center;
+      color: var(--ink-mid); transition: var(--transition); flex-shrink: 0;
+    }
+    .modal-close:hover { background: var(--ink); color: var(--cream); }
+    .modal-body {
+      flex: 1; overflow: auto; display: flex;
+      align-items: center; justify-content: center;
+      background: var(--cream-dark); min-height: 200px;
+    }
+    .modal-body iframe { width: 100%; min-height: 68vh; border: none; display: block; }
+    .modal-body img { max-width: 100%; max-height: 75vh; object-fit: contain; }
+    .modal-body video { max-width: 100%; max-height: 75vh; border-radius: 6px; }
+    .modal-body audio { margin: 48px; }
+    .modal-footer {
+      padding: 12px 20px; border-top: 1.5px solid var(--cream-mid);
+      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    }
+    .modal-file-info { font-size: 12.5px; color: var(--ink-soft); }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--ink); color: var(--gold-light);
+      border: none; border-radius: 8px; padding: 10px 20px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+      cursor: pointer; transition: var(--transition); text-decoration: none;
+    }
+    .btn-primary:hover { background: var(--gold); color: var(--ink); transform: translateY(-1px); }
+    .no-preview { text-align: center; padding: 60px 32px; color: var(--ink-soft); }
+    .no-preview .np-icon { font-size: 56px; margin-bottom: 16px; }
+    .no-preview p { font-size: 14px; margin-bottom: 20px; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--cream-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--cream-mid); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold-light); }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 600px) {
+      header { padding: 0 16px; }
+      main { padding: 24px 14px 60px; }
+      .files-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .search-input { width: 160px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="https://ashwithfrank.github.io/" class="brand">
+    <div class="brand-monogram">AF</div>
+    <span class="brand-label">Drive <em>·</em> Ash</span>
+  </a>
+  <div class="header-right">
+    <div class="view-toggle">
+      <button class="view-btn active" id="gridBtn" title="Grid view" onclick="setView('grid')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+      </button>
+      <button class="view-btn" id="listBtn" title="List view" onclick="setView('list')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div id="stateLoading" class="state-msg">
+    <div class="spinner"></div>
+    <h2>Loading Drive…</h2>
+    <p>Fetching files from your repository.</p>
+  </div>
+
+  <div id="stateError" class="state-msg hidden">
+    <div class="icon">⚠️</div>
+    <h2>Couldn't load files</h2>
+    <p id="errorMsg">Something went wrong fetching the file list.</p>
+  </div>
+
+  <div id="stateEmpty" class="state-msg hidden">
+    <div class="icon">📂</div>
+    <h2>No files yet</h2>
+    <p>Upload files to the <code>drive/</code> folder in your repository to see them here.</p>
+  </div>
+
+  <div id="filesState" class="hidden">
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <div class="folder-pill">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          </svg>
+          ashwithfrank.github.io / drive
+        </div>
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="setFilter('all',this)">All</button>
+          <button class="filter-tab" onclick="setFilter('pdf',this)">PDF</button>
+          <button class="filter-tab" onclick="setFilter('image',this)">Images</button>
+          <button class="filter-tab" onclick="setFilter('video',this)">Video</button>
+          <button class="filter-tab" onclick="setFilter('audio',this)">Audio</button>
+          <button class="filter-tab" onclick="setFilter('other',this)">Other</button>
+        </div>
+      </div>
+      <div class="search-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input class="search-input" id="searchInput" type="text" placeholder="Search files…" oninput="renderFiles()" />
+      </div>
+    </div>
+    <p class="file-count" id="fileCount"></p>
+    <div class="files-grid" id="gridView"></div>
+    <div class="files-list hidden" id="listView"></div>
+  </div>
+</main>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modalTitle"></span>
+      <a class="btn-ghost" id="modalDlBtn" href="#" download>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>Download
+      </a>
+      <button class="modal-close" onclick="closeModal()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer">
+      <span class="modal-file-info" id="modalInfo"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const REPO_OWNER = 'ashwithfrank';
+  const REPO_NAME  = 'ashwithfrank.github.io';
+  const DRIVE_PATH = 'drive';
+  const BASE_URL   = `https://ashwithfrank.github.io/${DRIVE_PATH}/`;
+  const API_URL    = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DRIVE_PATH}`;
+  const EXCLUDED   = new Set(['drive.html', 'index.html', '.gitkeep', 'README.md', 'readme.md']);
+
+  const TYPE_MAP = {
+    pdf:   ['pdf'],
+    image: ['jpg','jpeg','png','gif','webp','svg','bmp','ico','tiff','avif'],
+    video: ['mp4','webm','ogv','mov','avi','mkv','m4v'],
+    audio: ['mp3','wav','ogg','aac','flac','m4a','opus'],
+  };
+  const ICONS = { pdf:'📄', image:'🖼️', video:'🎬', audio:'🎵', other:'📎' };
+
+  function getType(ext) {
+    for (const [t, exts] of Object.entries(TYPE_MAP))
+      if (exts.includes(ext)) return t;
+    return 'other';
+  }
+  function formatSize(b) {
+    if (!b) return '—';
+    const u = ['B','KB','MB','GB']; let i = 0, n = b;
+    while (n >= 1024 && i < 3) { n /= 1024; i++; }
+    return `${n.toFixed(i ? 1 : 0)} ${u[i]}`;
+  }
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  let allFiles     = [];
+  let activeFilter = 'all';
+  let currentView  = 'grid';
+
+  async function init() {
+    try {
+      const res = await fetch(API_URL, { headers: { Accept: 'application/vnd.github.v3+json' } });
+      if (!res.ok) throw new Error(`GitHub API returned ${res.status} — make sure the repo is public and the drive/ folder exists.`);
+      const items = await res.json();
+
+      allFiles = items
+        .filter(item => item.type === 'file' && !EXCLUDED.has(item.name))
+        .map(item => {
+          const dot = item.name.lastIndexOf('.');
+          const ext = dot > -1 ? item.name.slice(dot + 1).toLowerCase() : '';
+          return {
+            name: item.name,
+            ext,
+            type: getType(ext),
+            size: item.size,
+            url:  BASE_URL + encodeURIComponent(item.name),
+            dlUrl: item.download_url,
+          };
+        })
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+      document.getElementById('stateLoading').classList.add('hidden');
+      if (allFiles.length === 0) {
+        document.getElementById('stateEmpty').classList.remove('hidden');
+      } else {
+        document.getElementById('filesState').classList.remove('hidden');
+        renderFiles();
+      }
+    } catch (err) {
+      document.getElementById('stateLoading').classList.add('hidden');
+      document.getElementById('errorMsg').textContent = err.message;
+      document.getElementById('stateError').classList.remove('hidden');
+    }
+  }
+
+  function getFiltered() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    return allFiles.filter(f =>
+      (activeFilter === 'all' || f.type === activeFilter) &&
+      (!q || f.name.toLowerCase().includes(q))
+    );
+  }
+
+  function renderFiles() {
+    const filtered = getFiltered();
+    const q = document.getElementById('searchInput').value.trim();
+
+    document.getElementById('fileCount').innerHTML =
+      `<strong>${filtered.length}</strong> file${filtered.length !== 1 ? 's' : ''}` +
+      (activeFilter !== 'all' ? ` · ${activeFilter}` : '') +
+      (q ? ` matching "<strong>${esc(q)}</strong>"` : '');
+
+    currentView === 'grid' ? renderGrid(filtered) : renderList(filtered);
+  }
+
+  function renderGrid(files) {
+    document.getElementById('gridView').classList.remove('hidden');
+    document.getElementById('listView').classList.add('hidden');
+    document.getElementById('gridView').innerHTML = files.map((f, i) => `
+      <div class="file-card" style="animation-delay:${i * .03}s">
+        <div class="file-thumb" onclick="viewFile(${i})">
+          ${f.type === 'image'
+            ? `<img src="${esc(f.url)}" alt="${esc(f.name)}" loading="lazy">`
+            : `<div class="file-thumb-icon">${ICONS[f.type]}</div>`}
+          <div class="file-type-badge">${esc(f.ext) || '?'}</div>
+        </div>
+        <div class="file-info" onclick="viewFile(${i})">
+          <div class="file-name" title="${esc(f.name)}">${esc(f.name)}</div>
+          <div class="file-meta">${formatSize(f.size)}</div>
+        </div>
+        <div class="file-actions">
+          <button class="file-action-btn" onclick="viewFile(${i})">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>View
+          </button>
+          <a class="file-action-btn" href="${esc(f.dlUrl)}" download="${esc(f.name)}">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>Save
+          </a>
+        </div>
+      </div>`).join('');
+  }
+
+  function renderList(files) {
+    document.getElementById('gridView').classList.add('hidden');
+    document.getElementById('listView').classList.remove('hidden');
+    document.getElementById('listView').innerHTML = files.map((f, i) => `
+      <div class="file-row" style="animation-delay:${i * .025}s">
+        <div class="file-row-icon" onclick="viewFile(${i})">${ICONS[f.type]}</div>
+        <div class="file-row-info" onclick="viewFile(${i})">
+          <div class="file-row-name" title="${esc(f.name)}">${esc(f.name)}</div>
+          <div class="file-row-meta">${formatSize(f.size)}</div>
+        </div>
+        <div class="file-row-ext">${esc(f.ext) || '?'}</div>
+        <div class="file-row-actions">
+          <button class="btn-ghost" onclick="viewFile(${i})">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>View
+          </button>
+          <a class="btn-ghost" href="${esc(f.dlUrl)}" download="${esc(f.name)}">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>Save
+          </a>
+        </div>
+      </div>`).join('');
+  }
+
+  function viewFile(idx) {
+    const f = getFiltered()[idx];
+    if (!f) return;
+
+    document.getElementById('modalTitle').textContent = f.name;
+    document.getElementById('modalInfo').textContent  = `${f.ext.toUpperCase() || 'File'} · ${formatSize(f.size)}`;
+    document.getElementById('modalDlBtn').href        = f.dlUrl;
+    document.getElementById('modalDlBtn').download    = f.name;
+
+    const body = document.getElementById('modalBody');
+    body.innerHTML = '';
+
+    if (f.type === 'pdf') {
+      const iframe = document.createElement('iframe');
+      iframe.src = f.url;
+      body.appendChild(iframe);
+    } else if (f.type === 'image') {
+      const img = document.createElement('img');
+      img.src = f.url; img.alt = f.name;
+      body.appendChild(img);
+    } else if (f.type === 'video') {
+      const vid = document.createElement('video');
+      vid.src = f.url; vid.controls = true;
+      body.appendChild(vid);
+    } else if (f.type === 'audio') {
+      const aud = document.createElement('audio');
+      aud.src = f.url; aud.controls = true;
+      body.appendChild(aud);
+    } else {
+      body.innerHTML = `
+        <div class="no-preview">
+          <div class="np-icon">${ICONS[f.type]}</div>
+          <p>No preview available for <strong>.${esc(f.ext)}</strong> files.</p>
+          <a class="btn-primary" href="${esc(f.dlUrl)}" download="${esc(f.name)}">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>Download file
+          </a>
+        </div>`;
+    }
+
+    document.getElementById('modalBackdrop').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(e) {
+    if (e && e.target !== document.getElementById('modalBackdrop')) return;
+    document.getElementById('modalBackdrop').classList.remove('open');
+    document.body.style.overflow = '';
+    document.querySelectorAll('#modalBody video, #modalBody audio').forEach(m => m.pause());
+  }
+
+  function setFilter(f, btn) {
+    activeFilter = f;
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    renderFiles();
+  }
+
+  function setView(v) {
+    currentView = v;
+    document.getElementById('gridBtn').classList.toggle('active', v === 'grid');
+    document.getElementById('listBtn').classList.toggle('active', v === 'list');
+    renderFiles();
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  init();
+</script>
+</body>
+</html>
