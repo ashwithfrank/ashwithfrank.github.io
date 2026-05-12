@@ -50,6 +50,17 @@
     main{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:32px 24px 80px}
 
     .toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:20px;animation:fadeUp .35s ease both}
+    .path-toolbar{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:18px;
+      animation:fadeUp .35s ease both;
+    }
+
+    .path-toolbar .breadcrumb-bar{
+      flex:1;
+    }
     .filter-tabs{display:flex;gap:4px;background:var(--cream-dark);border-radius:8px;padding:3px}
     .filter-tab{background:none;border:none;padding:5px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;color:var(--ink-soft);cursor:pointer;transition:var(--transition)}
     .filter-tab.active,.filter-tab:hover{background:var(--white);color:var(--gold);box-shadow:0 1px 4px rgba(0,0,0,.08)}
@@ -147,15 +158,7 @@
     <div class="brand-monogram">AF</div>
     <span class="brand-label">Drive</span>
   </a>
-  <div class="nav-btns">
-    <button class="nav-btn" id="btnBack" title="Back (Alt+←)" onclick="navBack()" disabled>
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-    <button class="nav-btn" id="btnFwd" title="Forward (Alt+→)" onclick="navForward()" disabled>
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="9 18 15 12 9 6"/></svg>
-    </button>
-  </div>
-  <nav class="breadcrumb-bar" id="breadcrumbBar" aria-label="Path"></nav>
+  
   <div class="header-right">
     <div class="search-wrap">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -177,17 +180,34 @@
   <div id="stateError" class="state-msg hidden"><div class="icon">⚠️</div><h2>Couldn't load</h2><p id="errorMsg"></p></div>
   <div id="stateEmpty" class="state-msg hidden"><div class="icon">📂</div><h2>This folder is empty</h2><p>Upload files or folders here to see them listed.</p></div>
   <div id="driveContent" class="hidden">
-    <div class="toolbar">
+    
+<div class="toolbar">
       <div class="filter-tabs">
         <button class="filter-tab active" onclick="setFilter('all',this)">All</button>
         <button class="filter-tab" onclick="setFilter('folder',this)">Folders</button>
         <button class="filter-tab" onclick="setFilter('pdf',this)">PDF</button>
-        <button class="filter-tab" onclick="setFilter('image',this)">Images</button>
-        <button class="filter-tab" onclick="setFilter('video',this)">Video</button>
-        <button class="filter-tab" onclick="setFilter('audio',this)">Audio</button>
         <button class="filter-tab" onclick="setFilter('other',this)">Other</button>
       </div>
     </div>
+
+    <div class="path-toolbar">
+      <div class="nav-btns">
+        <button class="nav-btn" id="btnBack" title="Back (Alt+←)" onclick="navBack()" disabled>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+
+        <button class="nav-btn" id="btnFwd" title="Forward (Alt+→)" onclick="navForward()" disabled>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="breadcrumb-bar" id="breadcrumbBar" aria-label="Path"></nav>
+    </div>
+
     <p class="item-count" id="itemCount"></p>
     <div id="itemsContainer"></div>
   </div>
@@ -232,6 +252,21 @@ function gdvUrl(u){return`https://docs.google.com/viewer?url=${encodeURIComponen
 let pathStack=[ROOT_PATH],currentItems=[],activeFilter='all',currentView='grid';
 // Navigation history — array of path strings, pointer into it
 let navHistory=[ROOT_PATH],navIndex=0;
+
+history.pushState(null, '', location.href);
+
+window.addEventListener('popstate', function () {
+  if (pathStack.length <= 1) {
+    history.pushState(null, '', location.href);
+    return;
+  }
+
+  pathStack.pop();
+  loadPath(pathStack.join('/'), false);
+
+  history.pushState(null, '', location.href);
+});
+
 
 function updateNavBtns(){
   document.getElementById('btnBack').disabled  = navIndex <= 0;
