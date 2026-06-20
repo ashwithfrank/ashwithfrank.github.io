@@ -5,146 +5,175 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tower of Hanoi — Ashwith Frank</title>
   <link rel="stylesheet" href="../../styles.css"/>
+  <link rel="icon" type="image/png" href="../../images/favicon-16.png">
+  <link rel="icon" type="image/png" href="../../images/favicon-32.png">
+  <link rel="icon" href="../../images/favicon.ico">
   <style>
     .proj-hero {
-      min-height: 50vh;
+      min-height: 46vh;
       display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 9rem 3rem 3.5rem;
-      background: linear-gradient(135deg, #f4f0e8 0%, #e8dfc8 100%);
-      position: relative; overflow: hidden;
+      padding: 9rem 3.5rem 3.5rem;
+      position: relative;
     }
-    .proj-hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 75% 50%, rgba(200,169,110,.15) 0%, transparent 60%);
+    .proj-hero-icon {
+      font-size: 4rem; margin-bottom: 1.2rem;
+      opacity: 0; animation: fadeUp .6s .2s var(--ease) both;
     }
-    .proj-hero-icon { font-size: 4rem; margin-bottom: 1.2rem; opacity:0; animation: fadeUp .5s .2s ease both; }
     .proj-hero .ptype {
-      opacity:0; animation: fadeUp .5s .3s ease both;
-      font-size:.72rem; letter-spacing:.2em; text-transform:uppercase;
-      color:var(--accent); font-weight:500; margin-bottom:.5rem;
+      opacity: 0; animation: fadeUp .6s .32s var(--ease) both;
+      font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--cyan-dp); font-weight: 700; margin-bottom: .6rem;
     }
     .proj-hero h1 {
-      opacity:0; animation: fadeUp .5s .45s ease both;
-      font-family:var(--serif); font-size:clamp(2rem,4vw,3.5rem);
-      color:var(--ink); line-height:1.15; margin-bottom:0;
+      opacity: 0; animation: fadeUp .6s .46s var(--ease) both;
+      font-family: var(--serif); font-weight: 500;
+      font-size: clamp(2rem,4vw,3.4rem);
+      color: var(--ink); line-height: 1.15; margin-bottom: 0;
     }
     .proj-hero .tagline {
-      opacity:0; animation: fadeUp .5s .6s ease both;
-      font-size:.95rem; color:var(--muted); margin-top:.75rem; max-width:520px;
+      opacity: 0; animation: fadeUp .6s .6s var(--ease) both;
+      font-size: .96rem; color: var(--muted); margin-top: .9rem; max-width: 540px; line-height: 1.7;
     }
 
     .back-btn {
-      position: fixed; top: 1.3rem; left: 3rem; z-index: 600;
+      position: fixed; top: 1.3rem; left: 1.6rem; z-index: 600;
       display: inline-flex; align-items: center; gap: .5rem;
-      font-size: .75rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+      font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
       color: var(--ink); text-decoration: none;
-      background: rgba(245,244,240,.9); backdrop-filter: blur(12px);
-      border: 1px solid var(--border); border-radius: 60px;
-      padding: .5rem 1.1rem; transition: background .2s, transform .2s;
-      animation: fadeDown .6s ease both;
+      background: rgba(255,255,255,.6); backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      border: 1px solid rgba(255,255,255,.75); border-radius: 60px;
+      box-shadow: 0 6px 20px rgba(109,79,196,.12);
+      padding: .55rem 1.15rem; transition: background .2s, transform .2s, box-shadow .2s;
+      animation: fadeDown .6s var(--ease) both;
     }
-    .back-btn:hover { background: var(--card); transform: translateX(-3px); }
+    .back-btn:hover { background: rgba(255,255,255,.85); transform: translateX(-3px); box-shadow: 0 8px 24px rgba(109,79,196,.18); }
     .back-arrow { transition: transform .2s; display: inline-block; }
     .back-btn:hover .back-arrow { transform: translateX(-3px); }
 
-    .proj-body { max-width: 860px; margin: 0 auto; padding: 4rem 3rem; }
+    .proj-body { max-width: 860px; margin: 0 auto; padding: 1rem 3.5rem 5rem; position: relative; }
 
     .meta-row { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 3rem; }
     .meta-chip {
-      font-size: .7rem; font-weight: 500; letter-spacing: .06em;
-      padding: .3rem .8rem; border-radius: 20px;
-      border: 1px solid var(--border); background: var(--card); color: var(--muted);
+      font-size: .7rem; font-weight: 600; letter-spacing: .06em;
+      padding: .32rem .85rem; border-radius: 20px;
+      border: 1px solid var(--border); background: rgba(255,255,255,.5); color: var(--muted);
+      backdrop-filter: blur(8px);
     }
-    .meta-chip.accent { background: var(--accent); color: var(--ink); border-color: var(--accent); }
-
-    .prose h2 { font-family:var(--serif); font-size:1.5rem; margin:2.5rem 0 .75rem; color:var(--ink); }
-    .prose p  { font-size:.93rem; color:var(--muted); line-height:1.8; margin-bottom:1rem; }
-
-    .stack-row { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 2rem; }
-    .stack-tag {
-      font-size: .72rem; font-weight: 500; letter-spacing: .05em;
-      padding: .3rem .75rem;
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 20px; color: var(--ink);
+    .meta-chip.accent {
+      background: linear-gradient(135deg, var(--purple-dp), #4b2e83);
+      color: #f6f3fc; border-color: transparent;
     }
+
+    .prose h2 { font-family: var(--serif); font-weight: 500; font-size: 1.5rem; margin: 2.7rem 0 .8rem; color: var(--ink); }
+    .prose p  { font-size: .94rem; color: var(--muted); line-height: 1.85; margin-bottom: 1rem; font-weight: 400; }
 
     /* DEMO EMBED */
     .demo-wrap {
-      margin: 2rem 0;
+      margin: 1.5rem 0 2.5rem;
       border-radius: var(--r); overflow: hidden;
-      border: 1px solid var(--border);
-      box-shadow: 0 12px 40px rgba(0,0,0,.08);
+      border: 1px solid rgba(255,255,255,.7);
+      box-shadow: 0 16px 44px rgba(109,79,196,.16);
     }
     .demo-label {
-      background: var(--bg2); border-bottom: 1px solid var(--border);
-      padding: .7rem 1.2rem;
-      font-size: .72rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+      background: rgba(255,255,255,.6); border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      padding: .8rem 1.3rem;
+      font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
       color: var(--muted); display: flex; align-items: center; gap: .45rem;
     }
-    .dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
-    .dot-r{background:#ff5f57;} .dot-y{background:#febc2e;} .dot-g{background:#28c840;}
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .dot-r { background: #ff5f57; } .dot-y { background: #febc2e; } .dot-g { background: #28c840; }
+
     .toh-app {
-      background: rgb(185,136,0); padding: 36px 20px;
-      text-align: center; font-family: Arial, sans-serif;
+      background: linear-gradient(160deg, rgba(109,79,196,.1), rgba(14,158,140,.06)), rgba(255,255,255,.55);
+      backdrop-filter: blur(4px);
+      padding: 44px 24px; text-align: center;
     }
-    .toh-app h2 { color:#fff; font-size:26px; margin:0 0 4px; font-weight:700; }
-    .toh-app p  { color:rgba(255,255,255,.7); font-size:13px; margin:0 0 22px; }
+    .toh-app h2 {
+      font-family: var(--serif); font-weight: 500; color: var(--ink);
+      font-size: 1.6rem; margin: 0 0 .3rem;
+    }
+    .toh-app > p { color: var(--muted); font-size: .82rem; margin: 0 0 1.6rem; }
     .toh-app input {
-      width:220px; padding:10px; font-size:18px; text-align:center;
-      border-radius:10px; outline:none; color:#fff;
-      background:rgba(255,255,255,.25); border:1px solid rgba(255,255,255,.4);
-      box-shadow:0 8px 16px rgba(0,0,0,.2);
+      width: 240px; padding: .8rem 1rem; font-size: 1.1rem; text-align: center;
+      font-family: var(--sans); font-weight: 500;
+      border-radius: 14px; outline: none; color: var(--ink);
+      background: rgba(255,255,255,.7); border: 1px solid rgba(109,79,196,.25);
+      box-shadow: 0 8px 20px rgba(109,79,196,.1), inset 0 1px 0 rgba(255,255,255,.8);
+      transition: border-color .25s, box-shadow .25s;
     }
-    .toh-app input::placeholder { color:rgba(255,255,255,.65); }
-    .toh-app input:focus { background:rgba(255,255,255,.35); }
+    .toh-app input::placeholder { color: var(--muted-dim); font-weight: 400; }
+    .toh-app input:focus { border-color: var(--purple); box-shadow: 0 0 0 4px rgba(109,79,196,.14), 0 8px 20px rgba(109,79,196,.15); }
     .toh-result {
-      display:none; color:#fff; margin:18px auto 0; padding:16px;
-      border-radius:10px; max-width:400px;
-      background:rgba(255,255,255,.25); border:1px solid rgba(255,255,255,.4);
-      box-shadow:0 8px 16px rgba(0,0,0,.2);
+      display: none; color: var(--ink); margin: 1.4rem auto 0; padding: 1.2rem 1.4rem;
+      border-radius: 14px; max-width: 420px; text-align: left;
+      background: rgba(255,255,255,.65); border: 1px solid rgba(255,255,255,.8);
+      box-shadow: 0 8px 24px rgba(109,79,196,.1);
     }
-    .toh-result.show { display:block; }
-    #toh-moves { font-size:18px; font-weight:bold; margin-bottom:8px; }
-    #toh-steps { font-size:14px; line-height:1.6; white-space:pre-wrap; word-wrap:break-word; text-align:left; max-height:200px; overflow-y:auto; margin:0; }
+    .toh-result.show { display: block; }
+    #toh-moves { font-size: 1rem; font-weight: 700; margin-bottom: .6rem; color: var(--purple-dp); }
+    #toh-steps {
+      font-family: 'Courier New', monospace; font-size: .82rem; line-height: 1.7;
+      color: var(--muted); white-space: pre-wrap; word-wrap: break-word;
+      max-height: 200px; overflow-y: auto; margin: 0;
+    }
 
     .feature-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
-      gap: 1rem; margin: 1.5rem 0;
+      gap: 1.1rem; margin: 1.6rem 0;
     }
     .feature-item {
-      background:var(--card); border:1px solid var(--border);
-      border-radius:var(--r); padding:1.2rem 1.3rem;
-      transition:transform .2s, box-shadow .2s;
+      padding: 1.3rem 1.4rem;
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s;
     }
-    .feature-item:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,.06); }
-    .fi-icon { font-size:1.4rem; margin-bottom:.6rem; }
-    .feature-item h4 { font-size:.85rem; font-weight:500; margin-bottom:.3rem; }
-    .feature-item p { font-size:.78rem; color:var(--muted); line-height:1.6; margin:0; }
+    .feature-item:hover { transform: translateY(-5px); box-shadow: 0 16px 36px rgba(109,79,196,.16); border-color: var(--border-hi); }
+    .fi-icon { font-size: 1.5rem; margin-bottom: .7rem; }
+    .feature-item h4 { font-size: .87rem; font-weight: 700; margin-bottom: .35rem; color: var(--ink); }
+    .feature-item p { font-size: .79rem; color: var(--muted); line-height: 1.6; margin: 0; font-weight: 400; }
+
+    .stack-row { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 2rem; }
+    .stack-tag {
+      font-size: .72rem; font-weight: 600; letter-spacing: .04em;
+      padding: .32rem .8rem;
+      background: rgba(109,79,196,.06); border: 1px solid var(--border);
+      border-radius: 20px; color: var(--ink);
+    }
 
     .cta-bar {
-      margin-top:3rem; padding-top:2rem; border-top:1px solid var(--border);
-      display:flex; flex-wrap:wrap; gap:1rem; align-items:center;
+      margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);
+      display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;
     }
     .proj-btn {
-      display:inline-flex; align-items:center; gap:.6rem;
-      padding:.8rem 1.6rem; border-radius:60px;
-      font-size:.78rem; font-weight:500; letter-spacing:.08em; text-transform:uppercase;
-      text-decoration:none; transition:all .25s;
+      display: inline-flex; align-items: center; gap: .6rem;
+      padding: .8rem 1.7rem; border-radius: 60px;
+      font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      text-decoration: none; transition: all .3s var(--ease);
     }
-    .proj-btn.primary { background:var(--ink); color:#fff; }
-    .proj-btn.primary:hover { background:var(--accent2); transform:translateY(-2px); }
-    .proj-btn.ghost { background:transparent; color:var(--ink); border:1px solid var(--border); }
-    .proj-btn.ghost:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-2px); }
+    .proj-btn.primary {
+      background: linear-gradient(135deg, var(--purple-dp), #4b2e83); color: #f6f3fc;
+      box-shadow: 0 10px 26px rgba(44,27,77,.3);
+    }
+    .proj-btn.primary:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(44,27,77,.4); }
+    .proj-btn.ghost { background: rgba(255,255,255,.5); color: var(--ink); border: 1px solid rgba(255,255,255,.8); }
+    .proj-btn.ghost:hover { border-color: var(--purple); color: var(--purple); transform: translateY(-3px); }
 
-    @media(max-width:768px){
-      .proj-hero{padding:8rem 1.4rem 2.5rem;}
-      .proj-body{padding:2.5rem 1.4rem;}
-      .back-btn{left:1.4rem;}
+    @media (max-width: 768px) {
+      .proj-hero { padding: 7.5rem 1.5rem 2.5rem; }
+      .proj-body { padding: 1rem 1.5rem 4rem; }
     }
   </style>
 </head>
 <body>
+
+  <!-- BACKDROP -->
+  <div class="backdrop">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="orb orb4"></div>
+  </div>
+  <div class="grain"></div>
 
   <div id="cur"></div>
   <div id="ring"></div>
@@ -199,22 +228,22 @@
     <div class="prose">
       <h2 class="reveal">How It Works</h2>
       <div class="feature-grid">
-        <div class="feature-item reveal">
+        <div class="feature-item glass reveal">
           <div class="fi-icon">&#128260;</div>
           <h4>Recursive Algorithm</h4>
           <p>Uses a classic recursive function that breaks the problem down to a single-disk base case.</p>
         </div>
-        <div class="feature-item reveal">
+        <div class="feature-item glass reveal">
           <div class="fi-icon">&#9889;</div>
           <h4>Instant Results</h4>
           <p>Updates live as you type — no button press needed. Results appear in real time.</p>
         </div>
-        <div class="feature-item reveal">
+        <div class="feature-item glass reveal">
           <div class="fi-icon">&#128290;</div>
           <h4>Move Counter</h4>
           <p>Displays total moves using the formula 2&#8319;&minus;1, proving the mathematical minimum.</p>
         </div>
-        <div class="feature-item reveal">
+        <div class="feature-item glass reveal">
           <div class="fi-icon">&#128203;</div>
           <h4>Step-by-Step Output</h4>
           <p>Every individual disk move is printed in order, showing source and destination peg.</p>
@@ -231,7 +260,7 @@
 
       <h2 class="reveal">What I Learned</h2>
       <p class="reveal">
-        This project helped me get comfortable with recursion as a real problem-solving tool. Reducing a complex multi-step puzzle to a clean three-line recursive function was a great lesson in how elegant code can be when the logic is right. I also focused on clean UI — the glassmorphism styling and live input make it feel polished despite being pure vanilla JS.
+        This project helped me get comfortable with recursion as a real problem-solving tool. Reducing a complex multi-step puzzle to a clean three-line recursive function was a great lesson in how elegant code can be when the logic is right. I also focused on clean UI &mdash; the glassmorphism styling and live input make it feel polished despite being pure vanilla JS.
       </p>
     </div>
 
