@@ -10,192 +10,124 @@
   <link rel="icon" href="../../images/favicon.ico">
   <style>
     .proj-hero {
-      min-height: 46vh;
+      min-height: 42vh;
       display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 9rem 3.5rem 3.5rem;
-      position: relative;
+      padding: 9rem 3rem 3rem;
+      background: var(--accent);
+      border-bottom: var(--bw) solid var(--ink);
     }
-    .proj-hero-icon {
-      font-size: 4rem; margin-bottom: 1.2rem;
-      opacity: 0; animation: fadeUp .6s .2s var(--ease) both;
-    }
+    .proj-hero-icon { margin-bottom: 1.2rem; }
     .proj-hero .ptype {
-      opacity: 0; animation: fadeUp .6s .32s var(--ease) both;
-      font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
-      color: var(--cyan-dp); font-weight: 700; margin-bottom: .6rem;
+      font-family: var(--font-head); font-size: .58rem;
+      background: var(--ink); color: #fff; display: inline-block;
+      padding: .4rem .6rem; margin-bottom: .8rem;
     }
     .proj-hero h1 {
-      opacity: 0; animation: fadeUp .6s .46s var(--ease) both;
-      font-family: var(--serif); font-weight: 500;
-      font-size: clamp(2rem,4vw,3.4rem);
-      color: var(--ink); line-height: 1.15; margin-bottom: 0;
+      font-family: var(--font-head); font-size: clamp(1.4rem, 4.5vw, 2.6rem);
+      line-height: 1.5; margin-bottom: 0; text-transform: uppercase;
     }
-    .proj-hero .tagline {
-      opacity: 0; animation: fadeUp .6s .6s var(--ease) both;
-      font-size: .96rem; color: var(--muted); margin-top: .9rem; max-width: 540px; line-height: 1.7;
-    }
+    .proj-hero .tagline { font-size: .92rem; margin-top: .9rem; max-width: 560px; }
 
     .back-btn {
-      position: fixed; top: 1.3rem; left: 1.6rem; z-index: 600;
+      position: fixed; top: 1.1rem; left: 1.6rem; z-index: 600;
       display: inline-flex; align-items: center; gap: .5rem;
-      font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      font-family: var(--font-head); font-size: .6rem;
       color: var(--ink); text-decoration: none;
-      background: rgba(255,255,255,.6); backdrop-filter: blur(14px) saturate(160%);
-      -webkit-backdrop-filter: blur(14px) saturate(160%);
-      border: 1px solid rgba(255,255,255,.75); border-radius: 60px;
-      box-shadow: 0 6px 20px rgba(109,79,196,.12);
-      padding: .55rem 1.15rem; transition: background .2s, transform .2s, box-shadow .2s;
-      animation: fadeDown .6s var(--ease) both;
+      background: #fff; border: var(--bw) solid var(--ink);
+      box-shadow: 4px 4px 0 var(--ink);
+      padding: .6rem .9rem;
+      transition: transform .06s linear, box-shadow .06s linear;
     }
-    .back-btn:hover { background: rgba(255,255,255,.85); transform: translateX(-3px); box-shadow: 0 8px 24px rgba(109,79,196,.18); }
-    .back-arrow { transition: transform .2s; display: inline-block; }
-    .back-btn:hover .back-arrow { transform: translateX(-3px); }
+    .back-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
+    .back-btn:active { transform: translate(4px,4px); box-shadow: 0 0 0 var(--ink); }
 
-    .proj-body { max-width: 860px; margin: 0 auto; padding: 1rem 3.5rem 5rem; position: relative; }
+    .proj-body { max-width: 860px; margin: 0 auto; padding: 4rem 3rem; }
 
     .meta-row { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 3rem; }
     .meta-chip {
-      font-size: .7rem; font-weight: 600; letter-spacing: .06em;
-      padding: .32rem .85rem; border-radius: 20px;
-      border: 1px solid var(--border); background: rgba(255,255,255,.5); color: var(--muted);
-      backdrop-filter: blur(8px);
+      font-family: var(--font-body); font-weight: 700; font-size: .7rem;
+      padding: .4rem .8rem; border: 2px solid var(--ink); background: #fff;
+      box-shadow: 2px 2px 0 var(--ink);
     }
-    .meta-chip.accent {
-      background: linear-gradient(135deg, var(--purple-dp), #4b2e83);
-      color: #f6f3fc; border-color: transparent;
-    }
+    .meta-chip.accent { background: var(--accent); }
 
-    .prose h2 { font-family: var(--serif); font-weight: 500; font-size: 1.5rem; margin: 2.7rem 0 .8rem; color: var(--ink); }
-    .prose p  { font-size: .94rem; color: var(--muted); line-height: 1.85; margin-bottom: 1rem; font-weight: 400; }
-
-    /* DEMO EMBED */
-    .demo-wrap {
-      margin: 1.5rem 0 2.5rem;
-      border-radius: var(--r); overflow: hidden;
-      border: 1px solid rgba(255,255,255,.7);
-      box-shadow: 0 16px 44px rgba(109,79,196,.16);
-    }
-    .demo-label {
-      background: rgba(255,255,255,.6); border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(10px);
-      padding: .8rem 1.3rem;
-      font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
-      color: var(--muted); display: flex; align-items: center; gap: .45rem;
-    }
-    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-    .dot-r { background: #ff5f57; } .dot-y { background: #febc2e; } .dot-g { background: #28c840; }
-
-    .toh-app {
-      background: linear-gradient(160deg, rgba(109,79,196,.1), rgba(14,158,140,.06)), rgba(255,255,255,.55);
-      backdrop-filter: blur(4px);
-      padding: 44px 24px; text-align: center;
-    }
-    .toh-app h2 {
-      font-family: var(--serif); font-weight: 500; color: var(--ink);
-      font-size: 1.6rem; margin: 0 0 .3rem;
-    }
-    .toh-app > p { color: var(--muted); font-size: .82rem; margin: 0 0 1.6rem; }
-    .toh-app input {
-      width: 240px; padding: .8rem 1rem; font-size: 1.1rem; text-align: center;
-      font-family: var(--sans); font-weight: 500;
-      border-radius: 14px; outline: none; color: var(--ink);
-      background: rgba(255,255,255,.7); border: 1px solid rgba(109,79,196,.25);
-      box-shadow: 0 8px 20px rgba(109,79,196,.1), inset 0 1px 0 rgba(255,255,255,.8);
-      transition: border-color .25s, box-shadow .25s;
-    }
-    .toh-app input::placeholder { color: var(--muted-dim); font-weight: 400; }
-    .toh-app input:focus { border-color: var(--purple); box-shadow: 0 0 0 4px rgba(109,79,196,.14), 0 8px 20px rgba(109,79,196,.15); }
-    .toh-result {
-      display: none; color: var(--ink); margin: 1.4rem auto 0; padding: 1.2rem 1.4rem;
-      border-radius: 14px; max-width: 420px; text-align: left;
-      background: rgba(255,255,255,.65); border: 1px solid rgba(255,255,255,.8);
-      box-shadow: 0 8px 24px rgba(109,79,196,.1);
-    }
-    .toh-result.show { display: block; }
-    #toh-moves { font-size: 1rem; font-weight: 700; margin-bottom: .6rem; color: var(--purple-dp); }
-    #toh-steps {
-      font-family: 'Courier New', monospace; font-size: .82rem; line-height: 1.7;
-      color: var(--muted); white-space: pre-wrap; word-wrap: break-word;
-      max-height: 200px; overflow-y: auto; margin: 0;
-    }
-
-    .feature-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
-      gap: 1.1rem; margin: 1.6rem 0;
-    }
-    .feature-item {
-      padding: 1.3rem 1.4rem;
-      transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s;
-    }
-    .feature-item:hover { transform: translateY(-5px); box-shadow: 0 16px 36px rgba(109,79,196,.16); border-color: var(--border-hi); }
-    .fi-icon { font-size: 1.5rem; margin-bottom: .7rem; }
-    .feature-item h4 { font-size: .87rem; font-weight: 700; margin-bottom: .35rem; color: var(--ink); }
-    .feature-item p { font-size: .79rem; color: var(--muted); line-height: 1.6; margin: 0; font-weight: 400; }
+    .prose h2 { font-family: var(--font-head); font-size: 1.05rem; text-transform: uppercase; margin: 2.6rem 0 1rem; }
+    .prose p  { font-size: .93rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
 
     .stack-row { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 2rem; }
-    .stack-tag {
-      font-size: .72rem; font-weight: 600; letter-spacing: .04em;
-      padding: .32rem .8rem;
-      background: rgba(109,79,196,.06); border: 1px solid var(--border);
-      border-radius: 20px; color: var(--ink);
-    }
 
-    .cta-bar {
-      margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);
-      display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;
+    /* DEMO EMBED */
+    .demo-wrap { margin: 2rem 0; border: var(--bw) solid var(--ink); box-shadow: 6px 6px 0 var(--ink); }
+    .demo-label {
+      background: var(--ink); color: #fff;
+      padding: .7rem 1.1rem;
+      font-family: var(--font-head); font-size: .58rem;
+      display: flex; align-items: center; gap: .5rem;
     }
-    .proj-btn {
-      display: inline-flex; align-items: center; gap: .6rem;
-      padding: .8rem 1.7rem; border-radius: 60px;
-      font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-      text-decoration: none; transition: all .3s var(--ease);
+    .dot { width: 10px; height: 10px; display: inline-block; }
+    .dot-r{background:#ff5f57;} .dot-y{background:#febc2e;} .dot-g{background:#28c840;}
+    .toh-app {
+      background: var(--accent); padding: 40px 20px;
+      text-align: center; font-family: var(--font-body);
     }
-    .proj-btn.primary {
-      background: linear-gradient(135deg, var(--purple-dp), #4b2e83); color: #f6f3fc;
-      box-shadow: 0 10px 26px rgba(44,27,77,.3);
+    .toh-app h2 { font-family: var(--font-head); color: var(--ink); font-size: 1.1rem; margin: 0 0 6px; text-transform: uppercase; }
+    .toh-app p  { color: var(--ink); font-size: .8rem; margin: 0 0 22px; }
+    .toh-app input {
+      width: 240px; padding: 12px; font-size: 1rem; text-align: center;
+      font-family: var(--font-body); font-weight: 700;
+      outline: none; color: var(--ink);
+      background: #fff; border: var(--bw) solid var(--ink);
+      box-shadow: 4px 4px 0 var(--ink);
     }
-    .proj-btn.primary:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(44,27,77,.4); }
-    .proj-btn.ghost { background: rgba(255,255,255,.5); color: var(--ink); border: 1px solid rgba(255,255,255,.8); }
-    .proj-btn.ghost:hover { border-color: var(--purple); color: var(--purple); transform: translateY(-3px); }
+    .toh-app input::placeholder { color: #8a8a8a; }
+    .toh-result {
+      display: none; color: var(--ink); margin: 20px auto 0; padding: 18px;
+      max-width: 420px; text-align: left;
+      background: #fff; border: var(--bw) solid var(--ink);
+      box-shadow: 5px 5px 0 var(--ink);
+    }
+    .toh-result.show { display: block; }
+    #toh-moves { font-family: var(--font-head); font-size: .8rem; margin-bottom: 10px; }
+    #toh-steps { font-size: .82rem; line-height: 1.7; white-space: pre-wrap; word-wrap: break-word; max-height: 220px; overflow-y: auto; margin: 0; }
+
+    .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 1rem; margin: 1.5rem 0; }
+    .feature-item { background: #fff; border: var(--bw) solid var(--ink); box-shadow: 4px 4px 0 var(--ink); padding: 1.3rem; transition: transform .1s linear, box-shadow .1s linear; }
+    .feature-item:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
+    .fi-icon { margin-bottom: .7rem; }
+    .feature-item h4 { font-family: var(--font-head); font-size: .72rem; margin-bottom: .6rem; text-transform: uppercase; }
+    .feature-item p { font-size: .8rem; color: var(--muted); line-height: 1.6; margin: 0; }
+
+    .cta-bar { margin-top: 3rem; padding-top: 2rem; border-top: var(--bw) solid var(--ink); display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
 
     @media (max-width: 768px) {
-      .proj-hero { padding: 7.5rem 1.5rem 2.5rem; }
-      .proj-body { padding: 1rem 1.5rem 4rem; }
+      .proj-hero { padding: 8rem 1.4rem 2.2rem; }
+      .proj-body { padding: 2.5rem 1.4rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- BACKDROP -->
-  <div class="backdrop">
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
-    <div class="orb orb3"></div>
-    <div class="orb orb4"></div>
-  </div>
-  <div class="grain"></div>
-
   <div id="cur"></div>
   <div id="ring"></div>
 
   <a href="../../index.html#projects" class="back-btn">
-    <span class="back-arrow">&#8592;</span> Back to Portfolio
+    <span>&#8592;</span> BACK
   </a>
 
   <div class="proj-hero">
-    <div class="proj-hero-icon">&#127929;</div>
+    <div class="proj-hero-icon"><span data-pixel-icon="terminal" data-size="48"></span></div>
     <p class="ptype">Web App</p>
     <h1>Tower of Hanoi</h1>
-    <p class="tagline">An interactive solver that breaks down the Tower of Hanoi puzzle step-by-step &mdash; built with vanilla JavaScript using recursion.</p>
+    <p class="tagline">An interactive solver that breaks down the Tower of Hanoi puzzle step-by-step — built with vanilla JavaScript using recursion.</p>
   </div>
 
   <div class="proj-body">
 
     <div class="meta-row reveal">
-      <span class="meta-chip accent">Live</span>
-      <span class="meta-chip">Solo Project</span>
-      <span class="meta-chip">Web App</span>
-      <span class="meta-chip">JavaScript</span>
+      <span class="meta-chip accent">LIVE</span>
+      <span class="meta-chip">SOLO PROJECT</span>
+      <span class="meta-chip">WEB APP</span>
+      <span class="meta-chip">JAVASCRIPT</span>
     </div>
 
     <div class="prose">
@@ -204,7 +136,7 @@
         Tower of Hanoi is a classic mathematical puzzle where you move a stack of disks from one peg to another, following one rule: never place a larger disk on a smaller one. This web app takes any number of disks as input and instantly outputs every move required to solve it, along with the total move count.
       </p>
 
-      <h2 class="reveal">&#9654;&nbsp; Live Demo</h2>
+      <h2 class="reveal">&#9654; Live Demo</h2>
     </div>
 
     <div class="demo-wrap reveal">
@@ -212,7 +144,7 @@
         <span class="dot dot-r"></span>
         <span class="dot dot-y"></span>
         <span class="dot dot-g"></span>
-        &nbsp;Tower of Hanoi &mdash; Interactive
+        &nbsp;TOWER_OF_HANOI.EXE
       </div>
       <div class="toh-app">
         <h2>Tower of Hanoi</h2>
@@ -228,23 +160,23 @@
     <div class="prose">
       <h2 class="reveal">How It Works</h2>
       <div class="feature-grid">
-        <div class="feature-item glass reveal">
-          <div class="fi-icon">&#128260;</div>
+        <div class="feature-item reveal">
+          <div class="fi-icon"><span data-pixel-icon="chip" data-size="32"></span></div>
           <h4>Recursive Algorithm</h4>
           <p>Uses a classic recursive function that breaks the problem down to a single-disk base case.</p>
         </div>
-        <div class="feature-item glass reveal">
-          <div class="fi-icon">&#9889;</div>
+        <div class="feature-item reveal">
+          <div class="fi-icon"><span data-pixel-icon="bolt" data-size="32"></span></div>
           <h4>Instant Results</h4>
           <p>Updates live as you type — no button press needed. Results appear in real time.</p>
         </div>
-        <div class="feature-item glass reveal">
-          <div class="fi-icon">&#128290;</div>
+        <div class="feature-item reveal">
+          <div class="fi-icon"><span data-pixel-icon="terminal" data-size="32"></span></div>
           <h4>Move Counter</h4>
           <p>Displays total moves using the formula 2&#8319;&minus;1, proving the mathematical minimum.</p>
         </div>
-        <div class="feature-item glass reveal">
-          <div class="fi-icon">&#128203;</div>
+        <div class="feature-item reveal">
+          <div class="fi-icon"><span data-pixel-icon="globe" data-size="32"></span></div>
           <h4>Step-by-Step Output</h4>
           <p>Every individual disk move is printed in order, showing source and destination peg.</p>
         </div>
@@ -252,24 +184,26 @@
 
       <h2 class="reveal">Tech Stack</h2>
       <div class="stack-row reveal">
-        <span class="stack-tag">HTML</span>
-        <span class="stack-tag">CSS</span>
-        <span class="stack-tag">JavaScript</span>
-        <span class="stack-tag">Recursion</span>
+        <span class="pxl-tag">HTML</span>
+        <span class="pxl-tag">CSS</span>
+        <span class="pxl-tag">JavaScript</span>
+        <span class="pxl-tag">Recursion</span>
       </div>
 
       <h2 class="reveal">What I Learned</h2>
       <p class="reveal">
-        This project helped me get comfortable with recursion as a real problem-solving tool. Reducing a complex multi-step puzzle to a clean three-line recursive function was a great lesson in how elegant code can be when the logic is right. I also focused on clean UI &mdash; the glassmorphism styling and live input make it feel polished despite being pure vanilla JS.
+        This project helped me get comfortable with recursion as a real problem-solving tool. Reducing a complex multi-step puzzle to a clean three-line recursive function was a great lesson in how elegant code can be when the logic is right. I also rebuilt the UI in a pixel-retro style — chunky borders and hard shadows that make the live input feel like a tiny 8-bit tool despite being pure vanilla JS.
       </p>
     </div>
 
     <div class="cta-bar reveal">
-      <a href="https://github.com/ashwithfrank/" target="_blank" rel="noopener" class="proj-btn primary">&#9889; View on GitHub</a>
-      <a href="../../index.html#projects" class="proj-btn ghost">&#8592; All Projects</a>
+      <a href="https://github.com/ashwithfrank/" target="_blank" rel="noopener" class="pxl-btn primary"><span data-pixel-icon="github" data-size="18"></span> VIEW ON GITHUB</a>
+      <a href="../../index.html#projects" class="pxl-btn ghost">&#8592; ALL PROJECTS</a>
     </div>
 
   </div>
+
+  <div class="pxl-strip"></div>
 
   <script>
     const input = document.getElementById('diskInput');
@@ -295,6 +229,7 @@
       solveHanoi(n - 1, aux, from, to);
     }
   </script>
+  <script src="../../pixel-icons.js"></script>
   <script src="../../script.js"></script>
 </body>
 </html>
