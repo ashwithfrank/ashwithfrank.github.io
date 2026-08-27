@@ -1,235 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tower of Hanoi — Ashwith Frank</title>
-  <link rel="stylesheet" href="../../styles.css"/>
-  <link rel="icon" type="image/png" href="../../images/favicon-16.png">
-  <link rel="icon" type="image/png" href="../../images/favicon-32.png">
-  <link rel="icon" href="../../images/favicon.ico">
-  <style>
-    .proj-hero {
-      min-height: 42vh;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 9rem 3rem 3rem;
-      background: var(--accent);
-      border-bottom: var(--bw) solid var(--ink);
-    }
-    .proj-hero-icon { margin-bottom: 1.2rem; }
-    .proj-hero .ptype {
-      font-family: var(--font-head); font-size: .58rem;
-      background: var(--ink); color: #fff; display: inline-block;
-      padding: .4rem .6rem; margin-bottom: .8rem;
-    }
-    .proj-hero h1 {
-      font-family: var(--font-head); font-size: clamp(1.4rem, 4.5vw, 2.6rem);
-      line-height: 1.5; margin-bottom: 0; text-transform: uppercase;
-    }
-    .proj-hero .tagline { font-size: .92rem; margin-top: .9rem; max-width: 560px; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tower of Hanoi — Ashwith Frank</title>
+    <link rel="icon" type="image/png" href="../../images/favicon-16.png">
+    <link rel="icon" type="image/png" href="../../images/favicon-32.png">
+    <link rel="icon" href="../../images/favicon.ico">
 
-    .back-btn {
-      position: fixed; top: 1.1rem; left: 1.6rem; z-index: 600;
-      display: inline-flex; align-items: center; gap: .5rem;
-      font-family: var(--font-head); font-size: .6rem;
-      color: var(--ink); text-decoration: none;
-      background: #fff; border: var(--bw) solid var(--ink);
-      box-shadow: 4px 4px 0 var(--ink);
-      padding: .6rem .9rem;
-      transition: transform .06s linear, box-shadow .06s linear;
-    }
-    .back-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
-    .back-btn:active { transform: translate(4px,4px); box-shadow: 0 0 0 var(--ink); }
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="../../style.css">
 
-    .proj-body { max-width: 860px; margin: 0 auto; padding: 4rem 3rem; }
+    <style>
+        .proj-hero { padding: 160px 0 70px; }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-muted);
+            text-decoration: none; margin-bottom: 28px; transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--text); }
+        .proj-hero-icon { width: 52px; height: 52px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: var(--text); margin-bottom: 22px; }
+        .proj-hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; }
+        .proj-hero .tagline { margin-top: 16px; max-width: 560px; color: var(--text-soft); font-size: 1.02rem; line-height: 1.7; }
 
-    .meta-row { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 3rem; }
-    .meta-chip {
-      font-family: var(--font-body); font-weight: 700; font-size: .7rem;
-      padding: .4rem .8rem; border: 2px solid var(--ink); background: #fff;
-      box-shadow: 2px 2px 0 var(--ink);
-    }
-    .meta-chip.accent { background: var(--accent); }
+        .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 50px; }
+        .meta-chip { font-family: var(--f-mono); font-size: 0.72rem; padding: 5px 12px; border-radius: var(--radius-pill); background: var(--bg-card); border: 1px solid var(--border); color: var(--text-soft); }
+        .meta-chip.accent { color: var(--term-green); border-color: rgba(126,224,168,0.3); }
 
-    .prose h2 { font-family: var(--font-head); font-size: 1.05rem; text-transform: uppercase; margin: 2.6rem 0 1rem; }
-    .prose p  { font-size: .93rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+        .prose h2 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; margin: 48px 0 16px; }
+        .prose p { color: var(--text-soft); font-size: 0.96rem; line-height: 1.8; margin-bottom: 14px; }
 
-    .stack-row { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 2rem; }
+        .demo-wrap { margin: 24px 0; border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-md); }
+        .demo-label { display: flex; align-items: center; gap: 8px; padding: 13px 16px; background: var(--bg-raised); border-bottom: 1px solid var(--border); font-family: var(--f-mono); font-size: 0.75rem; color: var(--text-muted); }
+        .demo-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .demo-dot.r { background: #ff5f57; } .demo-dot.y { background: #febc2e; } .demo-dot.g { background: #28c840; }
+        .toh-app { background: var(--bg-card); padding: 44px 24px; text-align: center; }
+        .toh-app h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 4px; }
+        .toh-app p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 26px; }
+        .toh-app input {
+            width: 260px; padding: 13px 16px; font-size: 0.95rem; text-align: center; font-family: var(--f-sans); font-weight: 500;
+            outline: none; color: var(--text); background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius-pill);
+        }
+        .toh-app input:focus { border-color: var(--border-hi); }
+        .toh-app input::placeholder { color: var(--text-muted); }
+        .toh-result { display: none; text-align: left; margin: 24px auto 0; padding: 20px; max-width: 440px; background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+        .toh-result.show { display: block; }
+        #toh-moves { font-family: var(--f-mono); font-size: 0.85rem; color: var(--term-green); margin-bottom: 10px; }
+        #toh-steps { font-family: var(--f-mono); font-size: 0.8rem; color: var(--text-soft); line-height: 1.7; white-space: pre-wrap; word-wrap: break-word; max-height: 220px; overflow-y: auto; margin: 0; }
 
-    /* DEMO EMBED */
-    .demo-wrap { margin: 2rem 0; border: var(--bw) solid var(--ink); box-shadow: 6px 6px 0 var(--ink); }
-    .demo-label {
-      background: var(--ink); color: #fff;
-      padding: .7rem 1.1rem;
-      font-family: var(--font-head); font-size: .58rem;
-      display: flex; align-items: center; gap: .5rem;
-    }
-    .dot { width: 10px; height: 10px; display: inline-block; }
-    .dot-r{background:#ff5f57;} .dot-y{background:#febc2e;} .dot-g{background:#28c840;}
-    .toh-app {
-      background: var(--accent); padding: 40px 20px;
-      text-align: center; font-family: var(--font-body);
-    }
-    .toh-app h2 { font-family: var(--font-head); color: var(--ink); font-size: 1.1rem; margin: 0 0 6px; text-transform: uppercase; }
-    .toh-app p  { color: var(--ink); font-size: .8rem; margin: 0 0 22px; }
-    .toh-app input {
-      width: 240px; padding: 12px; font-size: 1rem; text-align: center;
-      font-family: var(--font-body); font-weight: 700;
-      outline: none; color: var(--ink);
-      background: #fff; border: var(--bw) solid var(--ink);
-      box-shadow: 4px 4px 0 var(--ink);
-    }
-    .toh-app input::placeholder { color: #8a8a8a; }
-    .toh-result {
-      display: none; color: var(--ink); margin: 20px auto 0; padding: 18px;
-      max-width: 420px; text-align: left;
-      background: #fff; border: var(--bw) solid var(--ink);
-      box-shadow: 5px 5px 0 var(--ink);
-    }
-    .toh-result.show { display: block; }
-    #toh-moves { font-family: var(--font-head); font-size: .8rem; margin-bottom: 10px; }
-    #toh-steps { font-size: .82rem; line-height: 1.7; white-space: pre-wrap; word-wrap: break-word; max-height: 220px; overflow-y: auto; margin: 0; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 10px; margin: 20px 0; }
+        .feature-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; transition: border-color 0.25s ease; }
+        .feature-item:hover { border-color: var(--border-hi); }
+        .fi-icon { width: 36px; height: 36px; background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--text-soft); margin-bottom: 14px; }
+        .feature-item h4 { font-size: 0.92rem; font-weight: 600; margin-bottom: 8px; }
+        .feature-item p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; margin: 0; }
 
-    .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 1rem; margin: 1.5rem 0; }
-    .feature-item { background: #fff; border: var(--bw) solid var(--ink); box-shadow: 4px 4px 0 var(--ink); padding: 1.3rem; transition: transform .1s linear, box-shadow .1s linear; }
-    .feature-item:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
-    .fi-icon { margin-bottom: .7rem; }
-    .feature-item h4 { font-family: var(--font-head); font-size: .72rem; margin-bottom: .6rem; text-transform: uppercase; }
-    .feature-item p { font-size: .8rem; color: var(--muted); line-height: 1.6; margin: 0; }
+        .stack-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 8px; }
+        .cta-bar { margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 12px; }
 
-    .cta-bar { margin-top: 3rem; padding-top: 2rem; border-top: var(--bw) solid var(--ink); display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
-
-    @media (max-width: 768px) {
-      .proj-hero { padding: 8rem 1.4rem 2.2rem; }
-      .proj-body { padding: 2.5rem 1.4rem; }
-    }
-  </style>
+        @media (max-width: 768px) { .proj-hero { padding: 130px 0 50px; } }
+    </style>
 </head>
 <body>
 
-  <div id="cur"></div>
-  <div id="ring"></div>
-
-  <a href="../../index.html#projects" class="back-btn">
-    <span>&#8592;</span> BACK
-  </a>
-
-  <div class="proj-hero">
-    <div class="proj-hero-icon"><span data-pixel-icon="terminal" data-size="48"></span></div>
-    <p class="ptype">Web App</p>
-    <h1>Tower of Hanoi</h1>
-    <p class="tagline">An interactive solver that breaks down the Tower of Hanoi puzzle step-by-step — built with vanilla JavaScript using recursion.</p>
-  </div>
-
-  <div class="proj-body">
-
-    <div class="meta-row reveal">
-      <span class="meta-chip accent">LIVE</span>
-      <span class="meta-chip">SOLO PROJECT</span>
-      <span class="meta-chip">WEB APP</span>
-      <span class="meta-chip">JAVASCRIPT</span>
+    <div class="page-bg-overlay">
+        <div class="bg-grid-lines"></div>
+        <div class="bg-ambient-glow"></div>
     </div>
 
-    <div class="prose">
-      <h2 class="reveal">Overview</h2>
-      <p class="reveal">
-        Tower of Hanoi is a classic mathematical puzzle where you move a stack of disks from one peg to another, following one rule: never place a larger disk on a smaller one. This web app takes any number of disks as input and instantly outputs every move required to solve it, along with the total move count.
-      </p>
+    <div class="container-sm">
+        <section class="proj-hero">
+            <a href="../../index.html#projects" class="back-link"><i data-lucide="arrow-left" style="width:14px;height:14px;"></i> Back to projects</a>
+            <div class="proj-hero-icon"><i data-lucide="terminal" style="width:24px;height:24px;"></i></div>
+            <p class="dl-type">Web App</p>
+            <h1>Tower of Hanoi</h1>
+            <p class="tagline">An interactive solver that breaks down the Tower of Hanoi puzzle step-by-step — built with vanilla JavaScript using recursion.</p>
 
-      <h2 class="reveal">&#9654; Live Demo</h2>
+            <div class="meta-row">
+                <span class="meta-chip accent">Live</span>
+                <span class="meta-chip">Solo Project</span>
+                <span class="meta-chip">Web App</span>
+                <span class="meta-chip">JavaScript</span>
+            </div>
+        </section>
+
+        <div class="prose">
+            <h2>Overview</h2>
+            <p>Tower of Hanoi is a classic mathematical puzzle where you move a stack of disks from one peg to another, following one rule: never place a larger disk on a smaller one. This web app takes any number of disks as input and instantly outputs every move required to solve it, along with the total move count.</p>
+
+            <h2>Live Demo</h2>
+        </div>
+
+        <div class="demo-wrap">
+            <div class="demo-label">
+                <span class="demo-dot r"></span><span class="demo-dot y"></span><span class="demo-dot g"></span>
+                &nbsp;tower_of_hanoi.js
+            </div>
+            <div class="toh-app">
+                <h3>Tower of Hanoi</h3>
+                <p>By Ashwith Frank</p>
+                <input type="number" id="diskInput" placeholder="Enter number of disks" min="1" max="15">
+                <div class="toh-result" id="toh-result">
+                    <div id="toh-moves"></div>
+                    <pre id="toh-steps"></pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="prose">
+            <h2>How It Works</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="fi-icon"><i data-lucide="git-branch" style="width:18px;height:18px;"></i></div>
+                    <h4>Recursive Algorithm</h4>
+                    <p>Uses a classic recursive function that breaks the problem down to a single-disk base case.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="fi-icon"><i data-lucide="zap" style="width:18px;height:18px;"></i></div>
+                    <h4>Instant Results</h4>
+                    <p>Updates live as you type — no button press needed. Results appear in real time.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="fi-icon"><i data-lucide="hash" style="width:18px;height:18px;"></i></div>
+                    <h4>Move Counter</h4>
+                    <p>Displays total moves using the formula 2&#8319;&minus;1, proving the mathematical minimum.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="fi-icon"><i data-lucide="list-ordered" style="width:18px;height:18px;"></i></div>
+                    <h4>Step-by-Step Output</h4>
+                    <p>Every individual disk move is printed in order, showing source and destination peg.</p>
+                </div>
+            </div>
+
+            <h2>Tech Stack</h2>
+            <div class="stack-row">
+                <span class="tag-pill">HTML</span><span class="tag-pill">CSS</span><span class="tag-pill">JavaScript</span><span class="tag-pill">Recursion</span>
+            </div>
+
+            <h2>What I Learned</h2>
+            <p>This project helped me get comfortable with recursion as a real problem-solving tool. Reducing a complex multi-step puzzle to a clean three-line recursive function was a great lesson in how elegant code can be when the logic is right.</p>
+        </div>
+
+        <div class="cta-bar">
+            <a href="https://github.com/ashwithfrank/" target="_blank" rel="noopener" class="btn btn-solid"><i data-lucide="github" style="width:15px;height:15px;"></i> View on GitHub</a>
+            <a href="../../index.html#projects" class="btn btn-outline"><i data-lucide="arrow-left" style="width:15px;height:15px;"></i> All Projects</a>
+        </div>
     </div>
 
-    <div class="demo-wrap reveal">
-      <div class="demo-label">
-        <span class="dot dot-r"></span>
-        <span class="dot dot-y"></span>
-        <span class="dot dot-g"></span>
-        &nbsp;TOWER_OF_HANOI.EXE
-      </div>
-      <div class="toh-app">
-        <h2>Tower of Hanoi</h2>
-        <p>By Ashwith Frank</p>
-        <input type="number" id="diskInput" placeholder="Enter number of disks" min="1" max="15"/>
-        <div class="toh-result" id="toh-result">
-          <div id="toh-moves"></div>
-          <pre id="toh-steps"></pre>
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <span class="footer-brand-mark"><i data-lucide="terminal-square" style="width:14px;height:14px;"></i></span>
+                <span class="footer-copy">&copy; 2026 Ashwith Frank</span>
+            </div>
         </div>
-      </div>
-    </div>
+    </footer>
 
-    <div class="prose">
-      <h2 class="reveal">How It Works</h2>
-      <div class="feature-grid">
-        <div class="feature-item reveal">
-          <div class="fi-icon"><span data-pixel-icon="chip" data-size="32"></span></div>
-          <h4>Recursive Algorithm</h4>
-          <p>Uses a classic recursive function that breaks the problem down to a single-disk base case.</p>
-        </div>
-        <div class="feature-item reveal">
-          <div class="fi-icon"><span data-pixel-icon="bolt" data-size="32"></span></div>
-          <h4>Instant Results</h4>
-          <p>Updates live as you type — no button press needed. Results appear in real time.</p>
-        </div>
-        <div class="feature-item reveal">
-          <div class="fi-icon"><span data-pixel-icon="terminal" data-size="32"></span></div>
-          <h4>Move Counter</h4>
-          <p>Displays total moves using the formula 2&#8319;&minus;1, proving the mathematical minimum.</p>
-        </div>
-        <div class="feature-item reveal">
-          <div class="fi-icon"><span data-pixel-icon="globe" data-size="32"></span></div>
-          <h4>Step-by-Step Output</h4>
-          <p>Every individual disk move is printed in order, showing source and destination peg.</p>
-        </div>
-      </div>
+    <script>
+        if (window.lucide) lucide.createIcons();
 
-      <h2 class="reveal">Tech Stack</h2>
-      <div class="stack-row reveal">
-        <span class="pxl-tag">HTML</span>
-        <span class="pxl-tag">CSS</span>
-        <span class="pxl-tag">JavaScript</span>
-        <span class="pxl-tag">Recursion</span>
-      </div>
+        const input = document.getElementById('diskInput');
+        const result = document.getElementById('toh-result');
+        const movesEl = document.getElementById('toh-moves');
+        const stepsEl = document.getElementById('toh-steps');
 
-      <h2 class="reveal">What I Learned</h2>
-      <p class="reveal">
-        This project helped me get comfortable with recursion as a real problem-solving tool. Reducing a complex multi-step puzzle to a clean three-line recursive function was a great lesson in how elegant code can be when the logic is right. I also rebuilt the UI in a pixel-retro style — chunky borders and hard shadows that make the live input feel like a tiny 8-bit tool despite being pure vanilla JS.
-      </p>
-    </div>
+        input.addEventListener('input', () => {
+            const n = parseInt(input.value);
+            stepsEl.textContent = ''; movesEl.textContent = '';
+            result.classList.remove('show');
+            if (isNaN(n) || n <= 0) return;
+            if (n > 15) { movesEl.textContent = 'Please enter 15 disks or fewer.'; result.classList.add('show'); return; }
+            movesEl.textContent = 'Total moves: ' + (Math.pow(2, n) - 1);
+            solveHanoi(n, 'BEG', 'AUX', 'END');
+            result.classList.add('show');
+        });
 
-    <div class="cta-bar reveal">
-      <a href="https://github.com/ashwithfrank/" target="_blank" rel="noopener" class="pxl-btn primary"><span data-pixel-icon="github" data-size="18"></span> VIEW ON GITHUB</a>
-      <a href="../../index.html#projects" class="pxl-btn ghost">&#8592; ALL PROJECTS</a>
-    </div>
-
-  </div>
-
-  <div class="pxl-strip"></div>
-
-  <script>
-    const input = document.getElementById('diskInput');
-    const result = document.getElementById('toh-result');
-    const movesEl = document.getElementById('toh-moves');
-    const stepsEl = document.getElementById('toh-steps');
-
-    input.addEventListener('input', () => {
-      const n = parseInt(input.value);
-      stepsEl.textContent = ''; movesEl.textContent = '';
-      result.classList.remove('show');
-      if (isNaN(n) || n <= 0) return;
-      if (n > 15) { movesEl.textContent = 'Please enter 15 disks or fewer.'; result.classList.add('show'); return; }
-      movesEl.textContent = 'Total moves: ' + (Math.pow(2, n) - 1);
-      solveHanoi(n, 'BEG', 'AUX', 'END');
-      result.classList.add('show');
-    });
-
-    function solveHanoi(n, from, aux, to) {
-      if (n === 1) { stepsEl.textContent += `Move disk 1 from ${from} to ${to}\n`; return; }
-      solveHanoi(n - 1, from, to, aux);
-      stepsEl.textContent += `Move disk ${n} from ${from} to ${to}\n`;
-      solveHanoi(n - 1, aux, from, to);
-    }
-  </script>
-  <script src="../../pixel-icons.js"></script>
-  <script src="../../script.js"></script>
+        function solveHanoi(n, from, aux, to) {
+            if (n === 1) { stepsEl.textContent += `Move disk 1 from ${from} to ${to}\n`; return; }
+            solveHanoi(n - 1, from, to, aux);
+            stepsEl.textContent += `Move disk ${n} from ${from} to ${to}\n`;
+            solveHanoi(n - 1, aux, from, to);
+        }
+    </script>
 </body>
 </html>
