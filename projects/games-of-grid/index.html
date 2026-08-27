@@ -1,199 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Games of Grid — Ashwith Frank</title>
-  <link rel="stylesheet" href="../../styles.css"/>
-  <link rel="icon" type="image/png" href="../../images/favicon-16.png">
-  <link rel="icon" type="image/png" href="../../images/favicon-32.png">
-  <link rel="icon" href="../../images/favicon.ico">
-  <style>
-    .proj-hero {
-      min-height: 42vh;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 9rem 3rem 3rem;
-      background: var(--accent);
-      border-bottom: var(--bw) solid var(--ink);
-    }
-    .proj-hero-icon { margin-bottom: 1.2rem; }
-    .proj-hero .ptype {
-      font-family: var(--font-head); font-size: .58rem;
-      background: var(--ink); color: #fff; display: inline-block;
-      padding: .4rem .6rem; margin-bottom: .8rem;
-    }
-    .proj-hero h1 {
-      font-family: var(--font-head); font-size: clamp(1.4rem, 4.5vw, 2.6rem);
-      line-height: 1.5; margin-bottom: 0; text-transform: uppercase;
-    }
-    .proj-hero .tagline { font-size: .92rem; margin-top: .9rem; max-width: 560px; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games of Grid — Ashwith Frank</title>
+    <link rel="icon" type="image/png" href="../../images/favicon-16.png">
+    <link rel="icon" type="image/png" href="../../images/favicon-32.png">
+    <link rel="icon" href="../../images/favicon.ico">
 
-    .back-btn {
-      position: fixed; top: 1.1rem; left: 1.6rem; z-index: 600;
-      display: inline-flex; align-items: center; gap: .5rem;
-      font-family: var(--font-head); font-size: .6rem;
-      color: var(--ink); text-decoration: none;
-      background: #fff; border: var(--bw) solid var(--ink);
-      box-shadow: 4px 4px 0 var(--ink);
-      padding: .6rem .9rem;
-      transition: transform .06s linear, box-shadow .06s linear;
-    }
-    .back-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
-    .back-btn:active { transform: translate(4px,4px); box-shadow: 0 0 0 var(--ink); }
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="../../style.css">
 
-    .proj-body { max-width: 860px; margin: 0 auto; padding: 4rem 3rem; }
+    <style>
+        .proj-hero { padding: 160px 0 70px; }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-muted);
+            text-decoration: none; margin-bottom: 28px; transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--text); }
+        .proj-hero-icon { width: 52px; height: 52px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: var(--text); margin-bottom: 22px; }
+        .proj-hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; }
+        .proj-hero .tagline { margin-top: 16px; max-width: 560px; color: var(--text-soft); font-size: 1.02rem; line-height: 1.7; }
 
-    .meta-row { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 3rem; }
-    .meta-chip {
-      font-family: var(--font-body); font-weight: 700; font-size: .7rem;
-      padding: .4rem .8rem; border: 2px solid var(--ink); background: #fff;
-      box-shadow: 2px 2px 0 var(--ink);
-    }
-    .meta-chip.accent { background: var(--accent); }
+        .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 50px; }
+        .meta-chip { font-family: var(--f-mono); font-size: 0.72rem; padding: 5px 12px; border-radius: var(--radius-pill); background: var(--bg-card); border: 1px solid var(--border); color: var(--text-soft); }
+        .meta-chip.accent { color: var(--term-green); border-color: rgba(126,224,168,0.3); }
 
-    .prose h2 { font-family: var(--font-head); font-size: 1.05rem; text-transform: uppercase; margin: 2.6rem 0 1rem; }
-    .prose p  { font-size: .93rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+        .prose h2 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; margin: 48px 0 16px; }
+        .prose p { color: var(--text-soft); font-size: 0.96rem; line-height: 1.8; margin-bottom: 14px; }
 
-    .stack-row { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 2rem; }
+        .playstore-card {
+            display: flex; align-items: center; gap: 18px; background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius-xl); padding: 24px 26px; margin: 20px 0 40px; text-decoration: none;
+            transition: border-color 0.25s ease, background 0.25s ease;
+        }
+        .playstore-card:hover { border-color: var(--border-hi); background: var(--bg-card-hi); }
+        .ps-icon { flex-shrink: 0; width: 50px; height: 50px; background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: var(--text); }
+        .ps-info { flex: 1; min-width: 0; }
+        .ps-info h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+        .ps-info p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; margin: 0; }
+        .ps-badge { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--text); color: var(--bg); font-size: 0.78rem; font-weight: 600; border-radius: var(--radius-pill); flex-shrink: 0; white-space: nowrap; }
 
-    /* Play Store badge block */
-    .playstore-card {
-      display: flex; align-items: center; gap: 1.4rem;
-      background: #fff; border: var(--bw) solid var(--ink);
-      box-shadow: 6px 6px 0 var(--ink);
-      padding: 1.5rem 1.7rem;
-      margin: 1.5rem 0 2.5rem;
-      text-decoration: none;
-      transition: transform .1s linear, box-shadow .1s linear;
-    }
-    .playstore-card:hover { transform: translate(-3px,-3px); box-shadow: 9px 9px 0 var(--ink); }
-    .ps-icon { flex-shrink: 0; }
-    .ps-info { flex: 1; }
-    .ps-info h3 { font-family: var(--font-head); font-size: .85rem; color: var(--ink); margin-bottom: .5rem; text-transform: uppercase; }
-    .ps-info p  { font-size: .8rem; color: var(--muted); line-height: 1.6; margin: 0; }
-    .ps-badge {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .7rem 1.1rem;
-      background: var(--ink); color: #fff;
-      font-family: var(--font-head); font-size: .58rem; flex-shrink: 0;
-      border: 2px solid var(--ink);
-    }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 10px; margin: 20px 0; }
+        .feature-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; transition: border-color 0.25s ease; }
+        .feature-item:hover { border-color: var(--border-hi); }
+        .fi-icon { width: 36px; height: 36px; background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--text-soft); margin-bottom: 14px; }
+        .feature-item h4 { font-size: 0.92rem; font-weight: 600; margin-bottom: 8px; }
+        .feature-item p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; margin: 0; }
 
-    .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 1rem; margin: 1.5rem 0; }
-    .feature-item { background: #fff; border: var(--bw) solid var(--ink); box-shadow: 4px 4px 0 var(--ink); padding: 1.3rem; transition: transform .1s linear, box-shadow .1s linear; }
-    .feature-item:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
-    .fi-icon { margin-bottom: .7rem; }
-    .feature-item h4 { font-family: var(--font-head); font-size: .72rem; margin-bottom: .6rem; text-transform: uppercase; }
-    .feature-item p { font-size: .8rem; color: var(--muted); line-height: 1.6; margin: 0; }
+        .stack-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 8px; }
+        .cta-bar { margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 12px; }
 
-    .cta-bar { margin-top: 3rem; padding-top: 2rem; border-top: var(--bw) solid var(--ink); display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
-
-    @media (max-width: 768px) {
-      .proj-hero { padding: 8rem 1.4rem 2.2rem; }
-      .proj-body { padding: 2.5rem 1.4rem; }
-      .playstore-card { flex-direction: column; align-items: flex-start; }
-    }
-  </style>
+        @media (max-width: 768px) {
+            .proj-hero { padding: 130px 0 50px; }
+            .playstore-card { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
 </head>
 <body>
 
-  <div id="cur"></div>
-  <div id="ring"></div>
-
-  <a href="../../index.html#projects" class="back-btn">
-    <span>&#8592;</span> BACK
-  </a>
-
-  <div class="proj-hero">
-    <div class="proj-hero-icon"><span data-pixel-icon="gamepad" data-size="48"></span></div>
-    <p class="ptype">Mobile Game · Google Play Store</p>
-    <h1>Games of Grid</h1>
-    <p class="tagline">A sliding tile puzzle game on the Play Store — 3x3 and 4x4 grids, two difficulty modes, built under AlphaOmega Studio.</p>
-  </div>
-
-  <div class="proj-body">
-
-    <div class="meta-row reveal">
-      <span class="meta-chip accent">PUBLISHED</span>
-      <span class="meta-chip">ALPHAOMEGA STUDIO</span>
-      <span class="meta-chip">ANDROID</span>
-      <span class="meta-chip">PUZZLE GAME</span>
-      <span class="meta-chip">RATED 3+</span>
+    <div class="page-bg-overlay">
+        <div class="bg-grid-lines"></div>
+        <div class="bg-ambient-glow"></div>
     </div>
 
-    <div class="prose">
-      <h2 class="reveal">Overview</h2>
-      <p class="reveal">
-        Games of Grid is a sliding tile puzzle game available on the Google Play Store. The goal is simple: arrange numbered tiles in ascending order by sliding them into an empty space. Sounds easy — but planning ahead is everything.
-      </p>
-      <p class="reveal">
-        The game offers two grid sizes (3x3 and 4x4) and two difficulty modes. Easy mode allows movement in all 8 directions including diagonals, while Hard mode restricts you to 4 directions only, making every move matter more. It was published under AlphaOmega Studio and has had 10+ downloads on the Play Store.
-      </p>
+    <div class="container-sm">
+        <section class="proj-hero">
+            <a href="../../index.html#projects" class="back-link"><i data-lucide="arrow-left" style="width:14px;height:14px;"></i> Back to projects</a>
+            <div class="proj-hero-icon"><i data-lucide="gamepad-2" style="width:24px;height:24px;"></i></div>
+            <p class="dl-type">Mobile Game · Google Play Store</p>
+            <h1>Games of Grid</h1>
+            <p class="tagline">A sliding tile puzzle game on the Play Store — 3x3 and 4x4 grids, two difficulty modes, built under AlphaOmega Studio.</p>
 
-      <h2 class="reveal">Download</h2>
+            <div class="meta-row">
+                <span class="meta-chip accent">Published</span>
+                <span class="meta-chip">AlphaOmega Studio</span>
+                <span class="meta-chip">Android</span>
+                <span class="meta-chip">Puzzle Game</span>
+                <span class="meta-chip">Rated 3+</span>
+            </div>
+        </section>
+
+        <div class="prose">
+            <h2>Overview</h2>
+            <p>Games of Grid is a sliding tile puzzle game available on the Google Play Store. The goal is simple: arrange numbered tiles in ascending order by sliding them into an empty space. Sounds easy — but planning ahead is everything.</p>
+            <p>The game offers two grid sizes (3x3 and 4x4) and two difficulty modes. Easy mode allows movement in all 8 directions including diagonals, while Hard mode restricts you to 4 directions only, making every move matter more. It was published under AlphaOmega Studio and has had 10+ downloads on the Play Store.</p>
+
+            <h2>Download</h2>
+        </div>
+
+        <a href="https://play.google.com/store/apps/details?id=com.alphaomegastudio.gog" target="_blank" rel="noopener" class="playstore-card">
+            <div class="ps-icon"><i data-lucide="gamepad-2" style="width:24px;height:24px;"></i></div>
+            <div class="ps-info">
+                <h3>Games of Grid</h3>
+                <p>AlphaOmega Studio &nbsp;&middot;&nbsp; Puzzle &nbsp;&middot;&nbsp; Rated 3+ &nbsp;&middot;&nbsp; Android</p>
+            </div>
+            <span class="ps-badge"><i data-lucide="play" style="width:13px;height:13px;"></i> Get it on Google Play</span>
+        </a>
+
+        <div class="prose">
+            <h2>Game Features</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="fi-icon"><i data-lucide="layout-grid" style="width:18px;height:18px;"></i></div>
+                    <h4>Two Grid Sizes</h4>
+                    <p>Play on a 3x3 grid (arrange 1&ndash;8) or challenge yourself with a 4x4 grid (arrange 1&ndash;15).</p>
+                </div>
+                <div class="feature-item">
+                    <div class="fi-icon"><i data-lucide="zap" style="width:18px;height:18px;"></i></div>
+                    <h4>Easy &amp; Hard Mode</h4>
+                    <p>Easy allows 8-directional movement. Hard restricts to 4 directions for a much tougher challenge.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="fi-icon"><i data-lucide="sparkles" style="width:18px;height:18px;"></i></div>
+                    <h4>Minimal Design</h4>
+                    <p>Clean, distraction-free interface with smooth controls optimized for mobile.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="fi-icon"><i data-lucide="shield" style="width:18px;height:18px;"></i></div>
+                    <h4>Privacy First</h4>
+                    <p>No data collected, no data shared with third parties. Fully offline gameplay.</p>
+                </div>
+            </div>
+
+            <h2>Tech Stack</h2>
+            <div class="stack-row">
+                <span class="tag-pill">Android Studio</span><span class="tag-pill">Java/Kotlin</span><span class="tag-pill">Android 5+</span><span class="tag-pill">Google Play</span>
+            </div>
+
+            <h2>What I Learned</h2>
+            <p>Publishing a game on the Play Store was a completely different experience from just building it. I had to navigate the developer console, set up store listings, handle content ratings, write a privacy policy, and optimize the APK for different Android versions. Getting through the review process and seeing it go live was a big milestone.</p>
+            <p>On the game side, working on a tile puzzle taught me to think carefully about state management — tracking which tiles are where, validating moves, and detecting when the puzzle is solved efficiently.</p>
+        </div>
+
+        <div class="cta-bar">
+            <a href="https://play.google.com/store/apps/details?id=com.alphaomegastudio.gog" target="_blank" rel="noopener" class="btn btn-solid"><i data-lucide="play" style="width:15px;height:15px;"></i> View on Play Store</a>
+            <a href="../../index.html#projects" class="btn btn-outline"><i data-lucide="arrow-left" style="width:15px;height:15px;"></i> All Projects</a>
+        </div>
     </div>
 
-    <a href="https://play.google.com/store/apps/details?id=com.alphaomegastudio.gog" target="_blank" rel="noopener" class="playstore-card reveal">
-      <div class="ps-icon"><span data-pixel-icon="gamepad" data-size="44"></span></div>
-      <div class="ps-info">
-        <h3>Games of Grid</h3>
-        <p>AlphaOmega Studio &nbsp;&middot;&nbsp; Puzzle &nbsp;&middot;&nbsp; Rated 3+ &nbsp;&middot;&nbsp; Android</p>
-      </div>
-      <span class="ps-badge">&#9654; GET IT ON GOOGLE PLAY</span>
-    </a>
-
-    <div class="prose">
-      <h2 class="reveal">Game Features</h2>
-      <div class="feature-grid">
-        <div class="feature-item reveal">
-          <div class="fi-icon"><span data-pixel-icon="camera" data-size="32"></span></div>
-          <h4>Two Grid Sizes</h4>
-          <p>Play on a 3x3 grid (arrange 1&ndash;8) or challenge yourself with a 4x4 grid (arrange 1&ndash;15).</p>
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <span class="footer-brand-mark"><i data-lucide="terminal-square" style="width:14px;height:14px;"></i></span>
+                <span class="footer-copy">&copy; 2026 Ashwith Frank</span>
+            </div>
         </div>
-        <div class="feature-item reveal">
-          <div class="fi-icon"><span data-pixel-icon="bolt" data-size="32"></span></div>
-          <h4>Easy &amp; Hard Mode</h4>
-          <p>Easy allows 8-directional movement. Hard restricts to 4 directions for a much tougher challenge.</p>
-        </div>
-        <div class="feature-item reveal">
-          <div class="fi-icon"><span data-pixel-icon="globe" data-size="32"></span></div>
-          <h4>Minimal Design</h4>
-          <p>Clean, distraction-free interface with smooth controls optimized for mobile.</p>
-        </div>
-        <div class="feature-item reveal">
-          <div class="fi-icon"><span data-pixel-icon="shield" data-size="32"></span></div>
-          <h4>Privacy First</h4>
-          <p>No data collected, no data shared with third parties. Fully offline gameplay.</p>
-        </div>
-      </div>
+    </footer>
 
-      <h2 class="reveal">Tech Stack</h2>
-      <div class="stack-row reveal">
-        <span class="pxl-tag">Android Studio</span>
-        <span class="pxl-tag">Java/Kotlin</span>
-        <span class="pxl-tag">Android 5+</span>
-        <span class="pxl-tag">Google Play</span>
-      </div>
-
-      <h2 class="reveal">What I Learned</h2>
-      <p class="reveal">
-        Publishing a game on the Play Store was a completely different experience from just building it. I had to navigate the developer console, set up store listings, handle content ratings, write a privacy policy, and optimize the APK for different Android versions. Getting through the review process and seeing it go live was a big milestone.
-      </p>
-      <p class="reveal">
-        On the game side, working on a tile puzzle taught me to think carefully about state management — tracking which tiles are where, validating moves, and detecting when the puzzle is solved efficiently.
-      </p>
-    </div>
-
-    <div class="cta-bar reveal">
-      <a href="https://play.google.com/store/apps/details?id=com.alphaomegastudio.gog" target="_blank" rel="noopener" class="pxl-btn primary">&#9654; VIEW ON PLAY STORE</a>
-      <a href="../../index.html#projects" class="pxl-btn ghost">&#8592; ALL PROJECTS</a>
-    </div>
-
-  </div>
-
-  <div class="pxl-strip"></div>
-
-  <script src="../../pixel-icons.js"></script>
-  <script src="../../script.js"></script>
+    <script>if (window.lucide) lucide.createIcons();</script>
 </body>
 </html>
