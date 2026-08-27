@@ -1,222 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ashwith Frank — Portfolio</title>
-  <link rel="stylesheet" href="styles.css"/>
-  <link rel="icon" type="image/png" href="images/favicon-16.png">
-  <link rel="icon" type="image/png" href="images/favicon-32.png">
-  <link rel="icon" href="images/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashwith Frank — Portfolio</title>
+    <meta name="description" content="Ashwith Frank — BCA student building across cybersecurity, game development, and embedded hardware.">
+
+    <link rel="icon" type="image/png" href="images/favicon-16.png">
+    <link rel="icon" type="image/png" href="images/favicon-32.png">
+    <link rel="icon" href="images/favicon.ico">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div id="cur"></div>
-  <div id="ring"></div>
+    <!-- NAVBAR -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="#hero" class="nav-brand">
+                <span class="nav-brand-mark"><i data-lucide="terminal-square" style="width:16px;height:16px;"></i></span>
+                <span class="nav-brand-name">ash@frank</span>
+            </a>
 
-  <!-- NAV -->
-  <nav>
-    <a href="#hero" class="logo">ASHWITH_FRANK</a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
 
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-text">
-      <p class="eyebrow">BCA STUDENT · DEVELOPER · SECURITY ENTHUSIAST</p>
-      <h1>Hi, I'm<br><em>Ashwith Frank</em></h1>
-      <p class="hero-desc">
-        I build things for the web, hack hardware with ESP32, and explore cybersecurity — one project at a time. Currently studying BCA and assembling a team to research &amp; counter cyber threats.
-      </p>
-      <a href="#projects" class="pxl-btn primary">SEE MY WORK <span class="arr">&#8594;</span></a>
+            <div class="nav-actions">
+                <a href="https://github.com/ashwithfrank/" target="_blank" rel="noopener" class="btn btn-outline btn-sm nav-gh-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                    </svg>
+                    <span class="nav-gh-text">GitHub</span>
+                </a>
+                <a href="#contact" class="btn btn-solid btn-sm">Get in Touch</a>
+                <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" type="button">
+                    <i data-lucide="menu" class="nav-toggle-icon-menu" style="width:16px;height:16px;"></i>
+                    <i data-lucide="x" class="nav-toggle-icon-close" style="width:16px;height:16px;display:none;"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="nav-mobile-drawer" id="navMobileDrawer">
+            <ul class="nav-mobile-links">
+                <li><a href="#about" class="nav-mobile-link"><i data-lucide="user" style="width:15px;height:15px;"></i> About</a></li>
+                <li><a href="#skills" class="nav-mobile-link"><i data-lucide="layers" style="width:15px;height:15px;"></i> Skills</a></li>
+                <li><a href="#projects" class="nav-mobile-link"><i data-lucide="folder-git-2" style="width:15px;height:15px;"></i> Projects</a></li>
+                <li><a href="#contact" class="nav-mobile-link"><i data-lucide="mail" style="width:15px;height:15px;"></i> Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-bg-overlay">
+        <div class="bg-grid-lines"></div>
+        <div class="bg-ambient-glow"></div>
     </div>
-    <div class="hero-visual">
-      <div class="blob">
-        AF
-        <span class="blob-cursor"></span>
-      </div>
-    </div>
-  </section>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <p class="pxl-label reveal">ABOUT ME</p>
-    <h2 class="sec-title reveal">Builder. Hacker.<br>Explorer.</h2>
-    <div class="divider reveal"></div>
-    <p class="sub reveal">
-      I'm Ashwith Frank — most people call me Ash. I'm a BCA student from India with a deep passion for cybersecurity, game development, and embedded hardware. I believe in learning by building and sharing knowledge openly.
-    </p>
-    <div class="about-cards">
-      <div class="acard pxl-card reveal">
-        <span data-pixel-icon="shield" data-size="44"></span>
-        <div>
-          <h4>Cybersecurity</h4>
-          <p>Passionate about ethical hacking, network security, and building a private team to research and counter cyber threats.</p>
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-eyebrow reveal"><span class="dot"></span> BCA STUDENT · BASED IN INDIA</div>
+
+            <h1 class="hero-h1 reveal">
+                Hi, I'm Ashwith Frank —
+                <em>I build, break, and secure things.</em>
+            </h1>
+
+            <p class="hero-desc reveal">
+                I build things for the web, hack hardware with ESP32, and explore cybersecurity — one project at a time. Currently studying BCA and assembling a private team to research and counter cyber threats.
+            </p>
+
+            <div class="hero-actions reveal">
+                <a href="#projects" class="btn btn-solid"><i data-lucide="arrow-down" style="width:15px;height:15px;"></i> See My Work</a>
+                <a href="#contact" class="btn btn-outline">Get in Touch</a>
+            </div>
+
+            <div class="hero-stage reveal">
+                <div class="hero-terminal">
+                    <div class="term-bar">
+                        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+                        <span class="term-path">ash@frank:~</span>
+                    </div>
+                    <div class="term-body" id="termBody"></div>
+                </div>
+
+                <div class="hero-chip hero-chip-tl">
+                    <span class="hero-chip-icon"><i data-lucide="shield" style="width:13px;height:13px;"></i></span>
+                    Cybersecurity
+                </div>
+                <div class="hero-chip hero-chip-tr">
+                    <span class="hero-chip-icon"><i data-lucide="gamepad-2" style="width:13px;height:13px;"></i></span>
+                    Unity / C#
+                </div>
+                <div class="hero-chip hero-chip-bl">
+                    <span class="hero-chip-icon"><i data-lucide="cpu" style="width:13px;height:13px;"></i></span>
+                    ESP32 / IoT
+                </div>
+                <div class="hero-chip hero-chip-br">
+                    <span class="hero-chip-icon"><i data-lucide="terminal" style="width:13px;height:13px;"></i></span>
+                    Ethical Hacking
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="acard pxl-card reveal">
-        <span data-pixel-icon="gamepad" data-size="44"></span>
-        <div>
-          <h4>Game Development</h4>
-          <p>Creating interactive experiences in Unity — from mechanics to shaders to storytelling.</p>
+    </section>
+
+    <div class="hr"></div>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-head-center reveal">
+                <span class="section-label">About Me</span>
+                <h2 class="section-h2">Builder. Hacker.<br><em>Explorer.</em></h2>
+                <p class="section-p">I'm Ashwith Frank — most people call me Ash. I'm a BCA student from India with a deep passion for cybersecurity, game development, and embedded hardware. I believe in learning by building and sharing knowledge openly.</p>
+            </div>
+
+            <div class="about-grid reveal">
+                <div class="about-card">
+                    <div class="bc-icon"><i data-lucide="shield" style="width:20px;height:20px;"></i></div>
+                    <h3 class="bc-title">Cybersecurity</h3>
+                    <p class="bc-text">Passionate about ethical hacking, network security, and building a private team to research and counter cyber threats.</p>
+                </div>
+                <div class="about-card">
+                    <div class="bc-icon"><i data-lucide="gamepad-2" style="width:20px;height:20px;"></i></div>
+                    <h3 class="bc-title">Game Development</h3>
+                    <p class="bc-text">Creating interactive experiences in Unity — from mechanics to shaders to storytelling.</p>
+                </div>
+                <div class="about-card">
+                    <div class="bc-icon"><i data-lucide="cpu" style="width:20px;height:20px;"></i></div>
+                    <h3 class="bc-title">Hardware &amp; IoT</h3>
+                    <p class="bc-text">Tinkering with ESP32 microcontrollers to build smart devices and embedded systems.</p>
+                </div>
+                <div class="about-card">
+                    <div class="bc-icon"><i data-lucide="camera" style="width:20px;height:20px;"></i></div>
+                    <h3 class="bc-title">Content &amp; Media</h3>
+                    <p class="bc-text">Managing Instagram editing and posting for a music artist — blending creativity with strategy.</p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="acard pxl-card reveal">
-        <span data-pixel-icon="chip" data-size="44"></span>
-        <div>
-          <h4>Hardware &amp; IoT</h4>
-          <p>Tinkering with ESP32 microcontrollers to build smart devices and embedded systems.</p>
+    </section>
+
+    <div class="hr"></div>
+
+    <!-- SKILLS -->
+    <section class="section" id="skills">
+        <div class="container">
+            <div class="section-head-center reveal">
+                <span class="section-label">What I Work With</span>
+                <h2 class="section-h2">Skills &amp;<br><em>Tools</em></h2>
+                <p class="section-p">A mix of security, development, and hardware skills built through hands-on learning.</p>
+            </div>
+
+            <div class="bento reveal">
+                <div class="bento-card sk-1">
+                    <div class="bc-icon"><i data-lucide="terminal" style="width:20px;height:20px;"></i></div>
+                    <h3 class="bc-title">Programming</h3>
+                    <p class="bc-text">Writing clean, efficient code across multiple languages for web, hardware, and scripting.</p>
+                    <div class="tag-row">
+                        <span class="tag-pill">Python</span><span class="tag-pill">C</span><span class="tag-pill">C++</span>
+                        <span class="tag-pill">C#</span><span class="tag-pill">Java</span><span class="tag-pill">HTML/CSS</span>
+                        <span class="tag-pill">JavaScript</span>
+                    </div>
+                </div>
+
+                <div class="bento-card sk-2">
+                    <div class="bc-icon"><i data-lucide="shield" style="width:20px;height:20px;"></i></div>
+                    <h3 class="bc-title">Cybersecurity</h3>
+                    <p class="bc-text">Ethical hacking, vulnerability assessment, network analysis, and threat research.</p>
+                    <div class="tag-row">
+                        <span class="tag-pill">Ethical Hacking</span><span class="tag-pill">Kali Linux</span>
+                        <span class="tag-pill">Networking</span><span class="tag-pill">OSINT</span>
+                    </div>
+                </div>
+
+                <div class="bento-card sk-3">
+                    <div class="bc-big-num">7+</div>
+                    <div class="bc-big-label">Languages &amp; Tools in Active Use</div>
+                </div>
+
+                <div class="bento-card sk-4">
+                    <div class="bc-icon"><i data-lucide="gamepad-2" style="width:20px;height:20px;"></i></div>
+                    <h3 class="bc-title">Game Dev</h3>
+                    <p class="bc-text">Designing and building games in Unity — from concept to playable build.</p>
+                    <div class="tag-row">
+                        <span class="tag-pill">Unity</span><span class="tag-pill">C#</span><span class="tag-pill">Android Studio</span>
+                        <span class="tag-pill">Game Design</span>
+                    </div>
+                </div>
+
+                <div class="bento-card sk-5">
+                    <div class="bc-icon"><i data-lucide="cpu" style="width:20px;height:20px;"></i></div>
+                    <h3 class="bc-title">Hardware / IoT</h3>
+                    <p class="bc-text">Building embedded systems and smart devices using ESP32 and related tools.</p>
+                    <div class="tag-row">
+                        <span class="tag-pill">ESP32</span><span class="tag-pill">Arduino</span><span class="tag-pill">Embedded C</span>
+                    </div>
+                </div>
+
+                <div class="bento-card sk-6">
+                    <div class="bc-icon"><i data-lucide="globe" style="width:20px;height:20px;"></i></div>
+                    <h3 class="bc-title">Web Dev</h3>
+                    <p class="bc-text">Building responsive websites and web interfaces with modern technologies.</p>
+                    <div class="tag-row">
+                        <span class="tag-pill">HTML/CSS</span><span class="tag-pill">JavaScript</span>
+                    </div>
+                </div>
+
+                <div class="bento-card sk-7">
+                    <div class="bc-icon"><i data-lucide="camera" style="width:20px;height:20px;"></i></div>
+                    <h3 class="bc-title">Content Creation</h3>
+                    <p class="bc-text">Photo and video editing, social media management, and creative storytelling.</p>
+                    <div class="tag-row">
+                        <span class="tag-pill">Video Editing</span><span class="tag-pill">Photoshop</span><span class="tag-pill">Instagram</span>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="acard pxl-card reveal">
-        <span data-pixel-icon="camera" data-size="44"></span>
-        <div>
-          <h4>Content &amp; Media</h4>
-          <p>Managing Instagram editing and posting for a music artist — blending creativity with strategy.</p>
+    </section>
+
+    <div class="hr"></div>
+
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+        <div class="container">
+            <div class="section-head-center reveal">
+                <span class="section-label">What I've Built</span>
+                <h2 class="section-h2">Selected<br><em>Projects</em></h2>
+                <p class="section-p">Web apps, mobile games on the Play Store, and ongoing explorations in security and hardware.</p>
+            </div>
+
+            <div class="dl-grid reveal">
+                <div class="dl-card">
+                    <div class="dl-icon"><i data-lucide="terminal" style="width:20px;height:20px;"></i></div>
+                    <p class="dl-type">Web App</p>
+                    <h3 class="dl-name">Tower of Hanoi</h3>
+                    <p class="dl-sub">An interactive web app that solves the Tower of Hanoi puzzle — enter any number of disks and instantly see every step and total moves.</p>
+                    <a href="projects/tower-of-hanoi/" class="btn btn-outline btn-sm">
+                        View Project <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+                    </a>
+                </div>
+
+                <div class="dl-card">
+                    <div class="dl-icon"><i data-lucide="gamepad-2" style="width:20px;height:20px;"></i></div>
+                    <p class="dl-type">Mobile Game · Play Store</p>
+                    <h3 class="dl-name">Games of Grid</h3>
+                    <p class="dl-sub">A sliding tile puzzle game on the Play Store — 3x3 and 4x4 grids, easy &amp; hard modes, built with AlphaOmega Studio.</p>
+                    <a href="projects/games-of-grid/" class="btn btn-outline btn-sm">
+                        View Project <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+                    </a>
+                </div>
+
+                <div class="dl-card">
+                    <div class="dl-icon"><i data-lucide="cpu" style="width:20px;height:20px;"></i></div>
+                    <p class="dl-type">More Coming Soon</p>
+                    <h3 class="dl-name">Cybersecurity &amp; Hardware</h3>
+                    <p class="dl-sub">Projects in cybersecurity and ESP32 hardware are currently being documented. Check back soon — or reach out to hear about them directly.</p>
+                    <a href="#contact" class="btn btn-outline btn-sm">
+                        Get in Touch <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- SKILLS -->
-  <section id="skills">
-    <p class="pxl-label reveal">WHAT I WORK WITH</p>
-    <h2 class="sec-title reveal">Skills &amp; Tools</h2>
-    <div class="divider reveal"></div>
-    <p class="sub reveal">A mix of security, development, and hardware skills built through hands-on learning.</p>
-    <div class="skills-grid">
+    <div class="hr"></div>
 
-      <div class="scard pxl-card reveal">
-        <span data-pixel-icon="terminal" data-size="40"></span>
-        <h3>Programming</h3>
-        <p>Writing clean, efficient code across multiple languages for web, hardware, and scripting.</p>
-        <div class="tags">
-          <span class="pxl-tag">Python</span><span class="pxl-tag">C</span>
-          <span class="pxl-tag">C++</span><span class="pxl-tag">C#</span>
-          <span class="pxl-tag">Java</span><span class="pxl-tag">HTML/CSS</span>
-          <span class="pxl-tag">JavaScript</span>
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="section-head-center reveal">
+                <span class="section-label">Let's Connect</span>
+                <h2 class="section-h2">Get in<br><em>Touch</em></h2>
+                <p class="section-p">Whether you want to collaborate on a project, talk cybersecurity, or just say hi — my inbox is open.</p>
+            </div>
+
+            <div class="contact-actions reveal" style="justify-content: center;">
+                <a href="mailto:anilbantwal6@gmail.com" class="btn btn-solid">
+                    <i data-lucide="mail" style="width:15px;height:15px;"></i> Send an Email
+                </a>
+                <a href="https://github.com/ashwithfrank/" target="_blank" rel="noopener" class="btn btn-outline">
+                    <i data-lucide="github" style="width:15px;height:15px;"></i> GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/ashwith-frank/" target="_blank" rel="noopener" class="btn btn-outline">
+                    <i data-lucide="linkedin" style="width:15px;height:15px;"></i> LinkedIn
+                </a>
+            </div>
         </div>
-      </div>
+    </section>
 
-      <div class="scard pxl-card reveal">
-        <span data-pixel-icon="shield" data-size="40"></span>
-        <h3>Cybersecurity</h3>
-        <p>Ethical hacking, vulnerability assessment, network analysis, and threat research.</p>
-        <div class="tags">
-          <span class="pxl-tag">Ethical Hacking</span><span class="pxl-tag">Kali Linux</span>
-          <span class="pxl-tag">Networking</span><span class="pxl-tag">OSINT</span>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <span class="footer-brand-mark"><i data-lucide="terminal-square" style="width:14px;height:14px;"></i></span>
+                <span class="footer-copy">&copy; 2026 Ashwith Frank</span>
+            </div>
+            <nav class="footer-links">
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="https://github.com/ashwithfrank/" target="_blank" rel="noopener">GitHub</a>
+            </nav>
         </div>
-      </div>
+    </footer>
 
-      <div class="scard pxl-card reveal">
-        <span data-pixel-icon="gamepad" data-size="40"></span>
-        <h3>Game Dev</h3>
-        <p>Designing and building games in Unity — from concept to playable build.</p>
-        <div class="tags">
-          <span class="pxl-tag">Unity</span><span class="pxl-tag">C#</span>
-          <span class="pxl-tag">Android Studio</span><span class="pxl-tag">Java</span>
-          <span class="pxl-tag">Game Design</span><span class="pxl-tag">Game Development</span>
-        </div>
-      </div>
-
-      <div class="scard pxl-card reveal">
-        <span data-pixel-icon="chip" data-size="40"></span>
-        <h3>Hardware / IoT</h3>
-        <p>Building embedded systems and smart devices using ESP32 and related tools.</p>
-        <div class="tags">
-          <span class="pxl-tag">ESP32</span><span class="pxl-tag">Arduino</span>
-          <span class="pxl-tag">IoT</span><span class="pxl-tag">Embedded C</span>
-        </div>
-      </div>
-
-      <div class="scard pxl-card reveal">
-        <span data-pixel-icon="globe" data-size="40"></span>
-        <h3>Web Dev</h3>
-        <p>Building responsive websites and web interfaces with modern technologies.</p>
-        <div class="tags">
-          <span class="pxl-tag">HTML/CSS</span><span class="pxl-tag">JavaScript</span>
-        </div>
-      </div>
-
-      <div class="scard pxl-card reveal">
-        <span data-pixel-icon="camera" data-size="40"></span>
-        <h3>Content Creation</h3>
-        <p>Photo and video editing, social media management, and creative storytelling.</p>
-        <div class="tags">
-          <span class="pxl-tag">Video Editing</span><span class="pxl-tag">Photoshop</span>
-          <span class="pxl-tag">Instagram</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- PROJECTS -->
-  <section id="projects">
-    <p class="pxl-label reveal">WHAT I'VE BUILT</p>
-    <h2 class="sec-title reveal">Projects</h2>
-    <div class="divider reveal"></div>
-    <p class="sub reveal">Web apps, mobile games on the Play Store, and ongoing explorations in security and hardware.</p>
-    <div class="proj-grid">
-
-      <!-- WEB APP -->
-      <div class="pcard pxl-card reveal">
-        <div class="pthumb"><span data-pixel-icon="terminal" data-size="52"></span></div>
-        <div class="pbody">
-          <p class="ptype">Web App</p>
-          <h3>Tower of Hanoi</h3>
-          <p>An interactive web app that solves the Tower of Hanoi puzzle — enter any number of disks and instantly see every step and total moves.</p>
-          <a href="projects/tower-of-hanoi/" class="plink">VIEW PROJECT <span class="arr">&#8594;</span></a>
-        </div>
-      </div>
-
-      <!-- GAME -->
-      <div class="pcard pxl-card reveal">
-        <div class="pthumb"><span data-pixel-icon="gamepad" data-size="52"></span></div>
-        <div class="pbody">
-          <p class="ptype">Mobile Game · Play Store</p>
-          <h3>Games of Grid</h3>
-          <p>A sliding tile puzzle game on the Play Store — 3x3 and 4x4 grids, easy &amp; hard modes, built with AlphaOmega Studio.</p>
-          <a href="projects/games-of-grid/" class="plink">VIEW PROJECT <span class="arr">&#8594;</span></a>
-        </div>
-      </div>
-
-      <!-- COMING SOON -->
-      <div class="pcard pxl-card reveal">
-        <div class="pthumb"><span data-pixel-icon="chip" data-size="52"></span></div>
-        <div class="pbody">
-          <p class="ptype">More Coming Soon</p>
-          <h3>Cybersecurity &amp; Hardware</h3>
-          <p>Projects in cybersecurity and ESP32 hardware are currently being documented. Check back soon — or reach out to hear about them directly.</p>
-          <a href="#contact" class="plink">GET IN TOUCH <span class="arr">&#8594;</span></a>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <p class="pxl-label">LET'S CONNECT</p>
-    <h2 class="sec-title">Get in Touch</h2>
-    <div class="divider"></div>
-    <p class="sub">Whether you want to collaborate on a project, talk cybersecurity, or just say hi — my inbox is open.</p>
-    <div class="contact-row">
-      <a href="mailto:anilbantwal6@gmail.com" class="cbtn primary"><span data-pixel-icon="mail" data-size="20"></span> SEND AN EMAIL</a>
-      <a href="https://github.com/ashwithfrank/" target="_blank" rel="noopener" class="cbtn"><span data-pixel-icon="github" data-size="20"></span> GITHUB</a>
-      <a href="https://www.linkedin.com/in/ashwith-frank/" target="_blank" rel="noopener" class="cbtn"><span data-pixel-icon="link" data-size="20"></span> LINKEDIN</a>
-    </div>
-    <p class="foot">© 2026 ASHWITH FRANK · BUILT PIXEL BY PIXEL</p>
-  </section>
-
-  <div class="pxl-strip"></div>
-
-  <script src="pixel-icons.js"></script>
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
