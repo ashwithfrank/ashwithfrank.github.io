@@ -168,9 +168,11 @@ code {
 .nav-mobile-link:hover { background: rgba(255,255,255,0.08); color: var(--text); }
 
 @media (max-width: 760px) {
+    .nav { border-radius: 20px; }
     .nav-links { display: none; }
     .nav-toggle { display: flex; }
-    .nav-gh-text { display: none; }
+    .nav-gh-btn { display: none; }
+    .nav-actions > .btn-solid { display: none; }
 }
 
 /* ──────────────────────────────────────────
