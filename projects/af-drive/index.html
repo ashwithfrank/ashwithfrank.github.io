@@ -1,1 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFDrive — Ashwith Frank</title>
+    <link rel="icon" type="image/png" href="../../images/favicon-16.png">
+    <link rel="icon" type="image/png" href="../../images/favicon-32.png">
+    <link rel="icon" href="../../images/favicon.ico">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="../../style.css">
+
+    <style>
+        .proj-hero { padding: 160px 0 70px; }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-muted);
+            text-decoration: none; margin-bottom: 28px; transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--text); }
+        .proj-hero-icon { width: 52px; height: 52px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: var(--text); margin-bottom: 22px; }
+        .proj-hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; }
+        .proj-hero .tagline { margin-top: 16px; max-width: 560px; color: var(--text-soft); font-size: 1.02rem; line-height: 1.7; }
+
+        .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 50px; }
+        .meta-chip { font-family: var(--f-mono); font-size: 0.72rem; padding: 5px 12px; border-radius: var(--radius-pill); background: var(--bg-card); border: 1px solid var(--border); color: var(--text-soft); }
+        .meta-chip.accent { color: var(--term-green); border-color: rgba(126,224,168,0.3); }
+
+        .prose h2 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; margin: 48px 0 16px; }
+        .prose p { color: var(--text-soft); font-size: 0.96rem; line-height: 1.8; margin-bottom: 14px; }
+        .prose ul { margin: 0 0 14px 20px; color: var(--text-soft); font-size: 0.96rem; line-height: 1.85; }
+        .prose li { margin-bottom: 4px; }
+        .prose li strong { color: var(--text); font-weight: 600; }
+
+        .repo-card {
+            display: flex; align-items: center; gap: 18px; background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius-xl); padding: 24px 26px; margin: 20px 0 40px; text-decoration: none;
+            transition: border-color 0.25s ease, background 0.25s ease;
+        }
+        .repo-card:hover { border-color: var(--border-hi); background: var(--bg-card-hi); }
+        .rc-icon { flex-shrink: 0; width: 50px; height: 50px; background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: var(--text); }
+        .rc-info { flex: 1; min-width: 0; }
+        .rc-info h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+        .rc-info p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; margin: 0; }
+        .rc-badge { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--text); color: var(--bg); font-size: 0.78rem; font-weight: 600; border-radius: var(--radius-pill); flex-shrink: 0; white-space: nowrap; }
+
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 10px; margin: 20px 0; }
+        .feature-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; transition: border-color 0.25s ease; }
+        .feature-item:hover { border-color: var(--border-hi); }
+        .fi-icon { width: 36px; height: 36px; background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--text-soft); margin-bottom: 14px; }
+        .feature-item h4 { font-size: 0.92rem; font-weight: 600; margin-bottom: 8px; }
+        .feature-item p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; margin: 0; }
+
+        .stack-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 8px; }
+        .cta-bar { margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 12px; }
+
+        .arch-block {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl);
+            padding: 22px 24px; margin: 20px 0; overflow-x: auto;
+        }
+        .arch-block pre { font-family: var(--f-mono); font-size: 0.78rem; color: var(--text-soft); line-height: 1.7; white-space: pre; }
+
+        @media (max-width: 768px) {
+            .proj-hero { padding: 130px 0 50px; }
+            .repo-card { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-bg-overlay">
+        <div class="bg-grid-lines"></div>
+        <div class="bg-ambient-glow"></div>
+    </div>
+
+    <div class="container-sm">
+        <section class="proj-hero">
+            <a href="../../index.html#projects" class="back-link"><i data-lucide="arrow-left" style="width:14px;height:14px;"></i> Back to projects</a>
+            <div class="proj-hero-icon"><i data-lucide="hard-drive" style="width:24px;height:24px;"></i></div>
+            <p class="dl-type">Self-Hosted Web App</p>
+            <h1>AFDrive</h1>
+            <p class="tagline">Your personal cloud. Your phone. Your files. A lightweight, self-hosted file server that runs on an old Android phone through Termux — no internet, no third-party cloud, no subscription.</p>
+
+            <div class="meta-row">
+                <span class="meta-chip accent">Active</span>
+                <span class="meta-chip">Solo Project</span>
+                <span class="meta-chip">Flask</span>
+                <span class="meta-chip">SQLite</span>
+                <span class="meta-chip">Self-Hosted</span>
+            </div>
+        </section>
+
+        <div class="prose">
+            <h2>Overview</h2>
+            <p>AFDrive turns any old Android phone into a private cloud storage server. Instead of paying for cloud storage or trusting a third party with your files, AFDrive runs entirely on-device via Termux, serving a clean web dashboard to any other device on the same Wi-Fi network — laptop, tablet, or another phone.</p>
+            <p>The backend is a Flask + SQLite app; the frontend is vanilla HTML, CSS, and JavaScript — no Node.js, no build step, no heavy frameworks. Files stay exactly where they are on the phone's filesystem; the database only ever holds account credentials, never file data, so the listing you see is always read live and can never drift out of sync with what's actually on disk.</p>
+
+            <h2>Repository</h2>
+        </div>
+
+        <a href="https://github.com/ashwithfrank/AFDrive" target="_blank" rel="noopener" class="repo-card">
+            <div class="rc-icon"><i data-lucide="github" style="width:24px;height:24px;"></i></div>
+            <div class="rc-info">
+                <h3>ashwithfrank/AFDrive</h3>
+                <p>Flask + SQLite &nbsp;&middot;&nbsp; Vanilla JS &nbsp;&middot;&nbsp; MIT-style personal project &nbsp;&middot;&nbsp; Runs on Termux</p>
+            </div>
+            <span class="rc-badge"><i data-lucide="external-link" style="width:13px;height:13px;"></i> View on GitHub</span>
+        </a>
+
+        <div class="prose">
+            <h2>How It Runs</h2>
+            <p>The whole setup lives on the phone itself — install Termux, install Python, clone the repo, and start the Flask server. Any device on the same network can then log in through a browser at the phone's local IP address.</p>
+        </div>
+
+        <div class="arch-block">
+            <pre>Phone (Termux)
+  └─ python app.py  →  0.0.0.0:5000
+                          │
+      same Wi-Fi network │
+                          ▼
+   Laptop / Tablet / Phone  →  http://PHONE_IP:5000</pre>
+        </div>
+
+        <div class="prose">
+            <h2>Core Features</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="fi-icon"><i data-lucide="folder-tree" style="width:18px;height:18px;"></i></div>
+                    <h4>Full File Manager</h4>
+                    <p>Browse folders, breadcrumb navigation, create/rename/delete, sort by name, size, or date, and recursive search.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="fi-icon"><i data-lucide="upload-cloud" style="width:18px;height:18px;"></i></div>
+                    <h4>Drag &amp; Drop Upload</h4>
+                    <p>Multi-file upload with a live progress bar and duplicate-safe naming — no file ever gets silently overwritten.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="fi-icon"><i data-lucide="eye" style="width:18px;height:18px;"></i></div>
+                    <h4>Inline Preview</h4>
+                    <p>Images and text files preview directly in the browser; PDFs open in an embedded viewer.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="fi-icon"><i data-lucide="shield-check" style="width:18px;height:18px;"></i></div>
+                    <h4>Traversal-Safe by Design</h4>
+                    <p>Every filesystem path is resolved through a single safe-join function that blocks path traversal, absolute paths, and symlink escapes.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="fi-icon"><i data-lucide="moon" style="width:18px;height:18px;"></i></div>
+                    <h4>Light / Dark Mode</h4>
+                    <p>Mobile-first responsive UI with a theme toggle that's remembered across sessions via localStorage.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="fi-icon"><i data-lucide="lock" style="width:18px;height:18px;"></i></div>
+                    <h4>Login-Protected</h4>
+                    <p>Hashed passwords, protected routes, and generic auth errors that reveal nothing about valid usernames.</p>
+                </div>
+            </div>
+
+            <h2>Security Notes</h2>
+            <ul>
+                <li><strong>No plaintext passwords</strong> — hashed with Werkzeug's <code>generate_password_hash</code>.</li>
+                <li><strong>Path safety</strong> — every upload, download, rename, and delete is resolved through <code>fs_utils.safe_join_storage()</code> before touching disk.</li>
+                <li><strong>Streamed transfers</strong> — downloads use Flask's <code>send_file</code> with range support, so large files never load fully into RAM.</li>
+                <li><strong>Debug mode off by default</strong> — has to be explicitly enabled, and never in production.</li>
+                <li><strong>Security headers set on every response</strong> — <code>X-Content-Type-Options</code>, <code>X-Frame-Options</code>, and a restrictive Content-Security-Policy.</li>
+            </ul>
+            <p>Built for trusted local-network use — not hardened for direct exposure to the public internet without a VPN or reverse proxy in front of it.</p>
+
+            <h2>Tech Stack</h2>
+            <div class="stack-row">
+                <span class="tag-pill">Python</span><span class="tag-pill">Flask</span><span class="tag-pill">SQLite</span>
+                <span class="tag-pill">HTML</span><span class="tag-pill">CSS</span><span class="tag-pill">JavaScript</span>
+                <span class="tag-pill">Termux</span>
+            </div>
+
+            <h2>What I Learned</h2>
+            <p>This project pushed me past "make it work" into "make it safe by default" — every path that touches the filesystem funnels through one audited function, which made the security model much easier to reason about than scattering checks across routes. Designing around a phone as the server (rather than a always-on machine) also meant thinking hard about resilience: sessions, wake locks, and what happens when Termux gets killed in the background.</p>
+        </div>
+
+        <div class="cta-bar">
+            <a href="https://github.com/ashwithfrank/AFDrive" target="_blank" rel="noopener" class="btn btn-solid"><i data-lucide="github" style="width:15px;height:15px;"></i> View on GitHub</a>
+            <a href="../../index.html#projects" class="btn btn-outline"><i data-lucide="arrow-left" style="width:15px;height:15px;"></i> All Projects</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <span class="footer-brand-mark"><i data-lucide="terminal-square" style="width:14px;height:14px;"></i></span>
+                <span class="footer-copy">&copy; 2026 Ashwith Frank</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>if (window.lucide) lucide.createIcons();</script>
+</body>
+</html>
