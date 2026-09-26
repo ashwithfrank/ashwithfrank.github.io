@@ -1,1 +1,102 @@
+# .github/workflows/generate-drive-manifest.yml
+#
+# Auto-generates drive/manifest.json whenever files inside drive/ change.
+# drive.html reads this file first (0 API calls), falling back to the
+# GitHub Trees API only when the manifest doesn't exist yet.
 
+name: Generate Drive Manifest
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'drive/**'
+      - '!drive/manifest.json'   # avoid infinite loop
+
+  workflow_dispatch:             # allow manual runs from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  build-manifest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Generate manifest.json
+        run: |
+          python3 - <<'PYEOF'
+          import os, json
+
+          SITE_BASE  = 'https://ashwithfrank.github.io'
+          RAW_BASE   = 'https://raw.githubusercontent.com/ashwithfrank/ashwithfrank.github.io/main'
+          DRIVE_PATH = 'drive'
+          EXCLUDED   = {
+              'drive.html', 'index.html', 'manifest.json',
+              '.gitkeep', 'README.md', 'readme.md', '.DS_Store',
+          }
+          TYPE_MAP = {
+              'pdf':   ['pdf'],
+              'doc':   ['doc','docx','xls','xlsx','ppt','pptx','odt','ods','odp','txt','csv','rtf'],
+              'image': ['jpg','jpeg','png','gif','webp','svg','bmp','ico','tiff','avif'],
+              'video': ['mp4','webm','ogv','mov','avi','mkv','m4v'],
+              'audio': ['mp3','wav','ogg','aac','flac','m4a','opus'],
+          }
+
+          def get_type(ext):
+              for t, exts in TYPE_MAP.items():
+                  if ext in exts:
+                      return t
+              return 'other'
+
+          entries = []
+
+          for root, dirs, files in os.walk(DRIVE_PATH):
+              # Sort dirs for deterministic output; skip hidden dirs
+              dirs[:] = sorted(d for d in dirs if not d.startswith('.'))
+              rel_root = root.replace('\\', '/')
+
+              # Add sub-directory entries (skip the root drive/ itself)
+              if rel_root != DRIVE_PATH:
+                  name = os.path.basename(rel_root)
+                  entries.append({
+                      'kind': 'folder',
+                      'name': name,
+                      'path': rel_root,
+                  })
+
+              for fname in sorted(files):
+                  if fname in EXCLUDED or fname.startswith('.'):
+                      continue
+                  fpath = os.path.join(root, fname).replace('\\', '/')
+                  size  = os.path.getsize(fpath)
+                  dot   = fname.rfind('.')
+                  ext   = fname[dot+1:].lower() if dot > -1 else ''
+                  entries.append({
+                      'kind':  'file',
+                      'name':  fname,
+                      'path':  fpath,
+                      'ext':   ext,
+                      'type':  get_type(ext),
+                      'size':  size,
+                      'url':   f'{SITE_BASE}/{fpath}',
+                      'dlUrl': f'{RAW_BASE}/{fpath}',
+                  })
+
+          out = f'{DRIVE_PATH}/manifest.json'
+          with open(out, 'w') as f:
+              json.dump(entries, f, separators=(',', ':'))
+
+          print(f'✅  Generated {out} — {len(entries)} entries')
+          PYEOF
+
+      - name: Commit manifest.json
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: regenerate drive/manifest.json [skip ci]"
+          file_pattern: drive/manifest.json
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
