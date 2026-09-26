@@ -1,190 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>AF · Drive</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="icon" type="image/png" href="images/favicon-16.png">
-  <link rel="icon" type="image/png" href="images/favicon-32.png">
-  <link rel="icon" href="images/favicon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
-    :root {
+    :root{
       --cream:#f7f2e9;--cream-dark:#ede6d6;--cream-mid:#e0d8c6;
       --gold:#b8933f;--gold-light:#d4aa5a;--gold-dim:rgba(184,147,63,.15);--gold-dim2:rgba(184,147,63,.08);
       --ink:#1c1612;--ink-mid:#4a3f30;--ink-soft:#7a6e5e;--white:#fdfaf4;
       --radius:10px;--transition:.2s cubic-bezier(.4,0,.2,1);
+      --header-h:60px;--nav-h:46px;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
     body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:15px;min-height:100vh}
     body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
 
-    header{position:sticky;top:0;z-index:100;background:rgba(247,242,233,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--cream-mid);padding:0 28px;height:60px;display:flex;align-items:center;gap:16px}
+    /* ── TOP HEADER: brand + search + view toggle ── */
+    header{
+      position:sticky;top:0;z-index:101;
+      background:rgba(247,242,233,.95);backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--cream-mid);
+      padding:0 24px;height:var(--header-h);
+      display:flex;align-items:center;gap:12px;
+    }
     .brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
     .brand-monogram{width:34px;height:34px;background:var(--ink);border-radius:8px;display:grid;place-items:center;font-family:'Playfair Display',serif;font-weight:700;font-size:13px;color:var(--gold-light)}
     .brand-label{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--ink)}
     .brand-label em{color:var(--gold);font-style:italic}
-
-    .nav-btns{display:flex;gap:4px;flex-shrink:0}
-    .nav-btn{background:var(--cream-dark);border:1.5px solid var(--cream-mid);width:32px;height:32px;border-radius:8px;cursor:pointer;display:grid;place-items:center;color:var(--ink-mid);transition:var(--transition);flex-shrink:0}
-    .nav-btn:hover:not(:disabled){background:var(--white);border-color:var(--gold-light);color:var(--gold);box-shadow:0 1px 6px rgba(0,0,0,.08)}
-    .nav-btn:disabled{opacity:.3;cursor:not-allowed}
-    .breadcrumb-bar{flex:1;display:flex;align-items:center;background:var(--white);border:1.5px solid var(--cream-mid);border-radius:8px;padding:0 6px;height:36px;overflow:hidden;min-width:0}
-    .crumb{display:flex;align-items:center;gap:5px;padding:4px 8px;border-radius:6px;font-size:13px;font-weight:500;color:var(--ink-soft);cursor:pointer;white-space:nowrap;transition:var(--transition);flex-shrink:0;border:none;background:none;font-family:'DM Sans',sans-serif}
-    .crumb:hover{background:var(--gold-dim);color:var(--gold)}
-    .crumb.active{color:var(--ink);cursor:default}
-    .crumb.active:hover{background:none;color:var(--ink)}
-    .crumb-sep{color:var(--cream-mid);font-size:16px;flex-shrink:0;user-select:none}
-
-    .header-right{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      flex:1;
-      min-width:0;
-    }
+    .spacer{flex:1}
+    .header-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+    .search-wrap{position:relative}
+    .search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--ink-soft);pointer-events:none}
+    .search-input{background:var(--white);border:1.5px solid var(--cream-mid);border-radius:8px;padding:7px 12px 7px 32px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);outline:none;width:240px;transition:var(--transition)}
+    .search-input::placeholder{color:var(--ink-soft)}
+    .search-input:focus{border-color:var(--gold-light);box-shadow:0 0 0 3px var(--gold-dim)}
     .view-toggle{display:flex;background:var(--cream-mid);border-radius:7px;padding:3px;gap:2px}
     .view-btn{background:none;border:none;width:28px;height:28px;border-radius:5px;cursor:pointer;display:grid;place-items:center;color:var(--ink-soft);transition:var(--transition)}
     .view-btn.active,.view-btn:hover{background:var(--white);color:var(--gold);box-shadow:0 1px 4px rgba(0,0,0,.1)}
 
-    .search-wrap{
-      position:relative;
-      flex:1;
-      min-width:0;
+    /* ── NAV BAR: back/fwd + breadcrumb + filter tabs ── */
+    .nav-bar{
+      position:sticky;top:var(--header-h);z-index:100;
+      background:rgba(237,230,214,.96);backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--cream-mid);
+      padding:0 24px;height:var(--nav-h);
+      display:flex;align-items:center;gap:10px;
     }
-    .search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--ink-soft);pointer-events:none}
-    .search-input{
-      background:var(--white);
-      border:1.5px solid var(--cream-mid);
-      border-radius:8px;
-      padding:7px 11px 7px 32px;
-      font-family:'DM Sans',sans-serif;
-      font-size:13px;
-      color:var(--ink);
-      outline:none;
-      width:100%;
-      transition:var(--transition)
-    }
-    .search-input::placeholder{color:var(--ink-soft)}
-    .search-input:focus{border-color:var(--gold-light);box-shadow:0 0 0 3px var(--gold-dim)}
-
-    main{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:32px 24px 80px}
-
-    .toolbar{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      margin-bottom:20px;
-      animation:fadeUp .35s ease both
-    }
-
-    .filter-tabs{
-      display:flex;
-      gap:4px;
-      background:var(--cream-dark);
-      border-radius:8px;
-      padding:3px;
-      width:100%;
-    }
-
-    .filter-tab{
-      flex:1;
-    }
-
-    .path-toolbar{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      margin-bottom:18px;
-      animation:fadeUp .35s ease both;
-    }
-
-    .path-toolbar .breadcrumb-bar{
-      flex:1;
-    }
-    .filter-tabs{display:flex;gap:4px;background:var(--cream-dark);border-radius:8px;padding:3px}
-    .filter-tab{background:none;border:none;padding:5px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;color:var(--ink-soft);cursor:pointer;transition:var(--transition)}
+    .nav-btns{display:flex;gap:4px;flex-shrink:0}
+    .nav-btn{background:var(--cream-dark);border:1.5px solid var(--cream-mid);width:30px;height:30px;border-radius:8px;cursor:pointer;display:grid;place-items:center;color:var(--ink-mid);transition:var(--transition);flex-shrink:0}
+    .nav-btn:hover:not(:disabled){background:var(--white);border-color:var(--gold-light);color:var(--gold);box-shadow:0 1px 6px rgba(0,0,0,.08)}
+    .nav-btn:disabled{opacity:.28;cursor:not-allowed}
+    .breadcrumb-bar{flex:1;display:flex;align-items:center;background:var(--white);border:1.5px solid var(--cream-mid);border-radius:8px;padding:0 6px;height:32px;overflow:hidden;min-width:0}
+    .crumb{display:flex;align-items:center;gap:4px;padding:3px 7px;border-radius:5px;font-size:12.5px;font-weight:500;color:var(--ink-soft);cursor:pointer;white-space:nowrap;transition:var(--transition);flex-shrink:0;border:none;background:none;font-family:'DM Sans',sans-serif}
+    .crumb:hover{background:var(--gold-dim);color:var(--gold)}
+    .crumb.active{color:var(--ink);cursor:default}
+    .crumb.active:hover{background:none;color:var(--ink)}
+    .crumb-sep{color:var(--cream-mid);font-size:15px;flex-shrink:0;user-select:none}
+    .filter-tabs{display:flex;gap:3px;background:var(--cream-mid);border-radius:7px;padding:3px;flex-shrink:0}
+    .filter-tab{background:none;border:none;padding:4px 11px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--ink-soft);cursor:pointer;transition:var(--transition);white-space:nowrap}
     .filter-tab.active,.filter-tab:hover{background:var(--white);color:var(--gold);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+
+    /* ── SOURCE BADGE ── */
+    .src-badge{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:5px;flex-shrink:0}
+    .src-badge.manifest{background:rgba(60,180,100,.12);color:#2a8c50;border:1px solid rgba(60,180,100,.25)}
+    .src-badge.api{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(184,147,63,.25)}
+
+    /* ── MAIN ── */
+    main{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:28px 24px 80px}
     .item-count{font-size:13px;color:var(--ink-soft);margin-bottom:14px}
     .item-count strong{color:var(--ink)}
 
-    .state-msg{text-align:center;padding:80px 20px;animation:fadeUp .4s ease both}
-    .state-msg .icon{font-size:52px;margin-bottom:18px}
-    .state-msg h2{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;margin-bottom:8px}
+    /* ── STATES ── */
+    .state-msg{text-align:center;padding:72px 20px;animation:fadeUp .4s ease both}
+    .state-msg .icon{font-size:50px;margin-bottom:16px}
+    .state-msg h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;margin-bottom:8px}
     .state-msg p{color:var(--ink-soft);font-size:14px;max-width:380px;margin:0 auto}
-    .spinner{width:40px;height:40px;border:3px solid var(--cream-mid);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 20px}
+    .spinner{width:38px;height:38px;border:3px solid var(--cream-mid);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 18px}
     @keyframes spin{to{transform:rotate(360deg)}}
 
-    .items-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}
+    /* ── SECTION LABEL ── */
+    .section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:20px 0 8px;padding-left:2px}
+    .section-label:first-child{margin-top:0}
+
+    /* ── GRID ── */
+    .items-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:14px}
     .item-card{background:var(--white);border:1.5px solid var(--cream-mid);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:var(--transition);animation:fadeUp .32s ease both;display:flex;flex-direction:column}
     .item-card:hover{border-color:var(--gold-light);box-shadow:0 4px 20px rgba(28,22,18,.10);transform:translateY(-3px)}
-    .folder-card .item-thumb{height:100px;background:linear-gradient(135deg,#ede0c4 0%,#e5d5a8 100%);display:flex;align-items:center;justify-content:center}
-    .folder-svg{width:64px;height:52px}
+    /* folder card */
+    .folder-card .item-thumb{height:98px;background:linear-gradient(135deg,#ede0c4 0%,#e5d5a8 100%);display:flex;align-items:center;justify-content:center}
+    .folder-svg{width:60px;height:48px}
     .folder-svg-back{fill:#c9a84c;transition:fill .2s}
     .folder-svg-front{fill:#dbb95c;transition:fill .2s}
     .folder-card:hover .folder-svg-back{fill:var(--gold)}
     .folder-card:hover .folder-svg-front{fill:var(--gold-light)}
-    .file-card .item-thumb{height:100px;background:var(--cream-dark);display:grid;place-items:center;position:relative;overflow:hidden}
+    /* file card */
+    .file-card .item-thumb{height:98px;background:var(--cream-dark);display:grid;place-items:center;position:relative;overflow:hidden}
     .file-card .item-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-    .file-thumb-icon{font-size:36px;opacity:.7}
-    .type-badge{position:absolute;top:7px;right:7px;background:var(--ink);color:var(--gold-light);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:4px}
-    .item-info{padding:10px 12px 6px;flex:1}
+    .file-thumb-icon{font-size:34px;opacity:.7}
+    .type-badge{position:absolute;top:7px;right:7px;background:var(--ink);color:var(--gold-light);font-size:8.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:4px}
+    .item-info{padding:9px 11px 5px;flex:1}
     .item-name{font-size:12.5px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
     .item-meta{font-size:11px;color:var(--ink-soft)}
-    .item-actions{display:flex;gap:5px;padding:6px 10px 10px}
+    .item-actions{display:flex;gap:5px;padding:5px 10px 10px}
     .item-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;background:none;border:1px solid var(--cream-mid);border-radius:6px;padding:5px 6px;font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:500;color:var(--ink-mid);cursor:pointer;transition:var(--transition);text-decoration:none}
     .item-btn:hover{border-color:var(--gold-light);color:var(--gold);background:var(--gold-dim)}
     .item-btn.open-btn{background:var(--gold-dim2)}
     .item-btn.open-btn:hover{background:var(--gold-dim)}
 
+    /* ── LIST ── */
     .items-list{display:flex;flex-direction:column;gap:5px}
-    .item-row{background:var(--white);border:1.5px solid var(--cream-mid);border-radius:var(--radius);display:flex;align-items:center;padding:11px 16px;gap:14px;cursor:pointer;transition:var(--transition);animation:fadeUp .28s ease both}
+    .item-row{background:var(--white);border:1.5px solid var(--cream-mid);border-radius:var(--radius);display:flex;align-items:center;padding:10px 15px;gap:13px;cursor:pointer;transition:var(--transition);animation:fadeUp .28s ease both}
     .item-row:hover{border-color:var(--gold-light);box-shadow:0 2px 10px rgba(28,22,18,.08);transform:translateX(3px)}
     .item-row.folder-row{background:linear-gradient(90deg,rgba(219,185,92,.07) 0%,var(--white) 60%)}
     .item-row.folder-row:hover{background:linear-gradient(90deg,rgba(219,185,92,.14) 0%,var(--white) 70%)}
-    .row-icon{font-size:26px;flex-shrink:0}
+    .row-icon{font-size:24px;flex-shrink:0}
     .row-info{flex:1;min-width:0}
-    .row-name{font-size:14px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .row-name{font-size:13.5px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .folder-row .row-name{color:var(--ink-mid)}
-    .row-meta{font-size:12px;color:var(--ink-soft);margin-top:1px}
-    .row-badge{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:5px;flex-shrink:0}
-    .row-badge.ext-badge{background:var(--gold-dim);color:var(--gold)}
-    .row-badge.folder-badge{background:rgba(184,147,63,.1);color:var(--ink-mid);border:1px solid rgba(184,147,63,.25)}
-    .row-actions{display:flex;gap:6px;flex-shrink:0}
-    .btn-ghost{display:inline-flex;align-items:center;gap:5px;background:none;border:1.5px solid var(--cream-mid);color:var(--ink-mid);border-radius:7px;padding:6px 13px;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;cursor:pointer;transition:var(--transition);text-decoration:none}
+    .row-meta{font-size:11.5px;color:var(--ink-soft);margin-top:1px}
+    .row-badge{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:4px;flex-shrink:0}
+    .ext-badge{background:var(--gold-dim);color:var(--gold)}
+    .folder-badge{background:rgba(184,147,63,.1);color:var(--ink-mid);border:1px solid rgba(184,147,63,.25)}
+    .row-actions{display:flex;gap:5px;flex-shrink:0}
+    .btn-ghost{display:inline-flex;align-items:center;gap:5px;background:none;border:1.5px solid var(--cream-mid);color:var(--ink-mid);border-radius:7px;padding:5px 12px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:var(--transition);text-decoration:none}
     .btn-ghost:hover{border-color:var(--gold-light);color:var(--gold);background:var(--gold-dim)}
 
-    .section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:20px 0 8px;padding-left:2px}
-    .section-label:first-child{margin-top:0}
-
+    /* ── MODAL ── */
     .modal-backdrop{position:fixed;inset:0;background:rgba(28,22,18,.76);backdrop-filter:blur(6px);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .22s ease}
     .modal-backdrop.open{opacity:1;pointer-events:all}
     .modal{background:var(--white);border-radius:14px;width:100%;max-width:960px;max-height:94vh;display:flex;flex-direction:column;box-shadow:0 28px 72px rgba(28,22,18,.28);transform:scale(.95) translateY(12px);transition:transform .22s cubic-bezier(.4,0,.2,1);overflow:hidden}
     .modal-backdrop.open .modal{transform:scale(1) translateY(0)}
-    .modal-header{display:flex;align-items:center;gap:12px;padding:15px 18px;border-bottom:1.5px solid var(--cream-mid);flex-shrink:0}
-    .modal-title{flex:1;min-width:0;font-size:14.5px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .modal-header{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1.5px solid var(--cream-mid);flex-shrink:0}
+    .modal-icon{font-size:20px;flex-shrink:0}
+    .modal-title{flex:1;min-width:0;font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .modal-close{background:var(--cream-dark);border:none;width:30px;height:30px;border-radius:7px;cursor:pointer;display:grid;place-items:center;color:var(--ink-mid);transition:var(--transition);flex-shrink:0}
     .modal-close:hover{background:var(--ink);color:var(--cream)}
-    .modal-body{flex:1;overflow:hidden;display:flex;align-items:stretch;justify-content:stretch;background:var(--cream-dark);min-height:200px;position:relative}
-    .modal-body img{max-width:100%;max-height:76vh;object-fit:contain;margin:auto;display:block}
-    .modal-body video{max-width:100%;max-height:76vh;border-radius:6px;margin:auto;display:block}
-    .modal-body audio{margin:52px auto;display:block}
-    .gdv-wrap{position:relative;width:100%;display:flex;flex-direction:column}
-    .gdv-loader{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--cream-dark);z-index:2;transition:opacity .3s}
-    .gdv-loader span{font-size:13px;color:var(--ink-soft)}
-    .gdv-frame{width:100%;min-height:72vh;border:none;display:block;opacity:0;transition:opacity .35s;flex:1}
-    .gdv-frame.loaded{opacity:1}
-    .modal-footer{padding:11px 18px;border-top:1.5px solid var(--cream-mid);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-    .modal-file-info{font-size:12px;color:var(--ink-soft)}
-    .gdv-note{font-size:11.5px;color:var(--ink-soft);display:flex;align-items:center;gap:5px}
-    .btn-primary{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:var(--gold-light);border:none;border-radius:8px;padding:9px 18px;font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;transition:var(--transition);text-decoration:none}
-    .btn-primary:hover{background:var(--gold);color:var(--ink)}
-    .no-preview{text-align:center;padding:56px 32px;color:var(--ink-soft);width:100%}
-    .no-preview .np-icon{font-size:54px;margin-bottom:14px}
+    .modal-body{flex:1;position:relative;background:var(--cream-dark);min-height:300px;display:flex;flex-direction:column}
+    .gview-frame{width:100%;flex:1;border:none;display:block;min-height:68vh}
+    .native-viewer{flex:1;display:flex;align-items:center;justify-content:center;padding:16px}
+    .native-viewer img{max-width:100%;max-height:74vh;object-fit:contain;border-radius:4px}
+    .native-viewer video{max-width:100%;max-height:74vh;border-radius:6px}
+    .native-viewer audio{width:320px}
+    .viewer-loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--cream-dark);z-index:2;transition:opacity .3s ease}
+    .viewer-loading.hide{opacity:0;pointer-events:none}
+    .viewer-loading span{font-size:13px;color:var(--ink-soft)}
+    .no-preview{text-align:center;padding:56px 32px;color:var(--ink-soft)}
+    .no-preview .np-icon{font-size:52px;margin-bottom:14px}
     .no-preview p{font-size:14px;margin-bottom:18px}
+    .modal-footer{padding:10px 18px;border-top:1.5px solid var(--cream-mid);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+    .modal-file-info{font-size:12px;color:var(--ink-soft)}
+    .btn-primary{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:var(--gold-light);border:none;border-radius:8px;padding:9px 18px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:var(--transition);text-decoration:none}
+    .btn-primary:hover{background:var(--gold);color:var(--ink)}
 
     @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
     ::-webkit-scrollbar{width:6px;height:6px}
@@ -192,330 +163,585 @@
     ::-webkit-scrollbar-thumb{background:var(--cream-mid);border-radius:4px}
     ::-webkit-scrollbar-thumb:hover{background:var(--gold-light)}
     .hidden{display:none!important}
+
     @media(max-width:700px){
-      header{
-        padding:0 14px;
-        gap:10px;
-      }
-
-      .brand-label{
-        display:none
-      }
-
-      .header-right{
-        flex:1;
-      }
-
-      .search-wrap{
-        flex:1;
-      }
-
-      .path-toolbar{
-        gap:6px;
-      }
-
-      main{
-        padding:20px 12px 60px
-      }
-
-      .items-grid{
-        grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-        gap:10px
-      }
+      header,.nav-bar{padding:0 14px}
+      .brand-label{display:none}
+      .search-input{width:160px}
+      main{padding:20px 12px 60px}
+      .items-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+      .filter-tabs{gap:2px}
+      .filter-tab{padding:4px 8px;font-size:11px}
     }
   </style>
 </head>
 <body>
 
+<!-- ══ HEADER ══════════════════════════════════════════ -->
 <header>
   <a href="https://ashwithfrank.github.io/" class="brand">
     <div class="brand-monogram">AF</div>
-    <span class="brand-label">Drive</span>
+    <span class="brand-label">Drive <em>·</em> Ash</span>
   </a>
-  
+  <div class="spacer"></div>
   <div class="header-right">
     <div class="search-wrap">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input class="search-input" id="searchInput" type="text" placeholder="Search…" oninput="renderItems()" />
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input class="search-input" id="searchInput" type="text" placeholder="Search files and folders…" oninput="renderItems()"/>
     </div>
     <div class="view-toggle">
       <button class="view-btn active" id="gridBtn" title="Grid" onclick="setView('grid')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
       </button>
       <button class="view-btn" id="listBtn" title="List" onclick="setView('list')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
       </button>
     </div>
   </div>
 </header>
 
+<!-- ══ NAV BAR: back/fwd + breadcrumb + filters ════════ -->
+<div class="nav-bar">
+  <div class="nav-btns">
+    <button class="nav-btn" id="btnBack" onclick="navBack()" disabled title="Back (Alt+←)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+    <button class="nav-btn" id="btnFwd" onclick="navForward()" disabled title="Forward (Alt+→)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </button>
+  </div>
+
+  <nav class="breadcrumb-bar" id="breadcrumbBar" aria-label="Path"></nav>
+
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="setFilter('all',this)">All</button>
+    <button class="filter-tab" onclick="setFilter('folder',this)">Folders</button>
+    <button class="filter-tab" onclick="setFilter('pdf',this)">PDF</button>
+    <button class="filter-tab" onclick="setFilter('other',this)">Other</button>
+  </div>
+
+  <span class="src-badge hidden" id="srcBadge"></span>
+</div>
+
+<!-- ══ MAIN ════════════════════════════════════════════ -->
 <main>
-  <div id="stateLoading" class="state-msg"><div class="spinner"></div><h2>Loading Drive…</h2><p>Fetching contents from your repository.</p></div>
-  <div id="stateError" class="state-msg hidden"><div class="icon">⚠️</div><h2>Couldn't load</h2><p id="errorMsg"></p></div>
-  <div id="stateEmpty" class="state-msg hidden"><div class="icon">📂</div><h2>This folder is empty</h2><p>Upload files or folders here to see them listed.</p></div>
+  <div id="stateLoading" class="state-msg">
+    <div class="spinner"></div>
+    <h2>Loading Drive…</h2>
+    <p>Fetching your files.</p>
+  </div>
+  <div id="stateError" class="state-msg hidden">
+    <div class="icon">⚠️</div>
+    <h2>Couldn't load</h2>
+    <p id="errorMsg"></p>
+  </div>
+  <div id="stateEmpty" class="state-msg hidden">
+    <div class="icon">📂</div>
+    <h2>This folder is empty</h2>
+    <p>No files or sub-folders here yet.</p>
+  </div>
   <div id="driveContent" class="hidden">
-    
-<div class="toolbar">
-      <div class="filter-tabs">
-        <button class="filter-tab active" onclick="setFilter('all',this)">All</button>
-        <button class="filter-tab" onclick="setFilter('folder',this)">Folders</button>
-        <button class="filter-tab" onclick="setFilter('pdf',this)">PDF</button>
-        <button class="filter-tab" onclick="setFilter('other',this)">Other</button>
-      </div>
-    </div>
-
-    <div class="path-toolbar">
-      <div class="nav-btns">
-        <button class="nav-btn" id="btnBack" title="Back (Alt+←)" onclick="navBack()" disabled>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
-            <polyline points="15 18 9 12 15 6"/>
-          </svg>
-        </button>
-
-        <button class="nav-btn" id="btnFwd" title="Forward (Alt+→)" onclick="navForward()" disabled>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
-        </button>
-      </div>
-
-      <nav class="breadcrumb-bar" id="breadcrumbBar" aria-label="Path"></nav>
-    </div>
-
     <p class="item-count" id="itemCount"></p>
     <div id="itemsContainer"></div>
   </div>
 </main>
 
+<!-- ══ MODAL ════════════════════════════════════════════ -->
 <div class="modal-backdrop" id="modalBackdrop" onclick="closeModal(event)">
   <div class="modal">
     <div class="modal-header">
+      <span class="modal-icon" id="modalIcon"></span>
       <span class="modal-title" id="modalTitle"></span>
       <a class="btn-ghost" id="modalDlBtn" href="#" download>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Download
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>Download
       </a>
       <button class="modal-close" onclick="closeModal()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
       </button>
     </div>
     <div class="modal-body" id="modalBody"></div>
     <div class="modal-footer">
       <span class="modal-file-info" id="modalInfo"></span>
-      <span class="gdv-note" id="gdvNote" style="display:none">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        Powered by Google Docs Viewer
-      </span>
     </div>
   </div>
 </div>
 
+<!-- ══ SCRIPT ═══════════════════════════════════════════ -->
 <script>
-const REPO_OWNER='ashwithfrank',REPO_NAME='ashwithfrank.github.io',ROOT_PATH='drive',SITE_BASE='https://ashwithfrank.github.io';
-const EXCLUDED=new Set(['drive.html','index.html','.gitkeep','README.md','readme.md','.DS_Store','images']);
-const TYPE_MAP={pdf:['pdf'],image:['jpg','jpeg','png','gif','webp','svg','bmp','ico','tiff','avif'],video:['mp4','webm','ogv','mov','avi','mkv','m4v'],audio:['mp3','wav','ogg','aac','flac','m4a','opus']};
-const FILE_ICONS={pdf:'📄',image:'🖼️',video:'🎬',audio:'🎵',other:'📎'};
-// All extensions Google Docs Viewer can handle
-const GDV_EXTS=new Set(['pdf','doc','docx','dot','dotx','xls','xlsx','xlsm','xlt','ppt','pptx','pps','ppsx','odt','ods','odp','odg','rtf','txt','csv','tsv','pages','numbers','key','epub','ps','ai']);
+/* ─── Config ──────────────────────────────────────────── */
+const REPO_OWNER = 'ashwithfrank';
+const REPO_NAME  = 'ashwithfrank.github.io';
+const ROOT_PATH  = 'drive';
+const SITE_BASE  = 'https://ashwithfrank.github.io';
+const RAW_BASE   = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main`;
+const EXCLUDED   = new Set(['drive.html','index.html','manifest.json','.gitkeep','README.md','readme.md','.DS_Store']);
 
-function getType(e){for(const[t,ex]of Object.entries(TYPE_MAP))if(ex.includes(e))return t;return'other'}
-function formatSize(b){if(!b)return'—';const u=['B','KB','MB','GB'];let i=0,n=b;while(n>=1024&&i<3){n/=1024;i++}return`${n.toFixed(i?1:0)} ${u[i]}`}
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-function gdvUrl(u){return`https://docs.google.com/viewer?url=${encodeURIComponent(u)}&embedded=true`}
+/* ─── Type map ────────────────────────────────────────── */
+const EXT_TYPE = {
+  pdf:'pdf',
+  doc:'doc',docx:'doc',xls:'doc',xlsx:'doc',ppt:'doc',pptx:'doc',
+  odt:'doc',ods:'doc',odp:'doc',txt:'doc',csv:'doc',rtf:'doc',
+  jpg:'image',jpeg:'image',png:'image',gif:'image',webp:'image',
+  svg:'image',bmp:'image',ico:'image',avif:'image',
+  mp4:'video',webm:'video',ogv:'video',mov:'video',
+  mp3:'audio',wav:'audio',ogg:'audio',aac:'audio',flac:'audio',m4a:'audio',opus:'audio',
+};
+const ICONS = { pdf:'📄', doc:'📝', image:'🖼️', video:'🎬', audio:'🎵', other:'📎' };
+const GVIEW  = new Set(['pdf','doc']);
 
-let pathStack=[ROOT_PATH],currentItems=[],activeFilter='all',currentView='grid';
-// Navigation history — array of path strings, pointer into it
-let navHistory=[ROOT_PATH],navIndex=0;
-
-history.pushState(null, '', location.href);
-
-window.addEventListener('popstate', function () {
-  if (pathStack.length <= 1) {
-    history.pushState(null, '', location.href);
-    return;
-  }
-
-  pathStack.pop();
-  loadPath(pathStack.join('/'), false);
-
-  history.pushState(null, '', location.href);
-});
-
-
-function updateNavBtns(){
-  document.getElementById('btnBack').disabled  = navIndex <= 0;
-  document.getElementById('btnFwd').disabled   = navIndex >= navHistory.length - 1;
+function getType(ext){ return EXT_TYPE[ext] || 'other'; }
+function formatSize(b){
+  if(!b) return '—';
+  const u=['B','KB','MB','GB']; let i=0,n=b;
+  while(n>=1024&&i<3){n/=1024;i++;}
+  return `${n.toFixed(i?1:0)} ${u[i]}`;
 }
-function navBack(){
-  if(navIndex<=0)return;
-  navIndex--;
-  pathStack=navHistory[navIndex].split('/');
-  loadPath(navHistory[navIndex],false);
-}
-function navForward(){
-  if(navIndex>=navHistory.length-1)return;
-  navIndex++;
-  pathStack=navHistory[navIndex].split('/');
-  loadPath(navHistory[navIndex],false);
-}
-// Push a new path into history (called on user-initiated navigation)
-function pushHistory(path){
-  navHistory=navHistory.slice(0,navIndex+1); // drop forward entries
-  if(navHistory[navIndex]!==path){           // avoid duplicate pushes
-    navHistory.push(path);
-    navIndex++;
-  }
-  updateNavBtns();
-}
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-async function loadPath(path, push=true){
-  if(push) pushHistory(path);
+/* ─── App state ───────────────────────────────────────── */
+let allItems     = [];   // full flat list, loaded ONCE
+let currentItems = [];   // direct children of current path
+let pathStack    = [ROOT_PATH];
+let navHistory   = [ROOT_PATH];
+let navIndex     = 0;
+let activeFilter = 'all';
+let currentView  = 'grid';
+
+/* ─── Init: manifest → Trees API fallback ────────────── */
+async function init(){
   showState('loading');
-  document.getElementById('searchInput').value='';
-  activeFilter='all';
-  document.querySelectorAll('.filter-tab').forEach((t,i)=>t.classList.toggle('active',i===0));
-  try{
-    const res=await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`,{headers:{Accept:'application/vnd.github.v3+json'}});
-    if(!res.ok)throw new Error(`GitHub API ${res.status}: ${res.statusText}`);
-    const raw=await res.json();
-    currentItems=raw.filter(i=>!EXCLUDED.has(i.name)).map(item=>{
-      if(item.type==='dir')return{kind:'folder',name:item.name,path:item.path};
-      const dot=item.name.lastIndexOf('.');
-      const ext=dot>-1?item.name.slice(dot+1).toLowerCase():'';
-      return{kind:'file',name:item.name,ext,type:getType(ext),size:item.size,url:`${SITE_BASE}/${item.path}`,dlUrl:item.download_url};
-    }).sort((a,b)=>{if(a.kind!==b.kind)return a.kind==='folder'?-1:1;return a.name.localeCompare(b.name)});
-    buildBreadcrumb();
-    if(currentItems.length===0)showState('empty');
-    else{showState('content');renderItems()}
-  }catch(err){document.getElementById('errorMsg').textContent=err.message;showState('error')}
+
+  // 1) Try manifest.json (0 API calls, instant)
+  try {
+    const res = await fetch('./manifest.json');
+    if(res.ok){
+      allItems = await res.json();
+      showSrcBadge('manifest');
+      bootDrive();
+      return;
+    }
+  } catch(_){}
+
+  // 2) Fallback: recursive Trees API (1 API call total, no per-folder calls)
+  try {
+    const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/git/trees/HEAD?recursive=1`;
+    const res = await fetch(url, { headers:{ Accept:'application/vnd.github.v3+json' }});
+    if(!res.ok) throw new Error(`GitHub API ${res.status}: ${res.statusText}`);
+    const { tree, truncated } = await res.json();
+    if(truncated) console.warn('Tree was truncated — consider using manifest.json for large repos.');
+    allItems = parseTree(tree);
+    showSrcBadge('api');
+    bootDrive();
+  } catch(err){
+    document.getElementById('errorMsg').textContent = err.message;
+    showState('error');
+  }
 }
 
-function openFolder(n){pathStack.push(n);loadPath(pathStack.join('/'))}
-function navToCrumb(i){if(i>=pathStack.length-1)return;pathStack=pathStack.slice(0,i+1);loadPath(pathStack.join('/'),true)}
+function parseTree(tree){
+  return tree
+    .filter(item => {
+      if(!item.path.startsWith(ROOT_PATH+'/')) return false;
+      const name = item.path.split('/').pop();
+      return !EXCLUDED.has(name) && !name.startsWith('.');
+    })
+    .map(item => {
+      const name = item.path.split('/').pop();
+      if(item.type==='tree') return { kind:'folder', name, path:item.path };
+      const dot = name.lastIndexOf('.');
+      const ext = dot>-1 ? name.slice(dot+1).toLowerCase() : '';
+      return {
+        kind:'file', name, path:item.path,
+        ext, type:getType(ext), size:item.size||0,
+        url:    `${SITE_BASE}/${item.path}`,
+        dlUrl:  `${RAW_BASE}/${item.path}`,
+      };
+    });
+}
 
-function buildBreadcrumb(){
-  const bar=document.getElementById('breadcrumbBar');bar.innerHTML='';
-  pathStack.forEach((seg,i)=>{
-    const isLast=i===pathStack.length-1;
-    const btn=document.createElement('button');
-    btn.className='crumb'+(isLast?' active':'');
-    btn.textContent=i===0?'⌂ drive':seg;
-    if(!isLast)btn.onclick=()=>navToCrumb(i);
-    bar.appendChild(btn);
-    if(!isLast){const sep=document.createElement('span');sep.className='crumb-sep';sep.textContent='›';bar.appendChild(sep)}
-  });
+function bootDrive(){
+  // Trap browser back: push two identical states at root so
+  // pressing back once stays on page rather than leaving the site
+  history.replaceState({ isDrive:true, path:ROOT_PATH }, '');
+  history.pushState({ isDrive:true, path:ROOT_PATH }, '');
+  doLoadPath(ROOT_PATH);
+}
+
+function showSrcBadge(src){
+  const b = document.getElementById('srcBadge');
+  b.classList.remove('hidden','manifest','api');
+  if(src==='manifest'){ b.classList.add('manifest'); b.textContent='⚡ Cached'; }
+  else                { b.classList.add('api');      b.textContent='🌐 Live';   }
+}
+
+/* ─── Path helpers ────────────────────────────────────── */
+function getChildrenOf(path){
+  return allItems
+    .filter(item => item.path.substring(0, item.path.lastIndexOf('/')) === path)
+    .sort((a,b) => {
+      if(a.kind!==b.kind) return a.kind==='folder'?-1:1;
+      return a.name.localeCompare(b.name);
+    });
 }
 
 function getFiltered(){
-  const q=document.getElementById('searchInput').value.toLowerCase().trim();
-  return currentItems.filter(item=>{
-    const mf=activeFilter==='all'||(activeFilter==='folder'&&item.kind==='folder')||(item.kind==='file'&&item.type===activeFilter);
-    return mf&&(!q||item.name.toLowerCase().includes(q));
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  return currentItems.filter(item => {
+    let mf;
+    switch(activeFilter){
+      case 'folder': mf = item.kind==='folder'; break;
+      case 'pdf':    mf = item.kind==='file' && item.type==='pdf'; break;
+      case 'other':  mf = item.kind==='file' && item.type!=='pdf'; break;
+      default:       mf = true;
+    }
+    return mf && (!q || item.name.toLowerCase().includes(q));
   });
 }
 
-function renderItems(){
-  const filtered=getFiltered(),q=document.getElementById('searchInput').value.trim();
-  const folders=filtered.filter(i=>i.kind==='folder'),files=filtered.filter(i=>i.kind==='file');
-  document.getElementById('itemCount').innerHTML=`<strong>${folders.length}</strong> folder${folders.length!==1?'s':''}, <strong>${files.length}</strong> file${files.length!==1?'s':''}${activeFilter!=='all'?` · ${activeFilter}`:''}${q?` matching "<strong>${esc(q)}</strong>"`:''}`;
-  currentView==='grid'?renderGrid(folders,files):renderList(folders,files);
+/* ─── Navigation ──────────────────────────────────────── */
+// Core render — no history side effects
+function doLoadPath(path){
+  pathStack    = path.split('/');
+  currentItems = getChildrenOf(path);
+  document.getElementById('searchInput').value = '';
+  activeFilter = 'all';
+  document.querySelectorAll('.filter-tab').forEach((t,i) => t.classList.toggle('active', i===0));
+  buildBreadcrumb();
+  updateNavBtns();
+  if(currentItems.length===0) showState('empty');
+  else{ showState('content'); renderItems(); }
 }
 
-function folderSVG(){return`<svg class="folder-svg" viewBox="0 0 64 52" fill="none" xmlns="http://www.w3.org/2000/svg"><path class="folder-svg-back" d="M2 10C2 7.79 3.79 6 6 6H24L30 12H58C60.21 12 62 13.79 62 16V46C62 48.21 60.21 50 58 50H6C3.79 50 2 48.21 2 46V10Z"/><path class="folder-svg-front" d="M2 18C2 15.79 3.79 14 6 14H58C60.21 14 62 15.79 62 18V46C62 48.21 60.21 50 58 50H6C3.79 50 2 48.21 2 46V18Z"/></svg>`}
+// User-initiated navigation — pushes history
+function navigateTo(path){
+  // Prune forward entries when branching
+  navHistory = navHistory.slice(0, navIndex+1);
+  if(navHistory[navIndex] !== path){ navHistory.push(path); navIndex++; }
+  history.pushState({ isDrive:true, path }, '');
+  doLoadPath(path);
+}
+
+function openFolder(name){ navigateTo(pathStack.join('/')+'/'+name); }
+
+function navToCrumb(i){
+  const path = pathStack.slice(0,i+1).join('/');
+  if(path === pathStack.join('/')) return;
+  navigateTo(path);
+}
+
+function navBack(){
+  if(navIndex<=0) return;
+  navIndex--;
+  const path = navHistory[navIndex];
+  history.pushState({ isDrive:true, path }, '');
+  doLoadPath(path);
+}
+
+function navForward(){
+  if(navIndex>=navHistory.length-1) return;
+  navIndex++;
+  const path = navHistory[navIndex];
+  history.pushState({ isDrive:true, path }, '');
+  doLoadPath(path);
+}
+
+function updateNavBtns(){
+  document.getElementById('btnBack').disabled = navIndex<=0;
+  document.getElementById('btnFwd').disabled  = navIndex>=navHistory.length-1;
+}
+
+// ── Intercept browser back button ──────────────────────
+// When at root, prevent leaving the site entirely;
+// when in a sub-folder, treat browser-back as our own back.
+window.addEventListener('popstate', e => {
+  const state = e.state;
+
+  if(!state || !state.isDrive){
+    // Fell past our sentinel — push root state back to stay on page
+    history.pushState({ isDrive:true, path:ROOT_PATH }, '');
+    navIndex = 0;
+    doLoadPath(ROOT_PATH);
+    return;
+  }
+
+  const path = state.path;
+
+  if(path === ROOT_PATH && pathStack.join('/') === ROOT_PATH){
+    // Already at root — push state back so next back press is also absorbed
+    history.pushState({ isDrive:true, path:ROOT_PATH }, '');
+    return;
+  }
+
+  // Sync our navIndex to the history entry if possible
+  const hi = navHistory.lastIndexOf(path);
+  if(hi !== -1) navIndex = hi;
+
+  doLoadPath(path);
+});
+
+/* ─── Breadcrumb ──────────────────────────────────────── */
+function buildBreadcrumb(){
+  const bar = document.getElementById('breadcrumbBar');
+  bar.innerHTML = '';
+  pathStack.forEach((seg,i) => {
+    const isLast = i===pathStack.length-1;
+    const btn = document.createElement('button');
+    btn.className = 'crumb'+(isLast?' active':'');
+    btn.textContent = i===0 ? '⌂ drive' : seg;
+    if(!isLast) btn.onclick = ()=>navToCrumb(i);
+    bar.appendChild(btn);
+    if(!isLast){ const s=document.createElement('span'); s.className='crumb-sep'; s.textContent='›'; bar.appendChild(s); }
+  });
+}
+
+/* ─── Render ──────────────────────────────────────────── */
+function renderItems(){
+  const filtered = getFiltered();
+  const q = document.getElementById('searchInput').value.trim();
+  const folders = filtered.filter(i=>i.kind==='folder');
+  const files   = filtered.filter(i=>i.kind==='file');
+
+  document.getElementById('itemCount').innerHTML =
+    `<strong>${folders.length}</strong> folder${folders.length!==1?'s':''}, `+
+    `<strong>${files.length}</strong> file${files.length!==1?'s':''}`+
+    (activeFilter!=='all'?` · ${activeFilter}`:'')+(q?` matching "<strong>${esc(q)}</strong>"`:'')+
+    (allItems.length?` <span style="color:var(--cream-mid)">·</span> <span style="font-size:12px">${allItems.length} items indexed</span>`:'');
+
+  currentView==='grid' ? renderGrid(folders,files) : renderList(folders,files);
+}
+
+function folderSVG(){
+  return `<svg class="folder-svg" viewBox="0 0 64 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path class="folder-svg-back" d="M2 10C2 7.79 3.79 6 6 6H24L30 12H58C60.21 12 62 13.79 62 16V46C62 48.21 60.21 50 58 50H6C3.79 50 2 48.21 2 46V10Z"/>
+    <path class="folder-svg-front" d="M2 18C2 15.79 3.79 14 6 14H58C60.21 14 62 15.79 62 18V46C62 48.21 60.21 50 58 50H6C3.79 50 2 48.21 2 46V18Z"/>
+  </svg>`;
+}
 
 function renderGrid(folders,files){
-  const c=document.getElementById('itemsContainer');let h='';
+  document.getElementById('gridView')?.classList.remove('hidden');
+  let html='';
+
   if(folders.length){
-    h+=`<div class="section-label">Folders</div><div class="items-grid">`;
-    h+=folders.map((f,i)=>`<div class="item-card folder-card" style="animation-delay:${i*.03}s" ondblclick="openFolder('${esc(f.name)}')"><div class="item-thumb" onclick="openFolder('${esc(f.name)}')">${folderSVG()}</div><div class="item-info" onclick="openFolder('${esc(f.name)}')"><div class="item-name" title="${esc(f.name)}">${esc(f.name)}</div><div class="item-meta">Folder</div></div><div class="item-actions"><button class="item-btn open-btn" onclick="openFolder('${esc(f.name)}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>Open</button></div></div>`).join('');
-    h+=`</div>`;
+    html+=`<div class="section-label">Folders</div><div class="items-grid">`;
+    html+=folders.map((f,i)=>`
+      <div class="item-card folder-card" style="animation-delay:${i*.03}s" ondblclick="openFolder('${esc(f.name)}')">
+        <div class="item-thumb" onclick="openFolder('${esc(f.name)}')">${folderSVG()}</div>
+        <div class="item-info" onclick="openFolder('${esc(f.name)}')">
+          <div class="item-name" title="${esc(f.name)}">${esc(f.name)}</div>
+          <div class="item-meta">Folder</div>
+        </div>
+        <div class="item-actions">
+          <button class="item-btn open-btn" onclick="openFolder('${esc(f.name)}')">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>Open
+          </button>
+        </div>
+      </div>`).join('');
+    html+=`</div>`;
   }
+
   if(files.length){
-    h+=`<div class="section-label" style="margin-top:${folders.length?'24px':'0'}">Files</div><div class="items-grid">`;
-    h+=files.map((f,i)=>`<div class="item-card file-card" style="animation-delay:${i*.03}s"><div class="item-thumb" onclick="viewFile('${esc(f.name)}')">${f.type==='image'?`<img src="${esc(f.url)}" alt="${esc(f.name)}" loading="lazy">`:`<div class="file-thumb-icon">${FILE_ICONS[f.type]}</div>`}<div class="type-badge">${esc(f.ext)||'?'}</div></div><div class="item-info" onclick="viewFile('${esc(f.name)}')"><div class="item-name" title="${esc(f.name)}">${esc(f.name)}</div><div class="item-meta">${formatSize(f.size)}</div></div><div class="item-actions"><button class="item-btn" onclick="viewFile('${esc(f.name)}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>View</button><a class="item-btn" href="${esc(f.dlUrl)}" download="${esc(f.name)}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Save</a></div></div>`).join('');
-    h+=`</div>`;
+    html+=`<div class="section-label" style="margin-top:${folders.length?'22px':'0'}">Files</div><div class="items-grid">`;
+    html+=files.map((f,i)=>`
+      <div class="item-card file-card" style="animation-delay:${i*.03}s">
+        <div class="item-thumb" onclick="viewFile('${esc(f.name)}')">
+          ${f.type==='image'?`<img src="${esc(f.url)}" alt="${esc(f.name)}" loading="lazy">`:`<div class="file-thumb-icon">${ICONS[f.type]||ICONS.other}</div>`}
+          <div class="type-badge">${esc(f.ext)||'?'}</div>
+        </div>
+        <div class="item-info" onclick="viewFile('${esc(f.name)}')">
+          <div class="item-name" title="${esc(f.name)}">${esc(f.name)}</div>
+          <div class="item-meta">${formatSize(f.size)}</div>
+        </div>
+        <div class="item-actions">
+          <button class="item-btn" onclick="viewFile('${esc(f.name)}')">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+            </svg>View
+          </button>
+          <a class="item-btn" href="${esc(f.dlUrl)}" download="${esc(f.name)}">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>Save
+          </a>
+        </div>
+      </div>`).join('');
+    html+=`</div>`;
   }
-  if(!folders.length&&!files.length)h=`<div class="state-msg"><div class="icon">🔍</div><h2>No results</h2><p>Try a different search or filter.</p></div>`;
-  c.innerHTML=h;
+
+  if(!folders.length&&!files.length)
+    html=`<div class="state-msg"><div class="icon">🔍</div><h2>No results</h2><p>Try a different search or filter.</p></div>`;
+
+  document.getElementById('itemsContainer').innerHTML=html;
 }
 
 function renderList(folders,files){
-  const c=document.getElementById('itemsContainer');let h='';
+  let html='';
+
   if(folders.length){
-    h+=`<div class="section-label">Folders</div><div class="items-list">`;
-    h+=folders.map((f,i)=>`<div class="item-row folder-row" style="animation-delay:${i*.025}s" ondblclick="openFolder('${esc(f.name)}')"><div class="row-icon">📁</div><div class="row-info" onclick="openFolder('${esc(f.name)}')"><div class="row-name">${esc(f.name)}</div><div class="row-meta">Folder</div></div><span class="row-badge folder-badge">folder</span><div class="row-actions"><button class="btn-ghost" onclick="openFolder('${esc(f.name)}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>Open</button></div></div>`).join('');
-    h+=`</div>`;
+    html+=`<div class="section-label">Folders</div><div class="items-list">`;
+    html+=folders.map((f,i)=>`
+      <div class="item-row folder-row" style="animation-delay:${i*.025}s" ondblclick="openFolder('${esc(f.name)}')">
+        <div class="row-icon">📁</div>
+        <div class="row-info" onclick="openFolder('${esc(f.name)}')">
+          <div class="row-name">${esc(f.name)}</div>
+          <div class="row-meta">Folder</div>
+        </div>
+        <span class="row-badge folder-badge">folder</span>
+        <div class="row-actions">
+          <button class="btn-ghost" onclick="openFolder('${esc(f.name)}')">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>Open
+          </button>
+        </div>
+      </div>`).join('');
+    html+=`</div>`;
   }
+
   if(files.length){
-    h+=`<div class="section-label" style="margin-top:${folders.length?'20px':'0'}">Files</div><div class="items-list">`;
-    h+=files.map((f,i)=>`<div class="item-row" style="animation-delay:${i*.025}s"><div class="row-icon">${FILE_ICONS[f.type]}</div><div class="row-info" onclick="viewFile('${esc(f.name)}')"><div class="row-name">${esc(f.name)}</div><div class="row-meta">${formatSize(f.size)}</div></div><span class="row-badge ext-badge">${esc(f.ext)||'?'}</span><div class="row-actions"><button class="btn-ghost" onclick="viewFile('${esc(f.name)}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>View</button><a class="btn-ghost" href="${esc(f.dlUrl)}" download="${esc(f.name)}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Save</a></div></div>`).join('');
-    h+=`</div>`;
+    html+=`<div class="section-label" style="margin-top:${folders.length?'20px':'0'}">Files</div><div class="items-list">`;
+    html+=files.map((f,i)=>`
+      <div class="item-row" style="animation-delay:${i*.025}s">
+        <div class="row-icon">${ICONS[f.type]||ICONS.other}</div>
+        <div class="row-info" onclick="viewFile('${esc(f.name)}')">
+          <div class="row-name">${esc(f.name)}</div>
+          <div class="row-meta">${formatSize(f.size)}</div>
+        </div>
+        <span class="row-badge ext-badge">${esc(f.ext)||'?'}</span>
+        <div class="row-actions">
+          <button class="btn-ghost" onclick="viewFile('${esc(f.name)}')">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+            </svg>View
+          </button>
+          <a class="btn-ghost" href="${esc(f.dlUrl)}" download="${esc(f.name)}">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>Save
+          </a>
+        </div>
+      </div>`).join('');
+    html+=`</div>`;
   }
-  if(!folders.length&&!files.length)h=`<div class="state-msg"><div class="icon">🔍</div><h2>No results</h2><p>Try a different search or filter.</p></div>`;
-  c.innerHTML=h;
+
+  if(!folders.length&&!files.length)
+    html=`<div class="state-msg"><div class="icon">🔍</div><h2>No results</h2><p>Try a different search or filter.</p></div>`;
+
+  document.getElementById('itemsContainer').innerHTML=html;
 }
 
+/* ─── File viewer ─────────────────────────────────────── */
 function viewFile(name){
-  const f=getFiltered().find(i=>i.kind==='file'&&i.name===name);
-  if(!f)return;
-  document.getElementById('modalTitle').textContent=f.name;
-  document.getElementById('modalInfo').textContent=`${(f.ext||'file').toUpperCase()} · ${formatSize(f.size)}`;
-  document.getElementById('modalDlBtn').href=f.dlUrl;
-  document.getElementById('modalDlBtn').download=f.name;
-  const body=document.getElementById('modalBody'),gdvNote=document.getElementById('gdvNote');
-  body.innerHTML='';gdvNote.style.display='none';
+  const f = getFiltered().find(i=>i.kind==='file'&&i.name===name);
+  if(!f) return;
 
-  if(f.type==='image'){
-    const img=document.createElement('img');img.src=f.url;img.alt=f.name;body.appendChild(img);
-  }else if(f.type==='video'){
-    const vid=document.createElement('video');vid.src=f.url;vid.controls=true;body.appendChild(vid);
-  }else if(f.type==='audio'){
-    const aud=document.createElement('audio');aud.src=f.url;aud.controls=true;body.appendChild(aud);
-  }else if(GDV_EXTS.has(f.ext)){
-    gdvNote.style.display='flex';
-    const wrap=document.createElement('div');wrap.className='gdv-wrap';
-    const loader=document.createElement('div');loader.className='gdv-loader';loader.id='gdvLoader';
-    loader.innerHTML='<div class="spinner"></div><span>Opening with Google Docs Viewer…</span>';
-    const iframe=document.createElement('iframe');iframe.className='gdv-frame';
-    iframe.src=gdvUrl(f.url);iframe.setAttribute('allowfullscreen','');
-    iframe.onload=()=>{
-      iframe.classList.add('loaded');
-      const ldr=document.getElementById('gdvLoader');
-      if(ldr){ldr.style.opacity='0';setTimeout(()=>ldr.remove(),300)}
-    };
-    wrap.appendChild(loader);wrap.appendChild(iframe);body.appendChild(wrap);
-  }else{
-    body.innerHTML=`<div class="no-preview"><div class="np-icon">${FILE_ICONS[f.type]}</div><p>No preview available for <strong>.${esc(f.ext||'this type')}</strong> files.</p><a class="btn-primary" href="${esc(f.dlUrl)}" download="${esc(f.name)}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download file</a></div>`;
+  document.getElementById('modalIcon').textContent  = ICONS[f.type]||ICONS.other;
+  document.getElementById('modalTitle').textContent = f.name;
+  document.getElementById('modalInfo').textContent  = `${(f.ext||'file').toUpperCase()} · ${formatSize(f.size)}`;
+  document.getElementById('modalDlBtn').href        = f.dlUrl;
+  document.getElementById('modalDlBtn').download    = f.name;
+
+  const body = document.getElementById('modalBody');
+  body.innerHTML='';
+
+  if(GVIEW.has(f.type)||f.type==='other'){
+    const overlay = document.createElement('div');
+    overlay.className='viewer-loading';
+    overlay.innerHTML=`<div class="spinner"></div><span>Opening with Google Docs Viewer…</span>`;
+    const iframe = document.createElement('iframe');
+    iframe.className='gview-frame';
+    iframe.src=`https://docs.google.com/viewer?url=${encodeURIComponent(f.url)}&embedded=true`;
+    iframe.setAttribute('allowfullscreen','');
+    iframe.onload=()=>overlay.classList.add('hide');
+    body.appendChild(overlay);
+    body.appendChild(iframe);
+  } else if(f.type==='image'){
+    const wrap=document.createElement('div'); wrap.className='native-viewer';
+    const img=document.createElement('img'); img.src=f.url; img.alt=f.name;
+    wrap.appendChild(img); body.appendChild(wrap);
+  } else if(f.type==='video'){
+    const wrap=document.createElement('div'); wrap.className='native-viewer';
+    const vid=document.createElement('video'); vid.src=f.url; vid.controls=true;
+    wrap.appendChild(vid); body.appendChild(wrap);
+  } else if(f.type==='audio'){
+    const wrap=document.createElement('div'); wrap.className='native-viewer';
+    const aud=document.createElement('audio'); aud.src=f.url; aud.controls=true;
+    wrap.appendChild(aud); body.appendChild(wrap);
+  } else {
+    body.innerHTML=`<div class="no-preview"><div class="np-icon">${ICONS.other}</div>
+      <p>No preview for <strong>.${esc(f.ext||'this file')}</strong>.</p>
+      <a class="btn-primary" href="${esc(f.dlUrl)}" download="${esc(f.name)}">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>Download file</a></div>`;
   }
+
   document.getElementById('modalBackdrop').classList.add('open');
   document.body.style.overflow='hidden';
 }
 
 function closeModal(e){
-  if(e&&e.target!==document.getElementById('modalBackdrop'))return;
+  if(e&&e.target!==document.getElementById('modalBackdrop')) return;
   document.getElementById('modalBackdrop').classList.remove('open');
   document.body.style.overflow='';
   document.querySelectorAll('#modalBody video,#modalBody audio').forEach(m=>m.pause());
+  document.querySelectorAll('#modalBody iframe').forEach(f=>f.remove());
 }
 
+/* ─── Controls ────────────────────────────────────────── */
 function showState(s){
   document.getElementById('stateLoading').classList.toggle('hidden',s!=='loading');
-  document.getElementById('stateError').classList.toggle('hidden',s!=='error');
-  document.getElementById('stateEmpty').classList.toggle('hidden',s!=='empty');
+  document.getElementById('stateError').classList.toggle('hidden',  s!=='error');
+  document.getElementById('stateEmpty').classList.toggle('hidden',  s!=='empty');
   document.getElementById('driveContent').classList.toggle('hidden',s!=='content');
 }
-function setFilter(f,btn){activeFilter=f;document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');renderItems()}
-function setView(v){currentView=v;document.getElementById('gridBtn').classList.toggle('active',v==='grid');document.getElementById('listBtn').classList.toggle('active',v==='list');renderItems()}
+function setFilter(f,btn){
+  activeFilter=f;
+  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderItems();
+}
+function setView(v){
+  currentView=v;
+  document.getElementById('gridBtn').classList.toggle('active',v==='grid');
+  document.getElementById('listBtn').classList.toggle('active',v==='list');
+  renderItems();
+}
 
+/* ─── Keyboard shortcuts ──────────────────────────────── */
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape')closeModal();
-  if(e.altKey&&e.key==='ArrowLeft'){e.preventDefault();navBack()}
-  if(e.altKey&&e.key==='ArrowRight'){e.preventDefault();navForward()}
-  if(e.key==='Backspace'&&!e.target.matches('input')&&pathStack.length>1){pathStack.pop();loadPath(pathStack.join('/'))}
+  if(e.key==='Escape') closeModal();
+  if(e.altKey&&e.key==='ArrowLeft'){ e.preventDefault(); navBack(); }
+  if(e.altKey&&e.key==='ArrowRight'){ e.preventDefault(); navForward(); }
+  if(e.key==='Backspace'&&!e.target.matches('input')&&pathStack.length>1){
+    navBack();
+  }
 });
 
-updateNavBtns();
-loadPath(ROOT_PATH);
+/* ─── Boot ────────────────────────────────────────────── */
+init();
 </script>
 </body>
 </html>
