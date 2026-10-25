@@ -1,36 +1,4 @@
-/*
- * projects.js — the only file you need to edit to add, remove or reorder projects.
- *
- * HOW TO ADD A PROJECT
- *   1. Copy any object below, paste it where you want the card to appear
- *      (cards show in the order listed; featured ones are shown first).
- *   2. Change the fields. Only `id`, `name`, `summary` and `status` are required.
- *   3. Save. No build step.
- *
- * FIELDS
- *   id        Unique, lowercase, no spaces. Used for the card's #anchor.
- *   name      Project title.
- *   icon      One of: cloud, link, grid, jet, desktop, book, cap, face, edit,
- *             code, phone. (They live in the icon sprite near the top of index.html;
- *             copy a <symbol id="p-..."> there to add your own.)
- *   summary   One or two sentences. Say what it does, not how great it is.
- *   tags      Technologies actually used in the repository.
- *   status    One of: "Released", "Working", "In development", "Prototype".
- *               Released        publicly available (e.g. on Google Play)
- *               Working         functional, may still change
- *               In development  core pieces unfinished
- *               Prototype       built to learn or test an idea
- *   featured  true = shown in the first group; false = behind "Show all projects".
- *   github    Repository URL, or null when there is no public source.
- *   demo      Link to a live, working version, or null. Only add a URL you have opened yourself.
- *   links     Optional extra links: [{ label: "Google Play", url: "https://..." }]
- *
- * This file was written from the contents of the public repositories at
- * https://github.com/ashwithfrank/ (checked 25 Oct 2026). Status labels are a
- * judgement based on each repository; change them if they are out of date.
- */
 window.PROJECTS = [
-  /* ---------- Featured ---------- */
   {
     id: "afdrive",
     name: "AFDrive",
@@ -43,22 +11,6 @@ window.PROJECTS = [
     github: "https://github.com/ashwithfrank/AFDrive",
     demo: null,
     links: [{ label: "Project page", url: "projects/af-drive/" }]
-  },
-  {
-    id: "games-of-grid",
-    name: "Games of Grid",
-    icon: "grid",
-    summary:
-      "A sliding tile puzzle for Android with 3×3 and 4×4 grids and two difficulty modes. Published on Google Play under AlphaOmega Studio and fully offline.",
-    tags: ["Android", "Android Studio"],
-    status: "Released",
-    featured: true,
-    github: null, // source is not public
-    demo: null,
-    links: [
-      { label: "Google Play", url: "https://play.google.com/store/apps/details?id=com.alphaomegastudio.gog" },
-      { label: "Project page", url: "projects/games-of-grid/" }
-    ]
   },
   {
     id: "daily-bible-verse",
@@ -108,8 +60,6 @@ window.PROJECTS = [
     github: "https://github.com/ashwithfrank/jet-dodge",
     demo: null
   },
-
-  /* ---------- More projects ---------- */
   {
     id: "afdrive-online",
     name: "AFDrive Online",
@@ -157,18 +107,6 @@ window.PROJECTS = [
     featured: false,
     github: "https://github.com/ashwithfrank/file-editor",
     demo: null
-  },
-  {
-    id: "tower-of-hanoi",
-    name: "Tower of Hanoi Solver",
-    icon: "code",
-    summary:
-      "An interactive solver that takes any number of disks and lists every move and the total, using recursion. Also includes a Java Swing version.",
-    tags: ["JavaScript", "HTML/CSS", "Java"],
-    status: "Released",
-    featured: false,
-    github: "https://github.com/ashwithfrank/ashwithfrank.github.io/tree/main/projects/tower-of-hanoi",
-    demo: "projects/tower-of-hanoi/"
   },
   {
     id: "dbv-admin",
