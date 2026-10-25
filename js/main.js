@@ -1,14 +1,3 @@
-/*
- * main.js — interactions for the portfolio.
- *   1. Footer year
- *   2. Theme toggle (dark / light, remembered, follows the system on first visit)
- *   3. Mobile menu
- *   4. Active navigation link while scrolling
- *   5. Project cards, built from js/projects.js
- *   6. Hero repository panel
- *   7. Card reveal on scroll
- * Everything is plain JavaScript. Nothing here needs the network.
- */
 (function () {
   'use strict';
 
