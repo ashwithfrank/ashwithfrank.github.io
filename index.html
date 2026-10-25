@@ -1,329 +1,334 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ashwith Frank — Portfolio</title>
-    <meta name="description" content="Ashwith Frank — BCA student building across cybersecurity, game development, and embedded hardware.">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="icon" type="image/png" href="images/favicon-16.png">
-    <link rel="icon" type="image/png" href="images/favicon-32.png">
-    <link rel="icon" href="images/favicon.ico">
+  <title>Ashwith Frank — Aspiring Software Developer</title>
+  <meta name="description" content="Portfolio of Ashwith Frank, a BCA student building Flutter, Android and web projects and exploring cybersecurity. Open to internships and collaboration.">
+  <meta name="author" content="Ashwith Frank">
+  <link rel="canonical" href="https://ashwithfrank.github.io/">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Colour of the browser toolbar; main.js keeps it in sync with the theme -->
+  <meta name="theme-color" content="#0e0f11">
+  <meta name="color-scheme" content="dark light">
 
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+  <!-- Open Graph / social sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ashwith Frank">
+  <meta property="og:title" content="Ashwith Frank — Aspiring Software Developer">
+  <meta property="og:description" content="BCA student building Flutter, Android and web projects, and exploring cybersecurity. Open to internships and collaboration.">
+  <meta property="og:url" content="https://ashwithfrank.github.io/">
+  <meta property="og:image" content="https://ashwithfrank.github.io/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Ashwith Frank — Building useful software">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicons (relative paths so they work on a root or sub-path deployment) -->
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/images/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16.png">
+
+  <!-- Set the theme before first paint so there is no flash of the wrong theme -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var theme = null;
+      try { theme = localStorage.getItem('theme'); } catch (e) {}
+      if (theme !== 'light' && theme !== 'dark') {
+        theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      root.setAttribute('data-theme', theme);
+      root.classList.add('js');
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', theme === 'light' ? '#f7f7f5' : '#0e0f11');
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <!-- NAVBAR -->
-    <nav class="nav" id="nav">
-        <div class="nav-inner">
-            <a href="#hero" class="nav-brand">
-                <span class="nav-brand-mark"><i data-lucide="terminal-square" style="width:16px;height:16px;"></i></span>
-                <span class="nav-brand-name">Ashwith Frank</span>
-            </a>
+  <!-- Icon sprite: referenced with <use href="#id"> throughout the page and by main.js -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- Social and UI icons -->
+      <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></symbol>
+      <symbol id="i-linkedin" viewBox="0 0 24 24"><path fill="currentColor" d="M4 9h3.2v11H4zM5.6 4a1.9 1.9 0 1 1 0 3.8 1.9 1.9 0 0 1 0-3.8zM9.6 9h3v1.5c.5-.9 1.7-1.8 3.4-1.8 3.3 0 4 2.1 4 5V20h-3.2v-5.4c0-1.3 0-2.9-1.8-2.9s-2.1 1.4-2.1 2.8V20H9.6z"/></symbol>
+      <symbol id="i-instagram" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/></g><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7.5 8.5 6 8.5-6"/></g></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M7 17 17 7M8.5 7H17v8.5"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></g></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M20.5 13.2A8.5 8.5 0 1 1 10.8 3.5a6.8 6.8 0 0 0 9.7 9.7z"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></symbol>
 
-            <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+      <!-- Project icons: use the id (without "p-") in the `icon` field of js/projects.js -->
+      <symbol id="p-cloud" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M7 18.5a4.25 4.25 0 0 1-.6-8.46A6 6 0 0 1 18 9.8a4.35 4.35 0 0 1-.5 8.7z"/></symbol>
+      <symbol id="p-link" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+      <symbol id="p-grid" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM4 9.3h16M4 14.7h16M9.3 4v16M14.7 4v16"/></symbol>
+      <symbol id="p-jet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M3.5 11 20.5 3.5 13 20.5l-2-7.5z"/></symbol>
+      <symbol id="p-desktop" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M5 4h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM8 20.5h8M12 17v3.5"/></symbol>
+      <symbol id="p-book" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v14H6.5A2.5 2.5 0 0 0 4 19.5zM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></symbol>
+      <symbol id="p-cap" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M2 9.5 12 4.5l10 5-10 5zM6 12v4.2c0 1.4 2.7 2.8 6 2.8s6-1.4 6-2.8V12M22 9.5v5.5"/></symbol>
+      <symbol id="p-face" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2M9 10v1.2M15 10v1.2M9.3 15c.7.7 1.600 1 2.700 1s2-.3 2.700-1"/></symbol>
+      <symbol id="p-edit" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M4 20h4L19 9l-4-4L4 16zM13.500 6.500l4 4"/></symbol>
+      <symbol id="p-code" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="m8 8-4 4 4 4M16 8l4 4-4 4M13.500 5l-3 14"/></symbol>
+      <symbol id="p-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M9 2.500h6a2 2 0 0 1 2 2v15a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-15a2 2 0 0 1 2-2zM11 18h2"/></symbol>
+    </defs>
+  </svg>
 
-            <div class="nav-actions">
-                <a href="https://github.com/ashwithfrank/" target="_blank" rel="noopener" class="btn btn-outline btn-sm nav-gh-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                    </svg>
-                    <span class="nav-gh-text">GitHub</span>
-                </a>
-                <a href="#contact" class="btn btn-solid btn-sm">Get in Touch</a>
-                <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" type="button">
-                    <i data-lucide="menu" class="nav-toggle-icon-menu" style="width:16px;height:16px;"></i>
-                    <i data-lucide="x" class="nav-toggle-icon-close" style="width:16px;height:16px;display:none;"></i>
-                </button>
-            </div>
-        </div>
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a class="brand" href="#home" aria-label="Ashwith Frank, back to top">
+        <span class="brand-mark" aria-hidden="true">AF</span>
+        <span class="brand-name">Ashwith Frank</span>
+      </a>
 
-        <div class="nav-mobile-drawer" id="navMobileDrawer">
-            <ul class="nav-mobile-links">
-                <li><a href="#about" class="nav-mobile-link"><i data-lucide="user" style="width:15px;height:15px;"></i> About</a></li>
-                <li><a href="#skills" class="nav-mobile-link"><i data-lucide="layers" style="width:15px;height:15px;"></i> Skills</a></li>
-                <li><a href="#projects" class="nav-mobile-link"><i data-lucide="folder-git-2" style="width:15px;height:15px;"></i> Projects</a></li>
-                <li><a href="#contact" class="nav-mobile-link"><i data-lucide="mail" style="width:15px;height:15px;"></i> Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+      <nav id="site-nav" class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
 
-    <div class="page-bg-overlay">
-        <div class="bg-grid-lines"></div>
-        <div class="bg-ambient-glow"></div>
+      <div class="header-actions">
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch to light theme">
+          <svg class="icon icon-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+          <svg class="icon icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+        </button>
+        <button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+          <svg class="icon icon-open" aria-hidden="true"><use href="#i-menu"/></svg>
+          <svg class="icon icon-close" aria-hidden="true"><use href="#i-close"/></svg>
+        </button>
+      </div>
     </div>
+  </header>
+
+  <main id="main">
 
     <!-- HERO -->
-    <section class="hero" id="hero">
-        <div class="container">
-            <div class="hero-eyebrow reveal"><span class="dot"></span> BCA STUDENT · BASED IN INDIA</div>
-
-            <h1 class="hero-h1 reveal">
-                Hi, I'm Ashwith Frank —
-                <em>I build, break, and secure things.</em>
-            </h1>
-
-            <p class="hero-desc reveal">
-                I build things for the web, hack hardware with ESP32, and explore cybersecurity — one project at a time. Currently studying BCA and assembling a private team to research and counter cyber threats.
-            </p>
-
-            <div class="hero-actions reveal">
-                <a href="#projects" class="btn btn-solid"><i data-lucide="arrow-down" style="width:15px;height:15px;"></i> See My Work</a>
-                <a href="#contact" class="btn btn-outline">Get in Touch</a>
-            </div>
-
-            <div class="hero-stage reveal">
-                <div class="hero-terminal">
-                    <div class="term-bar">
-                        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
-                        <span class="term-path">ash@frank:~</span>
-                    </div>
-                    <div class="term-body" id="termBody"></div>
-                </div>
-
-                <div class="hero-chip hero-chip-tl">
-                    <span class="hero-chip-icon"><i data-lucide="shield" style="width:13px;height:13px;"></i></span>
-                    Cybersecurity
-                </div>
-                <div class="hero-chip hero-chip-tr">
-                    <span class="hero-chip-icon"><i data-lucide="gamepad-2" style="width:13px;height:13px;"></i></span>
-                    Unity / C#
-                </div>
-                <div class="hero-chip hero-chip-bl">
-                    <span class="hero-chip-icon"><i data-lucide="cpu" style="width:13px;height:13px;"></i></span>
-                    ESP32 / IoT
-                </div>
-                <div class="hero-chip hero-chip-br">
-                    <span class="hero-chip-icon"><i data-lucide="terminal" style="width:13px;height:13px;"></i></span>
-                    Ethical Hacking
-                </div>
-            </div>
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h1 id="hero-title">
+            <span class="h1-a">Building useful software.</span>
+            <span class="h1-b">Exploring what technology can do.</span>
+          </h1>
+          <p class="lede">
+            I’m Ashwith Frank, a BCA student focused on Flutter and Android development, with a growing interest in cybersecurity and web technologies. I build practical projects and learn from each one.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#projects">Explore My Projects</a>
+            <a class="btn btn-secondary" href="#contact">Contact Me</a>
+          </div>
+          <ul class="hero-links" aria-label="Profiles">
+            <li>
+              <a href="https://github.com/ashwithfrank/" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub<span class="sr-only"> (opens in new tab)</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/in/ashwith-frank/" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg>LinkedIn<span class="sr-only"> (opens in new tab)</span>
+              </a>
+            </li>
+          </ul>
         </div>
-    </section>
 
-    <div class="hr"></div>
+        <!-- Filled in by main.js from js/projects.js; hidden if there is nothing to show -->
+        <aside class="repo-panel" id="repo-panel" aria-labelledby="repo-panel-title" hidden>
+          <div class="repo-panel-head">
+            <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>
+            <h2 id="repo-panel-title">ashwithfrank</h2>
+          </div>
+          <ul class="repo-list" id="repo-list"></ul>
+          <p class="repo-panel-foot" id="repo-panel-foot"></p>
+        </aside>
+      </div>
+    </section>
 
     <!-- ABOUT -->
-    <section class="section" id="about">
-        <div class="container">
-            <div class="section-head-center reveal">
-                <span class="section-label">About Me</span>
-                <h2 class="section-h2">Builder. Hacker.<br><em>Explorer.</em></h2>
-                <p class="section-p">I'm Ashwith Frank — most people call me Ash. I'm a BCA student from India with a deep passion for cybersecurity, game development, and embedded hardware. I believe in learning by building and sharing knowledge openly.</p>
-            </div>
-
-            <div class="about-grid reveal">
-                <div class="about-card">
-                    <div class="bc-icon"><i data-lucide="shield" style="width:20px;height:20px;"></i></div>
-                    <h3 class="bc-title">Cybersecurity</h3>
-                    <p class="bc-text">Passionate about ethical hacking, network security, and building a private team to research and counter cyber threats.</p>
-                </div>
-                <div class="about-card">
-                    <div class="bc-icon"><i data-lucide="gamepad-2" style="width:20px;height:20px;"></i></div>
-                    <h3 class="bc-title">Game Development</h3>
-                    <p class="bc-text">Creating interactive experiences in Unity — from mechanics to shaders to storytelling.</p>
-                </div>
-                <div class="about-card">
-                    <div class="bc-icon"><i data-lucide="cpu" style="width:20px;height:20px;"></i></div>
-                    <h3 class="bc-title">Hardware &amp; IoT</h3>
-                    <p class="bc-text">Tinkering with ESP32 microcontrollers to build smart devices and embedded systems.</p>
-                </div>
-                <div class="about-card">
-                    <div class="bc-icon"><i data-lucide="camera" style="width:20px;height:20px;"></i></div>
-                    <h3 class="bc-title">Content &amp; Media</h3>
-                    <p class="bc-text">Managing Instagram editing and posting for a music artist — blending creativity with strategy.</p>
-                </div>
-            </div>
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="container split">
+        <div class="section-head">
+          <h2 id="about-title">About</h2>
+          <p>A student who learns by building things that work.</p>
         </div>
+        <div class="split-body about-body">
+          <div class="prose">
+            <p>I’m a BCA student in India. My projects so far include a file server that runs on an old Android phone, a puzzle game on Google Play, browser-based tools, and management systems built on Supabase.</p>
+            <p>My main focus is Flutter and Android development, alongside web development. I’m also studying cybersecurity fundamentals and try to apply what I learn in my own projects, from safe file handling to database access rules.</p>
+            <p>I publish some apps under AlphaOmega Studio. I’m looking for internships, collaborations and the right freelance projects, where I can contribute, get feedback and keep improving.</p>
+          </div>
+          <dl class="facts">
+            <div><dt>Studying</dt><dd>Bachelor of Computer Applications (BCA)</dd></div>
+            <div><dt>Based in</dt><dd>India</dd></div>
+            <div><dt>Focus</dt><dd>Flutter, Android, web development</dd></div>
+            <div><dt>Exploring</dt><dd>Cybersecurity fundamentals</dd></div>
+            <div><dt>Open to</dt><dd>Internships, collaborations, freelance work</dd></div>
+          </dl>
+        </div>
+      </div>
     </section>
 
-    <div class="hr"></div>
-
-    <!-- SKILLS -->
-    <section class="section" id="skills">
-        <div class="container">
-            <div class="section-head-center reveal">
-                <span class="section-label">What I Work With</span>
-                <h2 class="section-h2">Skills &amp;<br><em>Tools</em></h2>
-                <p class="section-p">A mix of security, development, and hardware skills built through hands-on learning.</p>
-            </div>
-
-            <div class="bento reveal">
-                <div class="bento-card sk-1">
-                    <div class="bc-icon"><i data-lucide="terminal" style="width:20px;height:20px;"></i></div>
-                    <h3 class="bc-title">Programming</h3>
-                    <p class="bc-text">Writing clean, efficient code across multiple languages for web, hardware, and scripting.</p>
-                    <div class="tag-row">
-                        <span class="tag-pill">Python</span><span class="tag-pill">C</span><span class="tag-pill">C++</span>
-                        <span class="tag-pill">C#</span><span class="tag-pill">Java</span><span class="tag-pill">HTML/CSS</span>
-                        <span class="tag-pill">JavaScript</span>
-                    </div>
-                </div>
-
-                <div class="bento-card sk-2">
-                    <div class="bc-icon"><i data-lucide="shield" style="width:20px;height:20px;"></i></div>
-                    <h3 class="bc-title">Cybersecurity</h3>
-                    <p class="bc-text">Ethical hacking, vulnerability assessment, network analysis, and threat research.</p>
-                    <div class="tag-row">
-                        <span class="tag-pill">Ethical Hacking</span><span class="tag-pill">Kali Linux</span>
-                        <span class="tag-pill">Networking</span><span class="tag-pill">OSINT</span>
-                    </div>
-                </div>
-
-                <div class="bento-card sk-3">
-                    <div class="bc-big-num">7+</div>
-                    <div class="bc-big-label">Languages &amp; Tools in Active Use</div>
-                </div>
-
-                <div class="bento-card sk-4">
-                    <div class="bc-icon"><i data-lucide="gamepad-2" style="width:20px;height:20px;"></i></div>
-                    <h3 class="bc-title">Game Dev</h3>
-                    <p class="bc-text">Designing and building games in Unity — from concept to playable build.</p>
-                    <div class="tag-row">
-                        <span class="tag-pill">Unity</span><span class="tag-pill">C#</span><span class="tag-pill">Android Studio</span>
-                        <span class="tag-pill">Game Design</span>
-                    </div>
-                </div>
-
-                <div class="bento-card sk-5">
-                    <div class="bc-icon"><i data-lucide="cpu" style="width:20px;height:20px;"></i></div>
-                    <h3 class="bc-title">Hardware / IoT</h3>
-                    <p class="bc-text">Building embedded systems and smart devices using ESP32 and related tools.</p>
-                    <div class="tag-row">
-                        <span class="tag-pill">ESP32</span><span class="tag-pill">Arduino</span><span class="tag-pill">Embedded C</span>
-                    </div>
-                </div>
-
-                <div class="bento-card sk-6">
-                    <div class="bc-icon"><i data-lucide="globe" style="width:20px;height:20px;"></i></div>
-                    <h3 class="bc-title">Web Dev</h3>
-                    <p class="bc-text">Building responsive websites and web interfaces with modern technologies.</p>
-                    <div class="tag-row">
-                        <span class="tag-pill">HTML/CSS</span><span class="tag-pill">JavaScript</span>
-                    </div>
-                </div>
-
-                <div class="bento-card sk-7">
-                    <div class="bc-icon"><i data-lucide="camera" style="width:20px;height:20px;"></i></div>
-                    <h3 class="bc-title">Content Creation</h3>
-                    <p class="bc-text">Photo and video editing, social media management, and creative storytelling.</p>
-                    <div class="tag-row">
-                        <span class="tag-pill">Video Editing</span><span class="tag-pill">Photoshop</span><span class="tag-pill">Instagram</span>
-                    </div>
-                </div>
-            </div>
+    <!-- SKILLS
+         To add a skill, copy one <li> and change the text. To remove one, delete its <li>.
+         Only list things you have actually used. -->
+    <section class="section" id="skills" aria-labelledby="skills-title">
+      <div class="container split">
+        <div class="section-head">
+          <h2 id="skills-title">Skills</h2>
+          <p>What I have used in my own projects and coursework.</p>
         </div>
+        <div class="split-body skills">
+          <div class="skill-row">
+            <h3>Programming languages</h3>
+            <ul class="chips">
+              <li>Dart</li><li>JavaScript</li><li>TypeScript</li><li>Python</li><li>Java</li><li>C</li><li>C++</li><li>C#</li><li>SQL</li>
+            </ul>
+          </div>
+          <div class="skill-row">
+            <h3>App development</h3>
+            <ul class="chips">
+              <li>Flutter</li><li>Android Studio</li><li>Google Play publishing</li><li>Unity</li>
+            </ul>
+          </div>
+          <div class="skill-row">
+            <h3>Web development</h3>
+            <ul class="chips">
+              <li>HTML5</li><li>CSS3</li><li>Responsive design</li><li>React</li><li>Tailwind CSS</li><li>Node.js</li><li>Express</li><li>Flask</li>
+            </ul>
+          </div>
+          <div class="skill-row">
+            <h3>Tools and platforms</h3>
+            <ul class="chips">
+              <li>Git</li><li>GitHub</li><li>GitHub Pages</li><li>Supabase</li><li>PostgreSQL</li><li>MySQL</li><li>SQLite</li><li>Termux</li>
+            </ul>
+          </div>
+          <div class="skill-row">
+            <h3>Cybersecurity and Linux</h3>
+            <ul class="chips">
+              <li>Linux command line</li><li>Kali Linux</li><li>Ethical hacking basics</li><li>Networking basics</li><li>OSINT basics</li><li>Row Level Security</li>
+            </ul>
+            <p class="skill-note">Cybersecurity is something I am still learning.</p>
+          </div>
+        </div>
+      </div>
     </section>
-
-    <div class="hr"></div>
 
     <!-- PROJECTS -->
-    <section class="section" id="projects">
-        <div class="container">
-            <div class="section-head-center reveal">
-                <span class="section-label">What I've Built</span>
-                <h2 class="section-h2">Selected<br><em>Projects</em></h2>
-                <p class="section-p">Web apps, mobile games on the Play Store, and ongoing explorations in security and hardware.</p>
-            </div>
-
-            <div class="dl-grid reveal">
-                <div class="dl-card">
-                    <div class="dl-icon"><i data-lucide="terminal" style="width:20px;height:20px;"></i></div>
-                    <p class="dl-type">Web App</p>
-                    <h3 class="dl-name">Tower of Hanoi</h3>
-                    <p class="dl-sub">An interactive web app that solves the Tower of Hanoi puzzle — enter any number of disks and instantly see every step and total moves.</p>
-                    <a href="projects/tower-of-hanoi/" class="btn btn-outline btn-sm">
-                        View Project <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
-                    </a>
-                </div>
-
-                <div class="dl-card">
-                    <div class="dl-icon"><i data-lucide="gamepad-2" style="width:20px;height:20px;"></i></div>
-                    <p class="dl-type">Mobile Game · Play Store</p>
-                    <h3 class="dl-name">Games of Grid</h3>
-                    <p class="dl-sub">A sliding tile puzzle game on the Play Store — 3x3 and 4x4 grids, easy &amp; hard modes, built with AlphaOmega Studio.</p>
-                    <a href="projects/games-of-grid/" class="btn btn-outline btn-sm">
-                        View Project <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
-                    </a>
-                </div>
-
-                <div class="dl-card">
-                    <div class="dl-icon"><i data-lucide="hard-drive" style="width:20px;height:20px;"></i></div>
-                    <p class="dl-type">Self-Hosted Web App</p>
-                    <h3 class="dl-name">AFDrive</h3>
-                    <p class="dl-sub">A self-hosted personal cloud that turns an old Android phone into a private file server — Flask + SQLite backend, no internet or third-party cloud required.</p>
-                    <a href="projects/af-drive/" class="btn btn-outline btn-sm">
-                        View Project <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
-                    </a>
-                </div>
-
-                <div class="dl-card">
-                    <div class="dl-icon"><i data-lucide="cpu" style="width:20px;height:20px;"></i></div>
-                    <p class="dl-type">More Coming Soon</p>
-                    <h3 class="dl-name">Cybersecurity &amp; Hardware</h3>
-                    <p class="dl-sub">Projects in cybersecurity and ESP32 hardware are currently being documented. Check back soon — or reach out to hear about them directly.</p>
-                    <a href="#contact" class="btn btn-outline btn-sm">
-                        Get in Touch <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
-                    </a>
-                </div>
-            </div>
+    <section class="section section-wide" id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <div class="projects-head">
+          <div class="section-head">
+            <h2 id="projects-title">Projects</h2>
+            <p>Things I have built, from finished releases to work in progress. Each status reflects the state of the code.</p>
+          </div>
         </div>
+
+        <div class="project-grid" id="project-grid">
+          <noscript><p class="empty">Projects load with JavaScript. You can browse them all on <a href="https://github.com/ashwithfrank/" rel="noopener noreferrer">my GitHub profile</a>.</p></noscript>
+        </div>
+
+        <div class="projects-more" id="projects-more" hidden>
+          <button class="btn btn-secondary" id="projects-toggle" type="button" aria-expanded="false" aria-controls="project-grid">Show all projects</button>
+        </div>
+      </div>
     </section>
 
-    <div class="hr"></div>
+    <!-- CURRENTLY EXPLORING (optional: delete this whole <section> to remove it) -->
+    <section class="section" id="exploring" aria-labelledby="exploring-title">
+      <div class="container split">
+        <div class="section-head">
+          <h2 id="exploring-title">Currently exploring</h2>
+          <p>Learning interests, not claims of expertise.</p>
+        </div>
+        <ul class="split-body explore">
+          <li>
+            <h3>Flutter and Android</h3>
+            <p>Building offline-first mobile apps, including an ad-free music player (AF MUSIC) that is still in development.</p>
+          </li>
+          <li>
+            <h3>Cybersecurity fundamentals</h3>
+            <p>Ethical hacking, networking and secure coding, practised in labs and in my own projects.</p>
+          </li>
+          <li>
+            <h3>Linux and developer tooling</h3>
+            <p>Command-line workflows, Git, and running servers on small devices with Termux.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
 
     <!-- CONTACT -->
-    <section class="section" id="contact">
-        <div class="container">
-            <div class="section-head-center reveal">
-                <span class="section-label">Let's Connect</span>
-                <h2 class="section-h2">Get in<br><em>Touch</em></h2>
-                <p class="section-p">Whether you want to collaborate on a project, talk cybersecurity, or just say hi — my inbox is open.</p>
-            </div>
-
-            <div class="contact-actions reveal" style="justify-content: center;">
-                <a href="mailto:ashwithfrank.dev@gmail.com" class="btn btn-solid">
-                    <i data-lucide="mail" style="width:15px;height:15px;"></i> Send an Email
-                </a>
-                <a href="https://github.com/ashwithfrank/" target="_blank" rel="noopener" class="btn btn-outline">
-                    <i data-lucide="github" style="width:15px;height:15px;"></i> GitHub
-                </a>
-                <a href="https://www.linkedin.com/in/ashwith-frank/" target="_blank" rel="noopener" class="btn btn-outline">
-                    <i data-lucide="linkedin" style="width:15px;height:15px;"></i> LinkedIn
-                </a>
-            </div>
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="container split">
+        <div class="section-head">
+          <h2 id="contact-title">Contact</h2>
+          <p>Email is the best way to reach me. I usually reply within a few days.</p>
         </div>
+        <div class="split-body contact-body">
+          <p class="contact-lead">I’m open to internships, collaborations, project discussions and suitable freelance work. If you have something in mind, send me a message.</p>
+          <a class="mail-link" href="mailto:ashwithfrank.dev@gmail.com">
+            <svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>
+            <span>ashwithfrank.dev@gmail.com</span>
+          </a>
+          <ul class="contact-list">
+            <li>
+              <a href="https://github.com/ashwithfrank/" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>
+                <span class="cl-name">GitHub</span><span class="cl-handle">ashwithfrank</span>
+                <svg class="icon cl-arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
+                <span class="sr-only">(opens in new tab)</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/in/ashwith-frank/" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg>
+                <span class="cl-name">LinkedIn</span><span class="cl-handle">ashwith-frank</span>
+                <svg class="icon cl-arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
+                <span class="sr-only">(opens in new tab)</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/ashwithx_/" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg>
+                <span class="cl-name">Instagram</span><span class="cl-handle">@ashwithx_</span>
+                <svg class="icon cl-arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
+                <span class="sr-only">(opens in new tab)</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container footer-inner">
-            <div class="footer-brand">
-                <span class="footer-brand-mark"><i data-lucide="terminal-square" style="width:14px;height:14px;"></i></span>
-                <span class="footer-copy">&copy; 2026 Ashwith Frank</span>
-            </div>
-            <nav class="footer-links">
-                <a href="#about">About</a>
-                <a href="#skills">Skills</a>
-                <a href="#projects">Projects</a>
-                <a href="https://github.com/ashwithfrank/" target="_blank" rel="noopener">GitHub</a>
-            </nav>
-        </div>
-    </footer>
+  </main>
 
-    <script src="script.js"></script>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-id">
+        <p class="footer-name">Ashwith Frank</p>
+        <p class="footer-tagline">Building useful software, one project at a time.</p>
+      </div>
+      <ul class="footer-links" aria-label="Social links">
+        <li><a href="https://github.com/ashwithfrank/" target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in new tab)"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg></a></li>
+        <li><a href="https://www.linkedin.com/in/ashwith-frank/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in new tab)"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a></li>
+        <li><a href="https://www.instagram.com/ashwithx_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (opens in new tab)"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a></li>
+        <li><a href="mailto:ashwithfrank.dev@gmail.com" aria-label="Email"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg></a></li>
+      </ul>
+      <p class="footer-copy">© <span id="year">2026</span> Ashwith Frank</p>
+    </div>
+  </footer>
+
+  <script src="js/projects.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
