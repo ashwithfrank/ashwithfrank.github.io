@@ -9,8 +9,7 @@ window.PROJECTS = [
     status: "Working",
     featured: true,
     github: "https://github.com/ashwithfrank/AFDrive",
-    demo: null,
-    links: [{ label: "Project page", url: "projects/af-drive/" }]
+    demo: null
   },
   {
     id: "daily-bible-verse",
@@ -20,7 +19,7 @@ window.PROJECTS = [
       "A mobile-first site that shows one Bible verse per date, with language switching and sharing, plus a secure admin dashboard for managing verses.",
     tags: ["React", "TypeScript", "Vite", "Tailwind CSS", "Supabase"],
     status: "Working",
-    featured: true,
+    featured: false,
     github: "https://github.com/ashwithfrank/daily-bible-verse",
     demo: null
   },
@@ -32,7 +31,7 @@ window.PROJECTS = [
       "A library management system with a student catalogue, reservations and waiting lists, issuing and returning books, and separate staff and admin screens.",
     tags: ["JavaScript", "HTML/CSS", "Supabase"],
     status: "In development",
-    featured: true,
+    featured: false,
     github: "https://github.com/ashwithfrank/SHC-Smart-Library",
     demo: null
   },
@@ -56,7 +55,7 @@ window.PROJECTS = [
       "A browser arcade survival game with five hazard types, a rising difficulty curve, procedural sound effects, and keyboard, touch and gamepad controls.",
     tags: ["TypeScript", "JavaScript", "Canvas", "Web Audio"],
     status: "Working",
-    featured: true,
+    featured: false,
     github: "https://github.com/ashwithfrank/jet-dodge",
     demo: null
   },
@@ -68,7 +67,7 @@ window.PROJECTS = [
       "An online extension of AFDrive. An agent on your own device connects out to a relay, so authorised people can reach chosen folders remotely while the files stay put.",
     tags: ["Python", "Flask", "Node.js", "WebSocket", "Supabase"],
     status: "In development",
-    featured: false,
+    featured: true,
     github: "https://github.com/ashwithfrank/AFDrive-Online",
     demo: null
   },
