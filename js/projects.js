@@ -1,5 +1,29 @@
 window.PROJECTS = [
   {
+    id: "polo",
+    name: "Polo",
+    icon: "phone",
+    summary:
+      "An offline file manager and toolbox for Android.",
+    tags: ["Android", "Flutter", "Dart", "Kotlin", "File Manager", "Tools"],
+    status: "Working",
+    featured: true,
+    github: "https://github.com/ashwithfrank/polo",
+    demo: null
+  },
+  {
+    id: "st_agnes_college",
+    name: "St. Agnes College",
+    icon: "phone",
+    summary:
+      "St. Agnes College app for students and staff.",
+    tags: ["Android", "Flutter", "Dart", "Kotlin", "Python", "AI/ML"],
+    status: "Working",
+    featured: true,
+    github: "https://github.com/ashwithfrank/st_agnes_college",
+    demo: null
+  },
+  {
     id: "afdrive",
     name: "AFDrive",
     icon: "cloud",
