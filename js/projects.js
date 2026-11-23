@@ -67,7 +67,7 @@ window.PROJECTS = [
       "A desktop-style operating system simulation that runs in one browser tab, with draggable windows, a virtual file system, a working terminal and offline support.",
     tags: ["JavaScript", "IndexedDB", "Service Worker", "HTML/CSS"],
     status: "Working",
-    featured: true,
+    featured: false,
     github: "https://github.com/ashwithfrank/LilOS",
     demo: null
   },
@@ -91,7 +91,7 @@ window.PROJECTS = [
       "An online extension of AFDrive. An agent on your own device connects out to a relay, so authorised people can reach chosen folders remotely while the files stay put.",
     tags: ["Python", "Flask", "Node.js", "WebSocket", "Supabase"],
     status: "In development",
-    featured: true,
+    featured: false,
     github: "https://github.com/ashwithfrank/AFDrive-Online",
     demo: null
   },
